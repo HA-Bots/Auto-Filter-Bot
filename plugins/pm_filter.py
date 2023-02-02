@@ -27,53 +27,54 @@ SPELL_CHECK = {}
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
-    userid = message.from_user.id if message.from_user else None
-    if not userid:
-        search = message.text
-        k = await message.reply(f"You'r anonymous admin! Sorry you can't get '{search}' from here.\nYou can get '{search}' from bot inline search.")
-        await asyncio.sleep(30)
-        await k.delete()
-        try:
-            await message.delete()
-        except:
-            pass
-        return
-    if AUTH_CHANNEL and not await is_subscribed(client, message):
-        try:
-            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
-        except ChatAdminRequired:
-            logger.error("Make sure Bot is admin in Forcesub channel")
-            return
-        buttons = [[
-            InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
-        ],[
-            InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        k = await message.reply_photo(
-            photo=random.choice(PICS),
-            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and request again. 😇",
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-        await asyncio.sleep(300)
-        await k.delete()
-        try:
-            await message.delete()
-        except:
-            pass
-    else:
-        settings = await get_settings(message.chat.id)
-        if settings["auto_filter"]:
-            await auto_filter(client, message)
-        else:
-            k = await message.reply_text('Auto Filter Off! ❌')
-            await asyncio.sleep(5)
+    settings = await get_settings(message.chat.id)
+    if settings["auto_filter"]:
+        userid = message.from_user.id if message.from_user else None
+        if not userid:
+            search = message.text
+            k = await message.reply(f"You'r anonymous admin! Sorry you can't get '{search}' from here.\nYou can get '{search}' from bot inline search.")
+            await asyncio.sleep(30)
             await k.delete()
             try:
                 await message.delete()
             except:
                 pass
+            return
+
+        if AUTH_CHANNEL and not await is_subscribed(client, message):
+            # try:
+                # invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
+            # except ChatAdminRequired:
+                # logger.error("Make sure Bot is admin in Forcesub channel")
+                # return
+            buttons = [[
+                InlineKeyboardButton("📢 Updates Channel 📢", url='https://t.me/SL_Auto_Filter_Bot_Updates')
+            ],[
+                InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")
+            ]]
+            reply_markup = InlineKeyboardMarkup(buttons)
+            k = await message.reply_photo(
+                photo=random.choice(PICS),
+                caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and request again. 😇",
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML
+            )
+            await asyncio.sleep(300)
+            await k.delete()
+            try:
+                await message.delete()
+            except:
+                pass
+        else:
+            await auto_filter(client, message)
+    else:
+        k = await message.reply_text('Auto Filter Off! ❌')
+        await asyncio.sleep(5)
+        await k.delete()
+        try:
+            await message.delete()
+        except:
+            pass
 
 
 @Client.on_callback_query(filters.regex(r"^next"))
