@@ -44,8 +44,13 @@ async def start(client, message):
         )
         return
     if AUTH_CHANNEL and not await is_subscribed(client, message):
+        try:
+            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
+        except ChatAdminRequired:
+            logger.error("Make sure Bot is admin in Forcesub channel")
+            return
         btn = [[
-            InlineKeyboardButton("📢 Updates Channel 📢", url='https://t.me/SL_Auto_Filter_Bot_Updates')
+            InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
         ]]
 
         if message.command[1] != "subscribe":
