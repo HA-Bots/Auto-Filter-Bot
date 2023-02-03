@@ -790,6 +790,7 @@ async def auto_filter(client, msg, spoll=False):
 async def advantage_spell_chok(msg):
     search = msg.text
     search_google = search.replace(" ", "+")
+    user = msg.from_user.id if msg.from_user else 0
     search_imdb = await get_poster(search, bulk=True)
     if search_imdb:
         movie_list = [movie.get('title') for movie in search_imdb]
