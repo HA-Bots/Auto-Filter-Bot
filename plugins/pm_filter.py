@@ -799,8 +799,11 @@ async def advantage_spell_chok(msg):
                 return
             SPELL_CHECK[msg.id] = movie_list
             btn = [[
-                InlineKeyboardButton(text=movie, callback_data=f"spolling#{user}#{k}")
-            ]]
+                InlineKeyboardButton(text=movie,
+                                     callback_data=f"spolling#{user}#{k}",
+                                    )
+                ] for k, movie in movielist]
+
             await msg.reply("I couldn't find anything related to that\nDid you mean any one of these?", reply_markup=InlineKeyboardMarkup(btn))
     except:
         await msg.reply("Check your spelling")
