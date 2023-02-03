@@ -790,20 +790,19 @@ async def auto_filter(client, msg, spoll=False):
 async def advantage_spell_chok(msg):
     search = msg.text
     search_google = search.replace(" ", "+")
-    try:
-        search_imdb = await get_poster(search, bulk=True)
-        if search_imdb:
-            movie_list += [movie.get('title') for movie in search_imdb]
-            if not movie_list:
-                await msg.reply("I couldn't find anything related to that. Check your spelling")
-                return
-            SPELL_CHECK[msg.id] = movie_list
-            btn = [[
-                InlineKeyboardButton(text=movie,
-                                     callback_data=f"spolling#{user}#{k}",
-                                    )
-                ] for k, movie in movielist]
+    search_imdb = await get_poster(search, bulk=True)
+    if search_imdb:
+        movie_list = [movie.get('title') for movie in search_imdb]
+        if not movie_list:
+            await msg.reply("I couldn't find anything related to that. Check your spelling")
+            return
+        SPELL_CHECK[msg.id] = movie_list
+        btn = [[
+            InlineKeyboardButton(
+                text=movie.strip(),
+                callback_data=f"spolling#{user}#{k}",
+            )
+            ] for k, movie in enumerate(movielist)]
+        await msg.reply("I couldn't find anything related to that\nDid you mean any one of these?",
+                    reply_markup=InlineKeyboardMarkup(btn))
 
-            await msg.reply("I couldn't find anything related to that\nDid you mean any one of these?", reply_markup=InlineKeyboardMarkup(btn))
-    except:
-        await msg.reply("Check your spelling")
