@@ -802,7 +802,7 @@ async def advantage_spell_chok(msg):
                 text=movie.strip(),
                 callback_data=f"spolling#{user}#{k}",
             )
-            ] for k, movie in enumerate(movielist)]
+            ] for k, movie in enumerate(movie_list)]
         await msg.reply("I couldn't find anything related to that\nDid you mean any one of these?",
                     reply_markup=InlineKeyboardMarkup(btn))
 
