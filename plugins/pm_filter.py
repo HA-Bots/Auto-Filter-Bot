@@ -400,7 +400,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer()
         
     elif query.data == "instructions":
-        await query.answer("Movie request format.\n\nExample:\nBlack Adam or Black Adam 2022\n\nReries request format.\nLoki S01E01 or Loki S01 E01\n\nDon't use symbols.", show_alert=True)
+        await query.answer("Movie request format.\nExample:\nBlack Adam or Black Adam 2022\n\nReries request format.\nExample:\nLoki S01E01 or Loki S01 E01\n\nDon't use symbols.", show_alert=True)
 
     elif query.data == "start":
         await query.answer('Welcome!')
