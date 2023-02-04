@@ -21,7 +21,11 @@ BATCH_FILES = {}
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        await message.reply_sticker(sticker=random.choice(STICKERS))
+        btn = [[
+            InlineKeyboardButton('⚡️ My Updates Channel ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('🔥 My Support Chat 🔥', url=SUPPORT_LINK)
+        ]]
+        await message.reply_sticker(sticker=random.choice(STICKERS), reply_markup=InlineKeyboardMarkup(btn))
         if not await db.get_chat(message.chat.id):
             total=await client.get_chat_members_count(message.chat.id)
             r_j = message.from_user.mention if message.from_user else "Anonymous"
