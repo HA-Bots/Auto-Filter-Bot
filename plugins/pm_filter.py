@@ -9,7 +9,7 @@ import pyrogram
 from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, \
     make_inactive
 from info import ADMINS, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, PICS, CUSTOM_FILE_CAPTION, \
-    PROTECT_CONTENT, IMDB, AUTO_FILTER, SINGLE_BUTTON, SPELL_CHECK, IMDB_TEMPLATE
+    PROTECT_CONTENT, IMDB, AUTO_FILTER, SINGLE_BUTTON, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
@@ -775,17 +775,52 @@ async def auto_filter(client, msg, spoll=False):
         cap = f"✅ I Found: <code>{search}</code>\n\n🗣 Requested by: {message.from_user.mention}\n©️ Powered by: <b>{message.chat.title}</b>"
     if imdb and imdb.get('poster'):
         try:
-            await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024],
-                                          reply_markup=InlineKeyboardMarkup(btn))
+            if settings["auto_delete"]:
+                k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
+                await asyncio.sleep(3600)
+                await k.delete()
+                try:
+                    await msg.delete()
+                except:
+                    pass
+            else:
+                await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024], reply_markup=InlineKeyboardMarkup(btn))
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
-            await message.reply_photo(photo=poster, caption=cap[:1024], reply_markup=InlineKeyboardMarkup(btn))
+            if settings["auto_delete"]:
+                k = await message.reply_photo(photo=poster, caption=cap[:1024] + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
+                await asyncio.sleep(3600)
+                await k.delete()
+                try:
+                    await msg.delete()
+                except:
+                    pass
+            else:
+                await message.reply_photo(photo=poster, caption=cap[:1024], reply_markup=InlineKeyboardMarkup(btn))
         except Exception as e:
             logger.exception(e)
-            await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            if settings["auto_delete"]:
+                k = await message.reply_text(cap + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+                await asyncio.sleep(3600)
+                await k.delete()
+                try:
+                    await msg.delete()
+                except:
+                    pass
+            else:
+                await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
     else:
-        await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+        if settings["auto_delete"]:
+            k = await message.reply_text(cap + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            await asyncio.sleep(3600)
+            await k.delete()
+            try:
+                await msg.delete()
+            except:
+                pass
+        else:
+            await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
     if spoll:
         await msg.message.delete()
 
