@@ -2,7 +2,7 @@ import random
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
-from info import ADMINS, LOG_CHANNEL, WELCOME, PICS, SUPPORT_LINK
+from info import ADMINS, LOG_CHANNEL, PICS, SUPPORT_LINK
 from database.users_chats_db import db
 from database.ia_filterdb import Media
 from utils import get_size, temp, get_settings
@@ -10,7 +10,7 @@ from Script import script
 from pyrogram.errors import ChatAdminRequired
 
 @Client.on_message(filters.new_chat_members & filters.group)
-async def welcome_msg(bot, message):
+async def new_grp_msg(bot, message):
     r_j_check = [u.id for u in message.new_chat_members]
     if temp.ME in r_j_check:
         if message.chat.id in temp.BANNED_CHATS:
@@ -38,16 +38,6 @@ async def welcome_msg(bot, message):
         await message.reply_photo(
             photo=random.choice(PICS), caption=f"👋 Hello {r_j},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support chat group. 😘</b>",
             reply_markup=reply_markup)
-    else:
-        settings = await get_settings(message.chat.id)
-        if settings["welcome"]:
-            for u in message.new_chat_members:
-                if (temp.WELCOME).get('welcome') is not None:
-                    try:
-                        await (temp.WELCOME['welcome']).delete()
-                    except:
-                        pass
-                temp.WELCOME['welcome'] = await message.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {u.mention},\n\nWelcome To <b>'{message.chat.title}'</b> Group... 💖")
 
 
 @Client.on_message(filters.command('leave') & filters.user(ADMINS))
