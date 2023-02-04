@@ -433,12 +433,12 @@ async def settings(client, message):
             ],
             [
                 InlineKeyboardButton(
-                    'Welcome Message',
-                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}'
+                    'Auto Delete',
+                    callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'
                 ),
                 InlineKeyboardButton(
-                    '✅ Yes' if settings["welcome"] else '❌ No',
-                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}'
+                    'One Hours' if settings["auto_delete"] else '❌ No',
+                    callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'
                 )
             ],
             [
