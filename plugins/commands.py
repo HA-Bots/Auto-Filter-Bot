@@ -320,25 +320,17 @@ async def delete(bot, message):
                 await msg.edit('File not found in database')
 
 
-@Client.on_message(filters.command('delete_all') & filters.user(ADMINS))
-async def delete_all_index(bot, message):
-    await message.reply_text(
-        'This will delete all indexed files.\nDo you want to continue?',
-        reply_markup=InlineKeyboardMarkup(
-            [[
-                InlineKeyboardButton(text="YES", callback_data="autofilter_delete")
-            ],[
-                InlineKeyboardButton(text="CANCEL", callback_data="close_data")
-            ]]
-        )
-    )
+@Client.on_message(filters.command('database_settings') & filters.user(ADMINS))
+async def database_settings(bot, message):
+    buttons = [[
+        InlineKeyboardButton('👤 Total Users', callback_data='total_users'),
+        InlineKeyboardButton('👥 Total Chats', callback_data='total_chats')
+    ],[
+        InlineKeyboardButton('🗂 Total Files', callback_data='total_files')
+    ]]
+    await message.reply_text('Choose what you want?', reply_markup=InlineKeyboardMarkup(buttons))
 
 
-@Client.on_callback_query(filters.regex(r'^autofilter_delete'))
-async def delete_all_index_confirm(bot, message):
-    await Media.collection.remove()
-    await message.answer('Deleting...')
-    await message.message.edit('Succesfully deleted all the indexed files.')
 
 
 @Client.on_message(filters.command('settings'))
