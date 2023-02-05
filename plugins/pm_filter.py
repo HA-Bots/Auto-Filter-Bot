@@ -671,6 +671,37 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit_reply_markup(reply_markup)
 
 
+    elif query.data == "total_users":
+        buttons = [[
+            InlineKeyboardButton('🗑 Delete All Users', callback_data='delete_all_users'),
+            InlineKeyboardButton('❌ Close', callback_data='close_data')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        total_users = await db.total_users_count()
+        await query.message.edit_text(text=f'👤 Total Users: {total_users}', reply_markup=reply_markup)
+        
+    elif query.data == "total_chats":
+        buttons = [[
+            InlineKeyboardButton('🗑 Delete All Chats', callback_data='delete_all_chats'),
+            InlineKeyboardButton('❌ Close', callback_data='close_data')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        total_chats = await db.total_chat_count()
+        await query.message.edit_text(text=f'👥 Total Chats: {total_chats}', reply_markup=reply_markup)
+        
+    elif query.data == "total_files":
+        buttons = [[
+            InlineKeyboardButton('🗑 Delete All Files', callback_data='delete_all_files'),
+            InlineKeyboardButton('❌ Close', callback_data='close_data')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        total_files = await Media.count_documents()
+        await query.message.edit_text(text=f'👥 Total Chats: {total_files}', reply_markup=reply_markup)
+        
+        
+        
+        
+        
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
