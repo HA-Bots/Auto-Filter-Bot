@@ -698,7 +698,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         total_files = await Media.count_documents()
         await query.message.edit_text(text=f'👥 Total Chats: {total_files}', reply_markup=reply_markup)
         
-        
+    elif query.data == "delete_all_users":
+        await db.delete_all_users()
         
         
         
