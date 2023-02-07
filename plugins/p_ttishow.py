@@ -121,19 +121,6 @@ async def re_enable_chat(bot, message):
     await message.reply("Chat successfully re-enabled")
 
 
-@Client.on_message(filters.command('status') & filters.incoming)
-async def get_bot_status(bot, message):
-    rju = await message.reply('Getting Database Status...')
-    total_users = await db.total_users_count()
-    totl_chats = await db.total_chat_count()
-    files = await Media.count_documents()
-    size = await db.get_db_size()
-    free = 536870912 - size
-    size = get_size(size)
-    free = get_size(free)
-    await rju.edit(script.STATUS_TXT.format(files, total_users, totl_chats, size, free))
-
-
 @Client.on_message(filters.command('invite_link') & filters.user(ADMINS))
 async def gen_invite_link(bot, message):
     if len(message.command) == 1:
