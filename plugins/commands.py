@@ -54,7 +54,7 @@ async def start(client, message):
             logger.error("Make sure Bot is admin in Forcesub channel")
             return
         btn = [[
-            InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
+            InlineKeyboardButton("📢 Updates Channel 📢", url='https://t.me/SL_Auto_Filter_Bot_Updates')
         ]]
 
         if message.command[1] != "subscribe":
@@ -233,7 +233,7 @@ async def start(client, message):
     )
 
 
-@Client.on_message(filters.command('channels') & filters.user(ADMINS))
+@Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
            
     """Send basic information of channel"""
@@ -264,64 +264,8 @@ async def channels_info(bot, message):
         os.remove(file)
 
 
-@Client.on_message(filters.command('logs') & filters.user(ADMINS))
-async def log_file(bot, message):
-    """Send log file"""
-    try:
-        await message.reply_document('TelegramBot.log')
-    except Exception as e:
-        await message.reply(str(e))
-
-@Client.on_message(filters.command('delete') & filters.user(ADMINS))
-async def delete(bot, message):
-    """Delete file from database"""
-    reply = message.reply_to_message
-    if reply and reply.media:
-        msg = await message.reply("Deleting...", quote=True)
-    else:
-        await message.reply('Reply to file with /delete which you want to delete', quote=True)
-        return
-
-    for file_type in ("document", "video", "audio"):
-        media = getattr(reply, file_type, None)
-        if media is not None:
-            break
-    else:
-        await msg.edit('This is not supported file format')
-        return
-    
-    file_id, file_ref = unpack_new_file_id(media.file_id)
-
-    result = await Media.collection.delete_one({
-        '_id': file_id,
-    })
-    if result.deleted_count:
-        await msg.edit('File is successfully deleted from database')
-    else:
-        file_name = re.sub(r"(_|\-|\.|\+)", " ", str(media.file_name))
-        result = await Media.collection.delete_many({
-            'file_name': file_name,
-            'file_size': media.file_size,
-            'mime_type': media.mime_type
-            })
-        if result.deleted_count:
-            await msg.edit('File is successfully deleted from database')
-        else:
-            # files indexed before.
-            # have original file name.
-            result = await Media.collection.delete_many({
-                'file_name': media.file_name,
-                'file_size': media.file_size,
-                'mime_type': media.mime_type
-            })
-            if result.deleted_count:
-                await msg.edit('File is successfully deleted from database')
-            else:
-                await msg.edit('File not found in database')
-
-
-@Client.on_message(filters.command('database_settings') & filters.user(ADMINS))
-async def database_settings(bot, message):
+@Client.on_message(filters.command('database_status'))
+async def database_status(bot, message):
     buttons = [[
         InlineKeyboardButton('👤 Total Users', callback_data='total_users'),
         InlineKeyboardButton('👥 Total Chats', callback_data='total_chats')
@@ -329,8 +273,6 @@ async def database_settings(bot, message):
         InlineKeyboardButton('🗂 Total Files', callback_data='total_files')
     ]]
     await message.reply_text('Choose what you want?', reply_markup=InlineKeyboardMarkup(buttons))
-
-
 
 
 @Client.on_message(filters.command('settings'))
