@@ -139,13 +139,6 @@ class Database:
 
     async def get_db_size(self):
         return (await self.db.command("dbstats"))['dataSize']
-
-    
-    async def delete_all_users(self):
-        await self.col.drop()
-        
-    async def delete_all_chats(self):
-        await self.grp.drop()
         
 
 db = Database(DATABASE_URL, DATABASE_NAME)
