@@ -48,7 +48,7 @@ async def give_filter(client, message):
                 logger.error("Make sure Bot is admin in Forcesub channel")
                 return
             buttons = [[
-                InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
+                InlineKeyboardButton("📢 Updates Channel 📢", url='https://t.me/SL_Auto_Filter_Bot_Updates')
             ],[
                 InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")
             ]]
@@ -400,7 +400,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer()
 
     elif query.data == "instructions":
-        await query.answer("Movie request format.\nExample:\nBlack Adam or Black Adam 2022\n\nReries request format.\nExample:\nLoki S01E01 or Loki S01 E01\n\nDon't use symbols.", show_alert=True)
+        await query.answer("Movie request format.\nExample:\nBlack Adam or Black Adam 2022\n\nTV Reries request format.\nExample:\nLoki S01E01 or Loki S01 E01\n\nDon't use symbols.", show_alert=True)
 
     elif query.data == "start":
         await query.answer('Welcome!')
@@ -422,10 +422,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
     elif query.data == "my_about":
         buttons = [[
-            InlineKeyboardButton('Report Bugs and Feedback', url=SUPPORT_LINK),
-            InlineKeyboardButton('Status', callback_data='status')
-        ],[
-            InlineKeyboardButton('🏠 Home 🏠', callback_data='start')
+            InlineKeyboardButton('🏠 Home 🏠', callback_data='start'),
+            InlineKeyboardButton('Report Bugs and Feedback', url=SUPPORT_LINK)
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
@@ -444,24 +442,45 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-    elif query.data == "status":
-        await query.answer("Refreshing Database...")
+
+    elif query.data == "database_status":
         buttons = [[
-            InlineKeyboardButton('◀️ Back', callback_data='my_about')
+            InlineKeyboardButton('👤 Total Users', callback_data='total_users'),
+            InlineKeyboardButton('👥 Total Chats', callback_data='total_chats')
+        ],[
+            InlineKeyboardButton('🗂 Total Files', callback_data='total_files')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        total = await Media.count_documents()
-        users = await db.total_users_count()
-        chats = await db.total_chat_count()
-        monsize = await db.get_db_size()
-        free = 536870912 - monsize
-        monsize = get_size(monsize)
+        await query.message.edit_text(text='Choose what you want?', reply_markup=reply_markup)
+
+    elif query.data == "total_users":
+        buttons = [[
+            InlineKeyboardButton('◀️ Back', callback_data='database_status')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        total_users = await db.total_users_count()
+        await query.message.edit_text(text=f'👤 Total Users: <code>{total_users}</code>', reply_markup=reply_markup)
+
+    elif query.data == "total_chats":
+        buttons = [[
+            InlineKeyboardButton('◀️ Back', callback_data='database_status')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        total_chats = await db.total_chat_count()
+        await query.message.edit_text(text=f'👥 Total Chats: <code>{total_chats}</code>', reply_markup=reply_markup)
+
+    elif query.data == "total_files":
+        buttons = [[
+            InlineKeyboardButton('◀️ Back', callback_data='database_status')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        total_files = await Media.count_documents()
+        db_size = await db.get_db_size()
+        free = 536870912 - db_size
+        db_size = get_size(db_size)
         free = get_size(free)
-        await query.message.edit_text(
-            text=script.STATUS_TXT.format(total, users, chats, monsize, free),
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
+        await query.message.edit_text(text=f'🗂 Total Files: <code>{total_files}</code>\n✨ Used Storage: <code>{db_size}</code>\n⚡️ Free Storage: <code>{free}</code>', reply_markup=reply_markup)
+
 
     elif query.data.startswith("opn_pm_setgs"):
         ident, grp_id = query.data.split("#")
@@ -529,13 +548,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 await client.send_message(
                     chat_id=userid,
                     text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙",
-                    reply_markup=InlineKeyboardMarkup(buttons),
-                    parse_mode=enums.ParseMode.HTML
+                    reply_markup=InlineKeyboardMarkup(buttons)
                 )
-                await query.message.edit_text("Settings menu sent in private chat.")
-                await query.message.edit_reply_markup(InlineKeyboardMarkup(btn))
+                await query.message.edit_text(text="Settings menu sent in private chat.", reply_markup=InlineKeyboardMarkup(btn))
             except UserIsBlocked:
-                await query.answer('Your blocked me, Unblock me and try again...', show_alert=True)
+                await query.answer('You blocked me, Please unblock me and try again.', show_alert=True)
+            except PeerIdInvalid:
+                await query.answer("You didn't started this bot yet, Please start me and try again.", show_alert=True)
 
     elif query.data.startswith("opn_grp_setgs"):
         ident, grp_id = query.data.split("#")
@@ -596,11 +615,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
-            await query.message.edit_text(
-                text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙",
-                parse_mode=enums.ParseMode.HTML
-            )
-            await query.message.edit_reply_markup(reply_markup)
+            await query.message.edit_text(text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙", reply_markup=reply_markup)
 
     elif query.data.startswith("setgs"):
         ident, set_type, status, grp_id = query.data.split("#")
@@ -671,38 +686,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit_reply_markup(reply_markup)
 
 
-    elif query.data == "total_users":
-        buttons = [[
-            InlineKeyboardButton('🗑 Delete All Users', callback_data='delete_all_users'),
-            InlineKeyboardButton('❌ Close', callback_data='close_data')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        total_users = await db.total_users_count()
-        await query.message.edit_text(text=f'👤 Total Users: {total_users}', reply_markup=reply_markup)
-        
-    elif query.data == "total_chats":
-        buttons = [[
-            InlineKeyboardButton('🗑 Delete All Chats', callback_data='delete_all_chats'),
-            InlineKeyboardButton('❌ Close', callback_data='close_data')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        total_chats = await db.total_chat_count()
-        await query.message.edit_text(text=f'👥 Total Chats: {total_chats}', reply_markup=reply_markup)
-        
-    elif query.data == "total_files":
-        buttons = [[
-            InlineKeyboardButton('🗑 Delete All Files', callback_data='delete_all_files'),
-            InlineKeyboardButton('❌ Close', callback_data='close_data')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        total_files = await Media.count_documents()
-        await query.message.edit_text(text=f'👥 Total Chats: {total_files}', reply_markup=reply_markup)
-        
-    elif query.data == "delete_all_users":
-        await db.delete_all_users()
-        
-        
-        
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
@@ -808,7 +791,7 @@ async def auto_filter(client, msg, spoll=False):
     if imdb and imdb.get('poster'):
         try:
             if settings["auto_delete"]:
-                k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
+                k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -821,7 +804,7 @@ async def auto_filter(client, msg, spoll=False):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
             if settings["auto_delete"]:
-                k = await message.reply_photo(photo=poster, caption=cap[:1024] + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
+                k = await message.reply_photo(photo=poster, caption=cap[:1024] + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -833,7 +816,7 @@ async def auto_filter(client, msg, spoll=False):
         except Exception as e:
             logger.exception(e)
             if settings["auto_delete"]:
-                k = await message.reply_text(cap + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+                k = await message.reply_text(cap + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -844,7 +827,7 @@ async def auto_filter(client, msg, spoll=False):
                 await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
     else:
         if settings["auto_delete"]:
-            k = await message.reply_text(cap + "\n\n<i>This message will be Auto Deleted after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            k = await message.reply_text(cap + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
             await asyncio.sleep(3600)
             await k.delete()
             try:
