@@ -17,12 +17,6 @@ I will take care of the rest. 😎"""
 ★ ID: <code>5493832202</code>
 ★ Country: Sri Lanka 🇱🇰"""
 
-    STATUS_TXT = """★ Total Files: <code>{}</code>
-★ Total Users: <code>{}</code>
-★ Total Groups: <code>{}</code>
-★ Used Storage: <code>{}</code>
-★ Free Storage: <code>{}</code>"""
-
     NEW_GROUP_TXT = """#NewGroup
 ★ Title: {}
 ★ ID: <code>{}</code>
