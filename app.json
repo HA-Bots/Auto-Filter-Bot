@@ -1,6 +1,6 @@
 {
     "name": "Auto Filter Bot",
-    "description": "I'm an auto filter bot with modified features.",
+    "description": "I'm an advanced auto filter bot with modified features.",
     "stack": "container",
     "keywords": [
       "telegram",
