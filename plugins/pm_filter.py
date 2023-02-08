@@ -707,6 +707,8 @@ async def auto_filter(client, msg, spoll=False):
         settings = await get_settings(msg.message.chat.id)
         message = msg.message.reply_to_message  # msg will be callback query
         search, files, offset, total_results = spoll
+    if spoll:
+        await msg.message.delete()
     pre = 'filep' if settings['file_secure'] else 'file'
     if settings["button"]:
         btn = [
@@ -836,9 +838,6 @@ async def auto_filter(client, msg, spoll=False):
                 pass
         else:
             await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
-            return
-    if spoll:
-        await msg.message.delete()
 
 
 async def advantage_spell_chok(msg):
