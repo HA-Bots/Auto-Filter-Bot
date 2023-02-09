@@ -29,6 +29,8 @@ AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 INDEX_CHANNELS = [int(index_channels) if id_pattern.search(index_channels) else index_channels for index_channels in environ.get('INDEX_CHANNELS', '').split()]
 auth_channel = environ.get('AUTH_CHANNEL', '')
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
+second_auth_channel = environ.get('SECOND_AUTH_CHANNEL', '')
+SECOND_AUTH_CHANNEL = int(second_auth_channel) if second_auth_channel and id_pattern.search(second_auth_channel) else None
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', ''))
 FILE_STORE_CHANNEL = [int(file_store_channel) for file_store_channel in (environ.get('FILE_STORE_CHANNEL', '')).split()]
 
