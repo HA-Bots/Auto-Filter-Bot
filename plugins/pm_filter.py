@@ -370,8 +370,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             f_caption = f"{title}"
 
         btn = [[
-            InlineKeyboardButton('⚡️ My Updates Channel ⚡️', url=UPDATES_LINK),
-            InlineKeyboardButton('🔥 My Support Chat 🔥', url=SUPPORT_LINK)
+            InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
         ]]
         await query.message.delete()
         await client.send_cached_media(
@@ -442,44 +442,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-
-    elif query.data == "database_status":
-        buttons = [[
-            InlineKeyboardButton('👤 Total Users', callback_data='total_users'),
-            InlineKeyboardButton('👥 Total Chats', callback_data='total_chats')
-        ],[
-            InlineKeyboardButton('🗂 Total Files', callback_data='total_files')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(text='Choose what you want?', reply_markup=reply_markup)
-
-    elif query.data == "total_users":
-        buttons = [[
-            InlineKeyboardButton('◀️ Back', callback_data='database_status')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        total_users = await db.total_users_count()
-        await query.message.edit_text(text=f'👤 Total Users: <code>{total_users}</code>', reply_markup=reply_markup)
-
-    elif query.data == "total_chats":
-        buttons = [[
-            InlineKeyboardButton('◀️ Back', callback_data='database_status')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        total_chats = await db.total_chat_count()
-        await query.message.edit_text(text=f'👥 Total Chats: <code>{total_chats}</code>', reply_markup=reply_markup)
-
-    elif query.data == "total_files":
-        buttons = [[
-            InlineKeyboardButton('◀️ Back', callback_data='database_status')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        total_files = await Media.count_documents()
-        db_size = await db.get_db_size()
-        free = 536870912 - db_size
-        db_size = get_size(db_size)
-        free = get_size(free)
-        await query.message.edit_text(text=f'🗂 Total Files: <code>{total_files}</code>\n✨ Used Storage: <code>{db_size}</code>\n⚡️ Free Storage: <code>{free}</code>', reply_markup=reply_markup)
 
 
     elif query.data.startswith("opn_pm_setgs"):
