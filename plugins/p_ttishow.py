@@ -14,13 +14,12 @@ async def new_grp_msg(bot, message):
     r_j_check = [u.id for u in message.new_chat_members]
     if temp.ME in r_j_check:
         if message.chat.id in temp.BANNED_CHATS:
-            # Inspired from a boat of a banana tree
             buttons = [[
-                InlineKeyboardButton('Support Chat', url=SUPPORT_LINK)
+                InlineKeyboardButton('Support Group', url=SUPPORT_LINK)
             ]]
             reply_markup=InlineKeyboardMarkup(buttons)
             k = await message.reply(
-                text='<b><u>Chat Not Allowed</u></b>\n\nMy owner has restricted me from working here! If you want to know more about it contact support chat group.',
+                text='<b><u>Chat Not Allowed</u></b>\n\nMy owner has restricted me from working here! If you want to know more about it contact support group.',
                 reply_markup=reply_markup,
             )
 
@@ -31,12 +30,12 @@ async def new_grp_msg(bot, message):
             await bot.leave_chat(message.chat.id)
             return
         buttons = [[
-            InlineKeyboardButton('Support Chat', url=SUPPORT_LINK)
+            InlineKeyboardButton('Support Group', url=SUPPORT_LINK)
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         r_j = message.from_user.mention if message.from_user else "Dear"
         await message.reply_photo(
-            photo=random.choice(PICS), caption=f"👋 Hello {r_j},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support chat group. 😘</b>",
+            photo=random.choice(PICS), caption=f"👋 Hello {r_j},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>",
             reply_markup=reply_markup)
 
 
@@ -51,12 +50,12 @@ async def leave_a_chat(bot, message):
         chat = chat
     try:
         buttons = [[
-            InlineKeyboardButton('Support Chat', url=SUPPORT_LINK)
+            InlineKeyboardButton('Support Group', url=SUPPORT_LINK)
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await bot.send_message(
             chat_id=chat,
-            text='Hello Friends,\nMy owner has told me to leave from group so i go! If you need add me again contact my support chat group.',
+            text='Hello Friends,\nMy owner has told me to leave from group so i go! If you need add me again contact my support group.',
             reply_markup=reply_markup,
         )
 
@@ -90,12 +89,12 @@ async def disable_chat(bot, message):
     await message.reply('Chat successfully disabled')
     try:
         buttons = [[
-            InlineKeyboardButton('Support Chat', url=SUPPORT_LINK)
+            InlineKeyboardButton('Support Group', url=SUPPORT_LINK)
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await bot.send_message(
             chat_id=chat_, 
-            text=f'Hello Friends,\nMy owner has told me to leave from group so i go! If you need add me again contact my support chat group.\nReason - <code>{reason}</code>',
+            text=f'Hello Friends,\nMy owner has told me to leave from group so i go! If you need add me again contact my support group.\nReason - <code>{reason}</code>',
             reply_markup=reply_markup)
         await bot.leave_chat(chat_)
     except Exception as e:
