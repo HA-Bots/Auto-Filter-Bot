@@ -389,7 +389,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if AUTH_CHANNEL and not await is_subscribed(client, query):
             await query.answer(f"Hello {query.from_user.first_name},\nI would like to try yours, Please join my update channel and request again.", show_alert=True)
             return
-        await auto_filter()
+        await auto_filter(client, query)
         await query.answer(f"Hello {query.from_user.first_name},\nGood, Can You Request Now!", show_alert=True)
         await query.message.delete()
         try:
