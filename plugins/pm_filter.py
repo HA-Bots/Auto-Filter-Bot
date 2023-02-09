@@ -50,7 +50,7 @@ async def give_filter(client, message):
             buttons = [[
                 InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
             ],[
-                InlineKeyboardButton("🔁 Request Again 🔁", callback_data=f'grp#{message}')
+                InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")
             ]]
             reply_markup = InlineKeyboardMarkup(buttons)
             k = await message.reply_photo(
@@ -382,15 +382,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup(btn)
         )
 
-    elif query.data.startswith("grp"):
-        ident, msg = query.data.split("#")
+    elif query.data == "grp_checksub":
         user = query.message.reply_to_message.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nThis Is Not For You!", show_alert=True)
         if AUTH_CHANNEL and not await is_subscribed(client, query):
             await query.answer(f"Hello {query.from_user.first_name},\nI would like to try yours, Please join my update channel and request again.", show_alert=True)
             return
-        await auto_filter(client, msg)
         await query.answer(f"Hello {query.from_user.first_name},\nGood, Can You Request Now!", show_alert=True)
         await query.message.delete()
         try:
