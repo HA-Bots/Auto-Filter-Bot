@@ -8,8 +8,8 @@ from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
-from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
+from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, SECOND_AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
+from utils import get_settings, get_size, is_subscribed, is_second_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
 import re
 import json
@@ -47,9 +47,9 @@ async def start(client, message):
             parse_mode=enums.ParseMode.HTML
         )
         return
-    if AUTH_CHANNEL and not await is_subscribed(client, message):
+    if SECOND_AUTH_CHANNEL and not await is_second_subscribed(client, message):
         try:
-            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
+            invite_link = await client.create_chat_invite_link(int(SECOND_AUTH_CHANNEL))
         except ChatAdminRequired:
             logger.error("Make sure Bot is admin in Forcesub channel")
             return
