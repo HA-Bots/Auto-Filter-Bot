@@ -50,7 +50,7 @@ async def give_filter(client, message):
             buttons = [[
                 InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
             ],[
-                InlineKeyboardButton("🔁 Request Again 🔁", callback_data=f"grp_checksub#{message}")
+                InlineKeyboardButton("🔁 Request Again 🔁", callback_data=f"grp#{message}")
             ]]
             reply_markup = InlineKeyboardMarkup(buttons)
             k = await message.reply_photo(
@@ -382,7 +382,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup(btn)
         )
 
-    elif query.data.startswith("grp_checksub"):
+    elif query.data.startswith("grp"):
         ident, msg = query.data.split("#")
         user = query.message.reply_to_message.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
