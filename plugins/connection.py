@@ -61,11 +61,14 @@ async def addconnection(client, message):
                     parse_mode=enums.ParseMode.MARKDOWN
                 )
                 if chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-                    await client.send_message(
-                        userid,
-                        f"Connected to **{title}**!",
-                        parse_mode=enums.ParseMode.MARKDOWN
-                    )
+                    try:
+                        await client.send_message(
+                            userid,
+                            f"Connected to **{title}**!",
+                            parse_mode=enums.ParseMode.MARKDOWN
+                        )
+                    except:
+                        pass
             else:
                 await message.reply_text(
                     "You're already connected to this chat!",
