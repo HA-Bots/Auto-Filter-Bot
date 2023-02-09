@@ -22,8 +22,8 @@ BATCH_FILES = {}
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         btn = [[
-            InlineKeyboardButton('⚡️ My Updates Channel ⚡️', url=UPDATES_LINK),
-            InlineKeyboardButton('🔥 My Support Chat 🔥', url=SUPPORT_LINK)
+            InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
         ]]
         await message.reply_sticker(sticker=random.choice(STICKERS), reply_markup=InlineKeyboardMarkup(btn))
         if not await db.get_chat(message.chat.id):
@@ -221,8 +221,8 @@ async def start(client, message):
         f_caption = f"{files.file_name}"
 
     btn = [[
-        InlineKeyboardButton('⚡️ My Updates Channel ⚡️', url=UPDATES_LINK),
-        InlineKeyboardButton('🔥 My Support Chat 🔥', url=SUPPORT_LINK)
+        InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
+        InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
     ]]
     await client.send_cached_media(
         chat_id=message.from_user.id,
@@ -264,15 +264,17 @@ async def channels_info(bot, message):
         os.remove(file)
 
 
-@Client.on_message(filters.command('database_status'))
-async def database_status(bot, message):
-    buttons = [[
-        InlineKeyboardButton('👤 Total Users', callback_data='total_users'),
-        InlineKeyboardButton('👥 Total Chats', callback_data='total_chats')
-    ],[
-        InlineKeyboardButton('🗂 Total Files', callback_data='total_files')
-    ]]
-    await message.reply_text('Choose what you want?', reply_markup=InlineKeyboardMarkup(buttons))
+@Client.on_message(filters.command('stats'))
+async def stats(bot, message):
+    msg = await message.reply('Please Wait...')
+    files = await Media.count_documents()
+    users = await db.total_users_count()
+    chats = await db.total_chat_count()
+    size = await db.get_db_size()
+    free = 536870912 - size
+    size = get_size(size)
+    free = get_size(free)
+    await msg.edit(script.STATUS_TXT.format(files, users, chats, size, free))
 
 
 @Client.on_message(filters.command('settings'))
