@@ -27,7 +27,6 @@ SPELL_CHECK = {}
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
-    msg = message
     settings = await get_settings(message.chat.id)
     if settings["auto_filter"]:
         userid = message.from_user.id if message.from_user else None
@@ -51,7 +50,7 @@ async def give_filter(client, message):
             buttons = [[
                 InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
             ],[
-                InlineKeyboardButton("🔁 Request Again 🔁", callback_data=f"grp_checksub#{msg}")
+                InlineKeyboardButton("🔁 Request Again 🔁", callback_data=f"grp_checksub#{message}")
             ]]
             reply_markup = InlineKeyboardMarkup(buttons)
             k = await message.reply_photo(
