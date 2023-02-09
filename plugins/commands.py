@@ -54,7 +54,7 @@ async def start(client, message):
             logger.error("Make sure Bot is admin in Forcesub channel")
             return
         btn = [[
-            InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
+            InlineKeyboardButton("📢 Second Updates Channel 📢", url=invite_link.invite_link)
         ]]
 
         if message.command[1] != "subscribe":
@@ -66,7 +66,7 @@ async def start(client, message):
                 btn.append([InlineKeyboardButton("🔄 Try Again 🔄", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
         await message.reply_photo(
             photo=random.choice(PICS),
-            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my second 'Updates Channel' and try again. 😇",
+            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Second Updates Channel' and try again. 😇",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.HTML
         )
