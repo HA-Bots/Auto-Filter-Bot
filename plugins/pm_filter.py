@@ -348,7 +348,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     if query.data.startswith("checksub"):
         if AUTH_CHANNEL and not await is_subscribed(client, query):
-            await query.answer(f"Hello {query.from_user.first_name},\nI would like to try yours, Please join my update channel and try again.", show_alert=True)
+            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", show_alert=True)
             return
         ident, file_id = query.data.split("#")
         files_ = await get_file_details(file_id)
@@ -387,7 +387,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nThis Is Not For You!", show_alert=True)
         if AUTH_CHANNEL and not await is_subscribed(client, query):
-            await query.answer(f"Hello {query.from_user.first_name},\nI would like to try yours, Please join my update channel and request again.", show_alert=True)
+            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and request again.", show_alert=True)
             return
         await query.answer(f"Hello {query.from_user.first_name},\nGood, Can You Request Now!", show_alert=True)
         await query.message.delete()
