@@ -348,7 +348,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     if query.data.startswith("checksub"):
         if SECOND_AUTH_CHANNEL and not await is_second_subscribed(client, query):
-            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", show_alert=True)
+            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my second updates channel and try again.", show_alert=True)
             return
         ident, file_id = query.data.split("#")
         files_ = await get_file_details(file_id)
