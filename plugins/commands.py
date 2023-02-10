@@ -24,7 +24,13 @@ async def start(client, message):
             InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
             InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
         ]]
-        await message.reply_sticker(sticker=random.choice(STICKERS), reply_markup=InlineKeyboardMarkup(btn))
+        s = await message.reply_sticker(sticker=random.choice(STICKERS), reply_markup=InlineKeyboardMarkup(btn))
+        await asyncio.sleep(30)
+        await s.delete()
+        try:
+            await message.delete()
+        except:
+            pass
         if not await db.get_chat(message.chat.id):
             total=await client.get_chat_members_count(message.chat.id)
             r_j = message.from_user.mention if message.from_user else "Anonymous"
@@ -191,6 +197,10 @@ async def settings(client, message):
             and st.status != enums.ChatMemberStatus.OWNER
             and str(userid) not in ADMINS
     ):
+        try:
+            await message.delete()
+        except:
+            pass
         return
 
     settings = await get_settings(grp_id)
@@ -268,11 +278,17 @@ async def settings(client, message):
         ],[
             InlineKeyboardButton("👥 Open Here 👥", callback_data=f"opn_grp_setgs#{grp_id}")
         ]]
-        await message.reply_text(
-            text="Where do you want to open the settings menu?",
+        k = await message.reply_text(
+            text="Where do you want to open the settings menu? ⚙️",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.HTML
         )
+        await asyncio.sleep(300)
+        await k.delete()
+        try:
+            await message.delete()
+        except:
+            pass
     else:
         await message.reply_text(
             text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙",
