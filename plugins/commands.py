@@ -84,6 +84,9 @@ async def start(client, message):
         )
         return
 
+    data = message.command[1]
+    pre, file_id = data.split('_', 1)
+    
     files_ = await get_file_details(file_id)           
     files = files_[0]
     title = files.file_name
