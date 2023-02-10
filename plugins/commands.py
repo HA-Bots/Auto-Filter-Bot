@@ -8,15 +8,14 @@ from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, SECOND_AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
-from utils import get_settings, get_size, is_subscribed, is_second_subscribed, save_group_settings, temp
+from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
+from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
 import re
 import json
 import base64
 logger = logging.getLogger(__name__)
 
-BATCH_FILES = {}
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
@@ -47,14 +46,14 @@ async def start(client, message):
             parse_mode=enums.ParseMode.HTML
         )
         return
-    if SECOND_AUTH_CHANNEL and not await is_second_subscribed(client, message):
+    if AUTH_CHANNEL and not await is_subscribed(client, message):
         try:
-            invite_link = await client.create_chat_invite_link(int(SECOND_AUTH_CHANNEL))
+            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
         except ChatAdminRequired:
             logger.error("Make sure Bot is admin in Forcesub channel")
             return
         btn = [[
-            InlineKeyboardButton("📢 Second Updates Channel 📢", url=invite_link.invite_link)
+            InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
         ]]
 
         if message.command[1] != "subscribe":
@@ -66,7 +65,7 @@ async def start(client, message):
                 btn.append([InlineKeyboardButton("🔄 Try Again 🔄", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
         await message.reply_photo(
             photo=random.choice(PICS),
-            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Second Updates Channel' and try again. 😇",
+            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and try again. 😇",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.HTML
         )
@@ -117,13 +116,13 @@ async def start(client, message):
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
            
-    """Send basic information of channel"""
+    """Send basic information of index channels"""
     if isinstance(INDEX_CHANNELS, (int, str)):
         channels = [INDEX_CHANNELS]
     elif isinstance(INDEX_CHANNELS, list):
         channels = INDEX_CHANNELS
     else:
-        raise ValueError("Unexpected type of channels")
+        raise ValueError("Unexpected type of index channels")
 
     text = '**Indexed Channels:**\n'
     for channel in channels:
