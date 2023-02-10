@@ -83,11 +83,12 @@ async def start(client, message):
             parse_mode=enums.ParseMode.HTML
         )
         return
-
-    data = message.command[1]
-    pre, file_id = data.split('_', 1)
     
-    files_ = await get_file_details(file_id)           
+    kk, file_id = message.command[1].split("_", 1)
+
+    files_ = await get_file_details(file_id)
+    if not files_:
+        return await message.reply('No Such File Exist!')
     files = files_[0]
     title = files.file_name
     size=get_size(files.file_size)
