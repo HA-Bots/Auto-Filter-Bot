@@ -512,7 +512,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙",
                     reply_markup=InlineKeyboardMarkup(buttons)
                 )
-                await query.message.edit_text(text="Settings menu sent in private chat.", reply_markup=InlineKeyboardMarkup(btn))
+                k = await query.message.edit_text(text="Settings menu sent in private chat. ⚙️", reply_markup=InlineKeyboardMarkup(btn))
+                await asyncio.sleep(60)
+                await k.delete()
+                try:
+                    await query.message.reply_to_message.delete()
+                except:
+                    pass
             except UserIsBlocked:
                 await query.answer('You blocked me, Please unblock me and try again.', show_alert=True)
             except PeerIdInvalid:
@@ -577,7 +583,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
-            await query.message.edit_text(text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙", reply_markup=reply_markup)
+            k = await query.message.edit_text(text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙", reply_markup=reply_markup)
+            await asyncio.sleep(300)
+            await k.delete()
+            try:
+                await query.message.reply_to_message.delete()
+            except:
+                pass
 
     elif query.data.startswith("setgs"):
         ident, set_type, status, grp_id = query.data.split("#")
