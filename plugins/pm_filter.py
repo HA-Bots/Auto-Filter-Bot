@@ -771,7 +771,7 @@ async def auto_filter(client, msg, spoll=False):
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
-                    await msg.delete()
+                    await message.delete()
                 except:
                     pass
             else:
@@ -784,7 +784,7 @@ async def auto_filter(client, msg, spoll=False):
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
-                    await msg.delete()
+                    await message.delete()
                 except:
                     pass
             else:
@@ -796,7 +796,7 @@ async def auto_filter(client, msg, spoll=False):
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
-                    await msg.delete()
+                    await message.delete()
                 except:
                     pass
             else:
@@ -807,7 +807,7 @@ async def auto_filter(client, msg, spoll=False):
             await asyncio.sleep(3600)
             await k.delete()
             try:
-                await msg.delete()
+                await message.delete()
             except:
                 pass
         else:
