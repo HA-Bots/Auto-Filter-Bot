@@ -2,6 +2,7 @@ import os
 import logging
 import random
 import asyncio
+import time
 from Script import script
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
@@ -163,6 +164,15 @@ async def stats(bot, message):
     await msg.edit(script.STATUS_TXT.format(files, users, chats, size, free))
 
 
+@Client.on_message(filters.command("ping"))
+async def ping(_, message):
+    start_t = time.time()
+    rm = await message.reply_text("...")
+    end_t = time.time()
+    time_taken_s = (end_t - start_t)
+    await rm.edit(f"Pong!\n{time_taken_s}")
+    
+    
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
     userid = message.from_user.id if message.from_user else None
