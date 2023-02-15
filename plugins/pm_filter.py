@@ -520,9 +520,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 except:
                     pass
             except UserIsBlocked:
-                return await query.answer('You blocked me, Please unblock me and try again.', show_alert=True)
+                await query.answer('You blocked me, Please unblock me and try again.', show_alert=True)
             except PeerIdInvalid:
-                return await query.answer("You didn't started this bot yet, Please start me and try again.", show_alert=True)
+                await query.answer("You didn't started this bot yet, Please start me and try again.", show_alert=True)
 
     elif query.data.startswith("opn_grp_setgs"):
         ident, grp_id = query.data.split("#")
