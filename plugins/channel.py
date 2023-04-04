@@ -8,7 +8,7 @@ media_filter = filters.document
 @Client.on_message(filters.chat(INDEX_CHANNELS) & media_filter)
 async def media(bot, message):
     """Media Handler"""
-    for file_type in [enums.MessageMediaType.DOCUMENT]:
+    for file_type in [enums.MessageMediaType.VIDEO, enums.MessageMediaType.DOCUMENT]:
         media = getattr(message, file_type, None)
         if media is not None:
             break
