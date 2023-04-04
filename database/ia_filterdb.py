@@ -70,10 +70,10 @@ async def get_search_results(query, file_type=None, max_results=10, offset=0, fi
     """For given query return (results, next_offset)"""
 
     query = query.strip()
-    #if filter:
-        #better ?
-        #query = query.replace(' ', r'(\s|\.|\+|\-|_)')
-        #raw_pattern = r'(\s|_|\-|\.|\+)' + query + r'(\s|_|\-|\.|\+)'
+    # for better results
+    if filter:
+        query = query.replace(' ', r'(\s|\.|\+|\-|_)')
+        raw_pattern = r'(\s|_|\-|\.|\+)' + query + r'(\s|_|\-|\.|\+)'
     if not query:
         raw_pattern = '.'
     elif ' ' not in query:
