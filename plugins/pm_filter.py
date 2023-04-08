@@ -664,14 +664,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, search = query.data.split("#")
         await query.message.edit_text("Deleting...")
         files, total_results = await get_delete_files(search)
-        print(files)
-       # for file in files:
-        #    result = await Media.collection.delete_many(files)
-         #   if result.deleted_count:
-         #       await query.message.edit_text(f"Successfully deleted {total_results} files")
-         #   else:
-         #       await query.message.edit_text("Nothing to delete files")
         result = await Media.collection.delete_many(files)
+        if result.deleted_count:
+            await query.message.edit_text(f"Successfully deleted {total_results} files")
+        else:
+            await query.message.edit_text("Nothing to delete files")
+
 
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
@@ -683,7 +681,6 @@ async def auto_filter(client, msg, spoll=False):
         if 2 < len(message.text) < 100:
             search = message.text
             files, offset, total_results = await get_search_results(search.lower(), offset=0, filter=True)
-            print(files)
             if not files:
                 if settings["spell_check"]:
                     return await advantage_spell_chok(msg)
