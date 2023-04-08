@@ -665,13 +665,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text("Deleting...")
         files, total_results = await get_delete_files(search)
         print(files)
-        for file in files:
-            result = await Media.collection.delete_many(files)
-            if result.deleted_count:
-                await query.message.edit_text(f"Successfully deleted {total_results} files")
-            else:
-                await query.message.edit_text("Nothing to delete files")
-        
+       # for file in files:
+        #    result = await Media.collection.delete_many(files)
+         #   if result.deleted_count:
+         #       await query.message.edit_text(f"Successfully deleted {total_results} files")
+         #   else:
+         #       await query.message.edit_text("Nothing to delete files")
+        result = await Media.collection.delete_many(files)
 
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
