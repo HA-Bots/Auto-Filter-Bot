@@ -131,7 +131,7 @@ async def get_delete_files(query):
     total_results = await Media.count_documents(filter)
 
     cursor = Media.find(filter)
-    files = await cursor.to_list(length=int(total_files))
+    files = await cursor.to_list(length=int(10000000000))
 
     return files, total_results
     
