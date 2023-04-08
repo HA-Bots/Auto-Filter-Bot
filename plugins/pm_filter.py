@@ -661,9 +661,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data.startswith("delete_files"):
-        ident, _query_ = query.data.split("#")
+        ident, search = query.data.split("#")
         await query.message.edit_text("Deleting...")
-        files, total_results = await get_delete_files(_query_)
+        files, total_results = await get_delete_files(search)
+        print(files)
         for file in files:
             result = await Media.collection.delete_many(files)
             if result.deleted_count:
