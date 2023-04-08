@@ -126,7 +126,6 @@ async def get_delete_files(query):
         return []
 
     files = {'file_name': regex}
-    total_files = await Media.count_documents()
     total_results = await Media.count_documents(files)
     return files, total_results
     
