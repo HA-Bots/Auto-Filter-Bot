@@ -122,7 +122,7 @@ async def start(client, message):
             )
             return
         
-    pre, key = mc.split("_", 1)
+    pre, file_id = mc.split("_", 1)
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
