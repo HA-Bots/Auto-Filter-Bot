@@ -22,8 +22,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
 
 BUTTONS = {}
-SPELL_CHECK = {}
-
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
