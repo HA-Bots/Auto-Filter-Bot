@@ -63,7 +63,7 @@ async def start(client, message):
             InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
         ]]
 
-        if message.command[1] != "subscribe":
+        if message.command[1] != "subscribe" or message.command[1] != "all":
             try:
                 kk, file_id = message.command[1].split("_", 1)
                 pre = 'checksubp' if kk == 'filep' else 'checksub' 
@@ -94,8 +94,6 @@ async def start(client, message):
     if mc.startswith('all'):
         _, pre, key = mc.split("_", 2)
         files = temp.FILES.get(key)
-        if not files:
-            return await message.reply('No Such Files Exist!')
         for file in files:
             title = file.file_name
             size=get_size(file.file_size)
@@ -107,7 +105,7 @@ async def start(client, message):
                     logger.exception(e)
                     f_caption=f_caption
             if f_caption is None:
-                f_caption = f"{files.file_name}"
+                f_caption = f"{file.file_name}"
                 
             btn = [[
                 InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
@@ -120,7 +118,7 @@ async def start(client, message):
                 protect_content=True if pre == 'filep' else False,
                 reply_markup=InlineKeyboardMarkup(btn)
             )
-            return
+        return
         
     pre, file_id = mc.split("_", 1)
     files_ = await get_file_details(file_id)
