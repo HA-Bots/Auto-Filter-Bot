@@ -63,7 +63,7 @@ async def start(client, message):
             InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
         ]]
 
-        if message.command[1] != "subscribe" or not message.command[1].startswith("all"):
+        if message.command[1] != "subscribe" and not message.command[1].startswith("all"):
             try:
                 kk, file_id = message.command[1].split("_", 1)
                 pre = 'checksubp' if kk == 'filep' else 'checksub' 
