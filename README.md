@@ -11,8 +11,10 @@
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
 - [x] send all button features
 - [x] auto remove other username from files
+- [x] render & heroku & koyeb support repo
 - [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
 - [x] 𝐼𝑛𝑑𝑒𝑥𝑒𝑠 𝐹𝑖𝑙𝑒𝑠 𝑎𝑏𝑜𝑣𝑒 2𝐺𝐵
+- [x] render & heroku & koyeb support repo
 - [x] 𝑃𝑟𝑒𝐷𝑉𝐷 𝑎𝑛𝑑 𝐶𝑎𝑚𝑅𝑖𝑝 𝐷𝑒𝑙𝑒𝑡𝑒 𝑀𝑜𝑑𝑒
 - [x] 𝑀𝑢𝑙𝑡𝑖𝑝𝑙𝑒 𝐹𝑖𝑙𝑒 𝐷𝑒𝑙𝑒𝑡𝑖𝑜𝑛
 - [x] 𝑆𝑒𝑡𝑡𝑖𝑛𝑔𝑠 𝑀𝑒𝑛𝑢
