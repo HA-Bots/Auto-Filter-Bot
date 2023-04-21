@@ -123,8 +123,9 @@ async def next_page(bot, query):
             ]
             for file in files
         ]
+    temp.FILES[key] = files
     btn.insert(0,
-        [InlineKeyboardButton(f"✅ {search} ✅", callback_data="buttons")]
+        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{key}")]
     )
 
     if 0 < offset <= 10:
@@ -326,31 +327,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
         user = query.message.reply_to_message.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
-        if not files_:
-            return await query.answer('No Such File Exist!', show_alert=True)
-        files = files_[0]
-        title = files.file_name
-        size = get_size(files.file_size)
-        f_caption = files.caption
-        settings = await get_settings(query.message.chat.id)
-        if CUSTOM_FILE_CAPTION:
-            try:
-                f_caption = CUSTOM_FILE_CAPTION.format(file_name='' if title is None else title,
-                                                       file_size='' if size is None else size,
-                                                       file_caption='' if f_caption is None else f_caption)
-            except Exception as e:
-                logger.exception(e)
-            f_caption = f_caption
-        if f_caption is None:
-            f_caption = f"{files.file_name}"
     
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
 
     if query.data.startswith("checksub"):
+        ident, file_id = query.data.split("#")
         if AUTH_CHANNEL and not await is_subscribed(client, query):
             await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", show_alert=True)
             return
-        ident, file_id = query.data.split("#")
+
         files_ = await get_file_details(file_id)
         if not files_:
             return await query.answer('No Such File Exist!', show_alert=True)
@@ -671,6 +656,20 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit_text("Nothing to delete files")
 
 
+    elif query.data.startswith("send_all"):
+        ident, key = query.data.split("#")
+        user = query.message.reply_to_message.from_user.id
+        if int(user) != 0 and query.from_user.id != int(user):
+            return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
+        
+        search = temp.FILES.get(key)
+        if not search:
+            await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
+            return
+        
+        await query.answer(url=f"https://t.me/{temp.U_NAME}?start=all_{key}")
+        
+        
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
@@ -718,12 +717,13 @@ async def auto_filter(client, msg, spoll=False):
             ]
             for file in files
         ]
+    key = f"{message.chat.id}-{message.id}"
+    temp.FILES[key] = files
     btn.insert(0,
-        [InlineKeyboardButton(f"✅ {search} ✅", callback_data="buttons")]
+        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{key}")]
     )
 
     if offset != "":
-        key = f"{message.chat.id}-{message.id}"
         BUTTONS[key] = search
         req = message.from_user.id if message.from_user else 0
         btn.append(
