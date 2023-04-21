@@ -1,3 +1,5 @@
+![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+to+advance+auto+filter+bot;Created+by+HANSAKA!;A+advance+&+powerfully+repo!;And+more+features!)
+</p>
 <p align="center">
   <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="ADV AUTO FILTER BOT">
 </p>
@@ -7,6 +9,8 @@
 
 
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
+- [x] send all button features
+- [x] auto remove other username from files
 - [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
 - [x] 𝐼𝑛𝑑𝑒𝑥𝑒𝑠 𝐹𝑖𝑙𝑒𝑠 𝑎𝑏𝑜𝑣𝑒 2𝐺𝐵
 - [x] 𝑃𝑟𝑒𝐷𝑉𝐷 𝑎𝑛𝑑 𝐶𝑎𝑚𝑅𝑖𝑝 𝐷𝑒𝑙𝑒𝑡𝑒 𝑀𝑜𝑑𝑒
