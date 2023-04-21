@@ -1,4 +1,4 @@
-![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+to+advance+auto+filter+bot;Created+by+HANSAKA!;A+advance+&+powerfully+repo!;And+more+features!)
+![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+to+advance+auto+filter+bot;Created+by+HANSAKA!;A+advance+and+powerfully+repo!;And+more+features!)
 </p>
 <p align="center">
   <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="ADV AUTO FILTER BOT">
