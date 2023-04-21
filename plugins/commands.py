@@ -90,7 +90,39 @@ async def start(client, message):
         )
         return
 
-    pre, file_id = message.command[1].split("_", 1)
+    mc = message.command[1]
+    if mc.startswith('all'):
+        _, pre, key = mc.split("_", 2)
+        files = temp.FILES.get(key)
+        if not files:
+            return await message.reply('No Such Files Exist!')
+        for file in files:
+            title = file.file_name
+            size=get_size(file.file_size)
+            f_caption=file.caption
+            if CUSTOM_FILE_CAPTION:
+                try:
+                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
+                except Exception as e:
+                    logger.exception(e)
+                    f_caption=f_caption
+            if f_caption is None:
+                f_caption = f"{files.file_name}"
+                
+            btn = [[
+                InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
+                InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
+            ]]
+            await client.send_cached_media(
+                chat_id=message.from_user.id,
+                file_id=file.file_id,
+                caption=f_caption,
+                protect_content=True if pre == 'filep' else False,
+                reply_markup=InlineKeyboardMarkup(btn)
+            )
+            return
+        
+    pre, key = mc.split("_", 1)
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
