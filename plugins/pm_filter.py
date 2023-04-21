@@ -177,7 +177,7 @@ async def advantage_spoll_choker(bot, query):
     if int(user) != 0 and query.from_user.id != int(user):
         return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
 
-    movie = await get_poster(movie_id, id=True)
+    movie = await get_poster(id, id=True)
     search = movie.get('title')
     await query.answer('Checking My Database...')
     files, offset, total_results = await get_search_results(search, offset=0, filter=True)
