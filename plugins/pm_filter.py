@@ -662,8 +662,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
         
-        search = temp.FILES.get(key)
-        if not search:
+        files = temp.FILES.get(key)
+        if not files:
             await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
             return
         
