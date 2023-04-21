@@ -173,17 +173,16 @@ async def next_page(bot, query):
 
 @Client.on_callback_query(filters.regex(r"^spolling"))
 async def advantage_spoll_choker(bot, query):
-    _, user, movie_ = query.data.split('#')
+    _, id, user = query.data.split('#')
     if int(user) != 0 and query.from_user.id != int(user):
         return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
-    movies = SPELL_CHECK.get(query.message.reply_to_message.id)
-    if not movies:
-        return await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
-    movie = movies[(int(movie_))]
+
+    movie = await get_poster(movie_id, id=True)
+    search = movie.get('title')
     await query.answer('Checking My Database...')
-    files, offset, total_results = await get_search_results(movie, offset=0, filter=True)
+    files, offset, total_results = await get_search_results(search, offset=0, filter=True)
     if files:
-        k = (movie, files, offset, total_results)
+        k = (search, files, offset, total_results)
         await auto_filter(bot, query, k)
     else:
         await bot.send_message(LOG_CHANNEL, script.NO_RESULT_TXT.format(query.message.chat.title, query.message.chat.id, query.from_user.mention, movie))
@@ -826,78 +825,48 @@ async def auto_filter(client, msg, spoll=False):
 
 
 async def advantage_spell_chok(msg):
-    search = msg.text
-    search_google = search.replace(" ", "+")
-    query = re.sub(
-        r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
-        "", msg.text, flags=re.IGNORECASE)  # plis contribute some common words
-    query = query.strip() + " movie"
-    g_s = await search_gagala(query)
-    g_s += await search_gagala(msg.text)
-    gs_parsed = []
-    if not g_s:
-        btn = [[
-            InlineKeyboardButton("⚠️ Instructions ⚠️", callback_data='instructions'),
-            InlineKeyboardButton("🔎 Search Google 🔍", url=f"https://www.google.com/search?q={search_google}")
-        ]]
-        k = await msg.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {msg.from_user.mention},\n\nI can't find <b>'{search}'</b> you requested. 😢</b>", reply_markup=InlineKeyboardMarkup(btn))
-        await asyncio.sleep(60)
-        await k.delete()
-        try:
-            await msg.delete()
-        except:
-            pass
-        return
-    regex = re.compile(r".*(imdb|wikipedia).*", re.IGNORECASE)  # look for imdb / wiki results
-    gs = list(filter(regex.match, g_s))
-    gs_parsed = [re.sub(
-        r'\b(\-([a-zA-Z-\s])\-\simdb|(\-\s)?imdb|(\-\s)?wikipedia|\(|\)|\-|reviews|full|all|episode(s)?|film|movie|series)',
-        '', i, flags=re.IGNORECASE) for i in gs]
-    if not gs_parsed:
-        reg = re.compile(r"watch(\s[a-zA-Z0-9_\s\-\(\)]*)*\|.*",
-                         re.IGNORECASE)  # match something like Watch Niram | Amazon Prime
-        for mv in g_s:
-            match = reg.match(mv)
-            if match:
-                gs_parsed.append(match.group(1))
-    user = msg.from_user.id if msg.from_user else 0
-    movielist = []
-    gs_parsed = list(dict.fromkeys(gs_parsed))  # removing duplicates
-    if len(gs_parsed) > 3:
-        gs_parsed = gs_parsed[:3]
-    if gs_parsed:
-        for mov in gs_parsed:
-            imdb_s = await get_poster(mov.strip(), bulk=True)  # searching each keyword in imdb
-            if imdb_s:
-                movielist += [movie.get('title') for movie in imdb_s]
-    movielist += [(re.sub(r'(\-|\(|\)|_)', '', i, flags=re.IGNORECASE)).strip() for i in gs_parsed]
-    movielist = list(dict.fromkeys(movielist))  # removing duplicates
-    if not movielist:
-        btn = [[
-            InlineKeyboardButton("⚠️ Instructions ⚠️", callback_data='instructions'),
-            InlineKeyboardButton("🔎 Search Google 🔍", url=f"https://www.google.com/search?q={search_google}")
-        ]]
-        k = await msg.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {msg.from_user.mention},\n\nI can't find the <b>'{search}'</b> you requested, Check if your spellings are correct. 😉", reply_markup=InlineKeyboardMarkup(btn))
-        await asyncio.sleep(60)
-        await k.delete()
-        try:
-            await msg.delete()
-        except:
-            pass
-        return
-    SPELL_CHECK[msg.id] = movielist
+    message = msg
+    search = message.text
+    google_search = search.replace(" ", "+")
     btn = [[
-        InlineKeyboardButton(
-            text=movie.strip(),
-            callback_data=f"spolling#{user}#{k}",
-        )
-    ] for k, movie in enumerate(movielist)]
-    btn.append([InlineKeyboardButton(text="❌ Close ❌", callback_data=f'close_data')])
-    k = await msg.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {msg.from_user.mention},\n\nI couldn't find the <b>'{search}'</b> you requested.\nDid you mean one of these? 👇",
-                    reply_markup=InlineKeyboardMarkup(btn))
-    await asyncio.sleep(300)
-    await k.delete()
+        InlineKeyboardButton("⚠️ Instructions ⚠️", callback_data='instructions'),
+        InlineKeyboardButton("🔎 Search Google 🔍", url=f"https://www.google.com/search?q={google_search}")
+    ]]
     try:
-        await msg.delete()
+        movies = await get_poster(search, bulk=True)
+    except:
+        n = await message.reply_photo(photo=random.choice(PICS), caption=script.NOT_FILE_TXT.format(message.from_user.mention, search), reply_markup=InlineKeyboardMarkup(btn))
+        await asyncio.sleep(60)
+        await n.delete()
+        try:
+            await message.delete()
+        except:
+            pass
+        return
+
+    if not movies:
+        n = await message.reply_photo(photo=random.choice(PICS), caption=script.NOT_FILE_TXT.format(message.from_user.mention, search), reply_markup=InlineKeyboardMarkup(btn))
+        await asyncio.sleep(60)
+        await n.delete()
+        try:
+            await message.delete()
+        except:
+            pass
+        return
+
+    user = message.from_user.id if message.from_user else 0
+    buttons = [[
+        InlineKeyboardButton(text=movie.get('title'), callback_data=f"spolling#{movie.movieID}#{user}")
+    ]
+        for movie in movies
+    ]
+    buttons.append(
+        [InlineKeyboardButton("❌ Close ❌", callback_data=f"close#{user}")]
+    )
+    s = await message.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {message.from_user.mention},\n\nI couldn't find the <b>'{search}'</b> you requested.\nSelect if you meant one of these? 👇", reply_markup=InlineKeyboardMarkup(buttons))
+    await asyncio.sleep(300)
+    await s.delete()
+    try:
+        await message.delete()
     except:
         pass
