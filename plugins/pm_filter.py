@@ -125,7 +125,7 @@ async def next_page(bot, query):
         ]
     temp.FILES[key] = files
     btn.insert(0,
-        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{key}")]
+        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
     )
 
     if 0 < offset <= 10:
@@ -657,7 +657,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
 
     elif query.data.startswith("send_all"):
-        ident, key = query.data.split("#")
+        ident, pre, key = query.data.split("#")
         user = query.message.reply_to_message.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
@@ -667,7 +667,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
             return
         
-        await query.answer(url=f"https://t.me/{temp.U_NAME}?start=all_{key}")
+        await query.answer(url=f"https://t.me/{temp.U_NAME}?start=all_{pre}_{key}")
         
         
 async def auto_filter(client, msg, spoll=False):
@@ -720,7 +720,7 @@ async def auto_filter(client, msg, spoll=False):
     key = f"{message.chat.id}-{message.id}"
     temp.FILES[key] = files
     btn.insert(0,
-        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{key}")]
+        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
     )
 
     if offset != "":
