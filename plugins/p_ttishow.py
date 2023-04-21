@@ -37,7 +37,12 @@ async def new_grp_msg(bot, message):
         await message.reply_photo(
             photo=random.choice(PICS), caption=f"👋 Hello {r_j},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>",
             reply_markup=reply_markup)
-
+    else:
+        settings = await get_settings(message.chat.id)
+        if settings["welcome"]:
+            for u in message.new_chat_members:
+                await message.reply(f"<b>Hey , {u.mention}, Welcome to {message.chat.title}</b>")
+                
 
 @Client.on_message(filters.command('leave') & filters.user(ADMINS))
 async def leave_a_chat(bot, message):
