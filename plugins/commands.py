@@ -299,6 +299,16 @@ async def settings(client, message):
                 )
             ],
             [
+                InlineKeyboardButton(
+                    'Welcome',
+                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                ),
+                InlineKeyboardButton(
+                    '✅ Yes' if settings["welcome"] else '❌ No',
+                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                ),
+            ],
+            [
                 InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
             ]
         ]
