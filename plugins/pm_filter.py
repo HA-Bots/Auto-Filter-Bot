@@ -874,7 +874,7 @@ async def advantage_spell_chok(msg):
         for movie in movies
     ]
     buttons.append(
-        [InlineKeyboardButton("❌ Close ❌", callback_data=f"close#{user}")]
+        [InlineKeyboardButton("❌ Close ❌", callback_data="close_data")]
     )
     s = await message.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {message.from_user.mention},\n\nI couldn't find the <b>'{search}'</b> you requested.\nSelect if you meant one of these? 👇", reply_markup=InlineKeyboardMarkup(buttons))
     await asyncio.sleep(300)
