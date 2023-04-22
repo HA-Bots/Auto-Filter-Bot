@@ -134,6 +134,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                     unsupported += 1
                     continue
                 media = getattr(message, message.media.value, None)
+                message.media.value
                 if not media:
                     unsupported += 1
                     continue
