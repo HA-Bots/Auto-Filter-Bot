@@ -340,9 +340,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
         files = files_[0]
         CAPTION = settings['caption']
         f_caption = CAPTION.format(
-            title = files.file_name,
-            size = get_size(files.file_size),
-            caption = files.caption
+            file_name = files.file_name,
+            file_size = get_size(files.file_size),
+            file_caption = files.caption
         )
 
         btn = [[
