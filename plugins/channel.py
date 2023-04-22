@@ -9,18 +9,9 @@ media_filter = filters.document | filters.video
 async def media(bot, message):
     print(message)
     """Media Handler"""
+    for file_type in ("document", "video"):
+        media = getattr(message, file_type, None)
+        print(media)
+    print(f'hiii\n{media}')
 
-    media = getattr(message, message.media.value, None)
-    print(message.media.value)
-
-      #  if media.mime_type not in ['video/mp4', 'video/x-matroska']:  # Non .mp4 and .mkv files are skipped
-         #   continue
-       # if media is not None:
-        #    print(media.mime_type)
-        #    break
-  #  else:
-       # return
-
-  #  media.file_type = file_type
-  #  media.caption = msg.caption
     await save_file(media)
