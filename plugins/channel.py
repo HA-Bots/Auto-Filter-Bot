@@ -10,10 +10,11 @@ async def media(bot, message):
     """Media Handler"""
     for file_type in ("document", "video"):
         media = getattr(message, file_type, None)
-        print(media.mime_type)
+        
       #  if media.mime_type not in ['video/mp4', 'video/x-matroska']:  # Non .mp4 and .mkv files are skipped
          #   continue
         if media is not None:
+            print(media.mime_type)
             break
     else:
         return
