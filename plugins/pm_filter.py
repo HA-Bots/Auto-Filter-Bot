@@ -8,7 +8,7 @@ from Script import script
 import pyrogram
 from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, \
     make_inactive
-from info import ADMINS, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, PICS, \
+from info import ADMINS, CUSTOM_FILE_CAPTION, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, PICS, \
     PROTECT_CONTENT, IMDB, AUTO_FILTER, SINGLE_BUTTON, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
