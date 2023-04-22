@@ -54,13 +54,10 @@ async def answer(bot, query):
                                                   offset=offset)
 
     for file in files:
-        title=file.file_name
-        size=get_size(file.file_size)
-        caption=file.caption
         f_caption=FILE_CAPTION.format(
-            file_name=title,
-            file_size=size,
-            caption=caption
+            file_name=file.file_name,
+            file_size=get_size(file.file_size),
+            caption=file.caption
         )
         results.append(
             InlineQueryResultCachedDocument(
