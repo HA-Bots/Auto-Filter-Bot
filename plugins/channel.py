@@ -7,6 +7,7 @@ media_filter = filters.document | filters.video
 
 @Client.on_message(filters.chat(INDEX_CHANNELS) & media_filter)
 async def media(bot, message):
+    print(message)
     """Media Handler"""
     for msg in message:
         media = getattr(msg, msg.media.value, None)
