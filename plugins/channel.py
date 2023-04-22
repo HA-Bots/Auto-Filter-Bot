@@ -11,7 +11,7 @@ async def media(bot, message):
     """Media Handler"""
 
     media = getattr(message, message.media.value, None)
-    print(media)
+    print(message.media.value)
 
       #  if media.mime_type not in ['video/mp4', 'video/x-matroska']:  # Non .mp4 and .mkv files are skipped
          #   continue
@@ -23,4 +23,4 @@ async def media(bot, message):
 
   #  media.file_type = file_type
   #  media.caption = msg.caption
- #   await save_file(media)
+    await save_file(media)
