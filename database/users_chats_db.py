@@ -1,5 +1,5 @@
 import motor.motor_asyncio
-from info import DATABASE_NAME, DATABASE_URL, IMDB, WELCOME_MSG, SINGLE_BUTTON, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
+from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, FILE_CAPTION, IMDB, WELCOME_MSG, SINGLE_BUTTON, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
 
 class Database:
     
@@ -114,6 +114,8 @@ class Database:
             'spell_check': SPELL_CHECK,
             'auto_delete': AUTO_DELETE,
             'welcome': WELCOME_MSG,
+            'template': IMDB_TEMPLATE,
+            'caption': FILE_CAPTION
         }
         chat = await self.grp.find_one({'id':int(id)})
         if chat:
