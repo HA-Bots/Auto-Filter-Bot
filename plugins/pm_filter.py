@@ -673,7 +673,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
             return
         
-        await query.answer(url=f"https://t.me/{temp.U_NAME}?start=all_{pre}_{key}")
+        await query.answer(url=f"https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}")
         
         
 async def auto_filter(client, msg, spoll=False):
