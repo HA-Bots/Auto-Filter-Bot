@@ -120,23 +120,21 @@ async def start(client, message):
             )
         return
         
-    pre, file_id = mc.split("_", 1)
+    pre, grp_id, file_id = mc.split("_", 2)
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
+    settings = await get_settings(grp_id)
     files = files_[0]
     title = files.file_name
     size=get_size(files.file_size)
-    f_caption=files.caption
-    if CUSTOM_FILE_CAPTION:
-        try:
-            f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
-        except Exception as e:
-            logger.exception(e)
-            f_caption=f_caption
-    if f_caption is None:
-        f_caption = f"{files.file_name}"
-
+    CAPTION = settings['caption']
+    f_caption = CAPTION.format(
+        title = files.file_name,
+        size = get_size(files.file_size)
+        caption=files.caption
+    )
+    
     btn = [[
         InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
