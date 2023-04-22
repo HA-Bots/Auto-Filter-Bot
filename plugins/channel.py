@@ -10,6 +10,7 @@ async def media(bot, message):
     """Media Handler"""
     for file_type in ["document", "video"]:
         media = getattr(message, file_type, None)
+        print(media)
         if media.mime_type in ['video/mp4', 'video/x-matroska']:
             media.file_type = file_type
             media.caption = message.caption
