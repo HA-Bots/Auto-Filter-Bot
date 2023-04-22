@@ -9,7 +9,7 @@ media_filter = filters.document | filters.video
 async def media(bot, message):
     print(message)
     """Media Handler"""
-    for msg in message:
+    async for msg in message:
         media = getattr(msg, msg.media.value, None)
 
       #  if media.mime_type not in ['video/mp4', 'video/x-matroska']:  # Non .mp4 and .mkv files are skipped
