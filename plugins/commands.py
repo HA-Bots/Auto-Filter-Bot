@@ -92,21 +92,17 @@ async def start(client, message):
 
     mc = message.command[1]
     if mc.startswith('all'):
-        _, pre, key = mc.split("_", 2)
+        _, grp_id, pre, key = mc.split("_", 3)
         files = temp.FILES.get(key)
         for file in files:
-            title = file.file_name
-            size=get_size(file.file_size)
-            f_caption=file.caption
-            if CUSTOM_FILE_CAPTION:
-                try:
-                    f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
-                except Exception as e:
-                    logger.exception(e)
-                    f_caption=f_caption
-            if f_caption is None:
-                f_caption = f"{file.file_name}"
-                
+            settings = await get_settings(grp_id)
+            CAPTION = settings['caption']
+            f_caption = CAPTION.format(
+                title = files.file_name,
+                size = get_size(files.file_size)
+                caption=files.caption
+            )
+            
             btn = [[
                 InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
                 InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
@@ -126,8 +122,6 @@ async def start(client, message):
         return await message.reply('No Such File Exist!')
     settings = await get_settings(grp_id)
     files = files_[0]
-    title = files.file_name
-    size=get_size(files.file_size)
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         title = files.file_name,
