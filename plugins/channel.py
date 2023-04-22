@@ -12,6 +12,6 @@ async def media(bot, message):
     if media.mime_type in ['video/mp4', 'video/x-matroska']:
 
 
-        media.file_type = file_type
+        media.file_type = message.media.value
         media.caption = message.caption
         await save_file(media)
