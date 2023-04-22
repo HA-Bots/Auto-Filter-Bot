@@ -8,10 +8,9 @@ media_filter = filters.document | filters.video
 @Client.on_message(filters.chat(INDEX_CHANNELS) & media_filter)
 async def media(bot, message):
     """Media Handler"""
-    for file_type in ("document", "video"):
-        media = getattr(message, file_type, None)
-        print(media)
-        print(message)
+    for msg in message:
+        media = getattr(msg, msg.media.value, None)
+
       #  if media.mime_type not in ['video/mp4', 'video/x-matroska']:  # Non .mp4 and .mkv files are skipped
          #   continue
         if media is not None:
@@ -21,5 +20,5 @@ async def media(bot, message):
         return
 
     media.file_type = file_type
-    media.caption = message.caption
+    media.caption = msg.caption
     await save_file(media)
