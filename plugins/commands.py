@@ -413,7 +413,7 @@ async def save_caption(client, message):
         return await message.reply_text("Command Incomplete!")
     
     await save_group_settings(grp_id, 'caption', caption)
-    await sts.edit(f"Successfully changed caption for {title} to\n\n{caption}")
+    await message.reply_text(f"Successfully changed caption for {title} to\n\n{caption}")
     
     
 @Client.on_message(filters.command('delete') & filters.user(ADMINS))
