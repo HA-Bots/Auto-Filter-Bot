@@ -368,7 +368,7 @@ async def save_template(client, message):
         return await message.reply_text("Command Incomplete!")
     
     await save_group_settings(grp_id, 'template', template)
-    await sts.edit(f"Successfully changed template for {title} to\n\n{template}")
+    await message.reply_text(f"Successfully changed template for {title} to\n\n{template}")
     
     
 @Client.on_message(filters.command('set_caption'))
