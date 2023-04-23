@@ -51,7 +51,7 @@
 * `API_HASH`: Get this value from [telegram.org](https://my.telegram.org/apps)
 * `INDEX_CHANNELS`: Username or ID of channel or group. Separate multiple IDs by space
 * `ADMINS`: Username or ID of Admin. Separate multiple Admins by space
-* `DATABASE_URI`: [mongoDB](https://www.mongodb.com) URI. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/JIoU6Mhv308)
+* `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/JIoU6Mhv308)
 * `DATABASE_NAME`: Name of the database in [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/JIoU6Mhv308)
 * `LOG_CHANNEL` : A channel to log the activities of bot. Make sure bot is an admin in the channel.
 ### Optional Variables
