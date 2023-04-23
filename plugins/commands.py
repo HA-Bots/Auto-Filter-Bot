@@ -94,13 +94,13 @@ async def start(client, message):
     if mc.startswith('all'):
         _, grp_id, pre, key = mc.split("_", 3)
         files = temp.FILES.get(key)
+        settings = await get_settings(grp_id)
         for file in files:
-            settings = await get_settings(grp_id)
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
-                file_name = files.file_name,
-                file_size = get_size(files.file_size),
-                file_caption=files.caption
+                file_name = file.file_name,
+                file_size = get_size(file.file_size),
+                file_caption=file.caption
             )
             
             btn = [[
