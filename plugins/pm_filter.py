@@ -13,7 +13,7 @@ from info import ADMINS, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, get_poster, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, get_shortlink, get_poster, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results, get_delete_files
 import logging
