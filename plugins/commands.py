@@ -238,16 +238,6 @@ async def settings(client, message):
             ],
             [
                 InlineKeyboardButton(
-                    'Filter Button',
-                    callback_data=f'setgs#button#{settings["button"]}#{grp_id}'
-                ),
-                InlineKeyboardButton(
-                    'Single' if settings["button"] else 'Double',
-                    callback_data=f'setgs#button#{settings["button"]}#{grp_id}'
-                )
-            ],
-            [
-                InlineKeyboardButton(
                     'File Secure',
                     callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}'
                 ),
