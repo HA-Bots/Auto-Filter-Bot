@@ -114,7 +114,7 @@ async def next_page(bot, query):
                 [InlineKeyboardButton("🎈 Send All 🎈", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{pre}_{key}'))]
             )    
         except:
-            await message.reply(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
+            await query.message.edit_text(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
     else:
         btn = [
             [
