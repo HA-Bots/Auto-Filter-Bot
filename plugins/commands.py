@@ -566,34 +566,13 @@ async def delete(bot, message):
     
     
 
-@Client.on_message(filters.command('deleteall'))
+@Client.on_message(filters.command('delete_all') & filters.user(ADMINS))
 async def delete_all_index(bot, message):
-    if message.from_user.id not in ADMINS:
-        await message.reply('ᴏɴʟʏ ᴛʜᴇ ʙᴏᴛ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ... 😑')
-        return
-    await message.reply_text(
-        '<b>ᴛʜɪs ᴡɪʟʟ ᴅᴇʟᴇᴛᴇ ᴀʟʟ ɪɴᴅᴇxᴇᴅ ꜰɪʟᴇs.\nᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ??</b>',
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="ʏᴇs", callback_data="autofilter_delete"
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="ᴄᴀɴᴄᴇʟ", callback_data="close_data"
-                    )
-                ],
-            ]
-        ),
-        quote=True,
-    )
-
-
-@Client.on_callback_query(filters.regex(r'^autofilter_delete'))
-async def delete_all_index_confirm(bot, message):
-    await Media.collection.drop()
-    await message.answer('wait...')
-    await message.message.edit('<b>sᴜᴄᴄᴇsꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ᴛʜᴇ ɪɴᴅᴇxᴇᴅ ꜰɪʟᴇs</b>')
+    btn = [[
+        InlineKeyboardButton(text="YES", callback_data="delete_all")
+    ],[
+        InlineKeyboardButton(text="CLOSE", callback_data="close_data")
+    ]]
+    files = await Media.count_documents()
+    await message.reply_text(f'Total {files} files have.\nDo you want to delete all?', reply_markup=InlineKeyboardMarkup(btn))
 
