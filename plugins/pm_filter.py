@@ -97,9 +97,9 @@ async def next_page(bot, query):
 
     if not files:
         return
+    temp.FILES[key] = files
     settings = await get_settings(query.message.chat.id)
     pre = 'filep' if settings['file_secure'] else 'file'
-    if settings["shortlink"]:
         try:
             btn = [
                 [
@@ -109,6 +109,9 @@ async def next_page(bot, query):
                 ]
                 for file in files
             ]
+            btn.insert(0,
+                [InlineKeyboardButton("🎈 Send All 🎈", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{pre}_{key}'))]
+            )    
         except:
             await message.reply(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
     else:
@@ -120,10 +123,9 @@ async def next_page(bot, query):
             ]
             for file in files
         ]
-    temp.FILES[key] = files
-    btn.insert(0,
-        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
-    )
+        btn.insert(0,
+            [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
+        )
 
     if 0 < offset <= 10:
         off_set = 0
@@ -696,6 +698,8 @@ async def auto_filter(client, msg, spoll=False):
     if spoll:
         await msg.message.delete()
     pre = 'filep' if settings['file_secure'] else 'file'
+    key = f"{message.chat.id}-{message.id}"
+    temp.FILES[key] = files
     if settings["shortlink"]:
         try:
             btn = [
@@ -706,6 +710,9 @@ async def auto_filter(client, msg, spoll=False):
                 ]
                 for file in files
             ]
+            btn.insert(0,
+                [InlineKeyboardButton("🎈 Send All 🎈", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{pre}_{key}'))]
+            )    
         except:
             await message.reply(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
     else:
@@ -717,11 +724,9 @@ async def auto_filter(client, msg, spoll=False):
             ]
             for file in files
         ]
-    key = f"{message.chat.id}-{message.id}"
-    temp.FILES[key] = files
-    btn.insert(0,
-        [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
-    )
+        btn.insert(0,
+            [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
+        )
 
     if offset != "":
         BUTTONS[key] = search
