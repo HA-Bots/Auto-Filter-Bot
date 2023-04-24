@@ -41,7 +41,12 @@ async def new_grp_msg(bot, message):
         settings = await get_settings(message.chat.id)
         if settings["welcome"]:
             for u in message.new_chat_members:
-                await message.reply(f"<b>Hey , {u.mention}, Welcome to {message.chat.title}</b>")
+                WELCOME = settings['welcome_text']
+                welcome_msg = WELCOME.format(
+                    mention = u.mention,
+                    title = message.chat.title
+                )
+                await message.reply(welcome_msg)
                 
 
 @Client.on_message(filters.command('leave') & filters.user(ADMINS))
