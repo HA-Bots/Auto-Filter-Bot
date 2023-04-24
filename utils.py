@@ -209,9 +209,6 @@ async def get_shortlink(group_id, link, bot):
     url = settings['url']
     api = settings['api']
     shortzy = Shortzy(api_key=api, base_site=url)
-    try:
-        link = await shortzy.convert(link)
-        return link
-    except:
-        await bot.send_message(group_id, 'Error in shortlink!')
-    
+
+    link = await shortzy.convert(link)
+    return link
