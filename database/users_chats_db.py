@@ -1,5 +1,5 @@
 import motor.motor_asyncio
-from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SINGLE_BUTTON, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
+from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
 
 class Database:
     
@@ -108,7 +108,6 @@ class Database:
     async def get_settings(self, id):
         default = {
             'auto_filter': AUTO_FILTER,
-            'button': SINGLE_BUTTON,
             'file_secure': PROTECT_CONTENT,
             'imdb': IMDB,
             'spell_check': SPELL_CHECK,
