@@ -99,11 +99,11 @@ async def next_page(bot, query):
         return
     settings = await get_settings(query.message.chat.id)
     pre = 'filep' if settings['file_secure'] else 'file'
-    if settings['button']:
+    if settings["shortlink"]:
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}'
+                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}', bot)
                 )
             ]
             for file in files
@@ -112,11 +112,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)}",
-                    callback_data=f'{pre}#{file.file_id}',
-                ),
-                InlineKeyboardButton(
-                    text=f"⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}'
+                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}',
                 )
             ]
             for file in files
@@ -450,12 +446,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
                                          callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{str(grp_id)}')
                 ],
                 [
-                    InlineKeyboardButton('Filter Button',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('Single' if settings["button"] else 'Double',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
-                ],
-                [
                     InlineKeyboardButton('File Secure',
                                          callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No',
@@ -481,6 +471,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
                                          callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Shortlink', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["shortlink"] else '❌ No',
+                                         callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}')
                 ],
                 [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
@@ -532,12 +527,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
                                          callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{str(grp_id)}')
                 ],
                 [
-                    InlineKeyboardButton('Filter Button',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('Single' if settings["button"] else 'Double',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
-                ],
-                [
                     InlineKeyboardButton('File Secure',
                                          callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No',
@@ -563,6 +552,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
                                          callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Shortlink', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["shortlink"] else '❌ No',
+                                         callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}')
                 ],
                 [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
@@ -610,12 +604,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
                                          callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{str(grp_id)}')
                 ],
                 [
-                    InlineKeyboardButton('Filter Button',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('Single' if settings["button"] else 'Double',
-                                         callback_data=f'setgs#button#{settings["button"]}#{str(grp_id)}')
-                ],
-                [
                     InlineKeyboardButton('File Secure',
                                          callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No',
@@ -641,6 +629,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
                                          callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Shortlink', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["shortlink"] else '❌ No',
+                                         callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}')
                 ],
                 [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
@@ -700,11 +693,11 @@ async def auto_filter(client, msg, spoll=False):
     if spoll:
         await msg.message.delete()
     pre = 'filep' if settings['file_secure'] else 'file'
-    if settings["button"]:
+    if settings["shortlink"]:
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}'
+                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}', client)
                 )
             ]
             for file in files
@@ -713,12 +706,7 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)}",
-                    callback_data=f'{pre}#{file.file_id}',
-                ),
-                InlineKeyboardButton(
-                    text=f"⚡️ {file.file_name}",
-                    callback_data=f'{pre}#{file.file_id}',
+                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}',
                 )
             ]
             for file in files
