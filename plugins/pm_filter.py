@@ -660,7 +660,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await query.message.edit_text("Nothing to delete files")
 
-
+    elif query.data.startswith("delete_all"):
+        files = await Media.count_documents()
+        await query.answer('Deleting...')
+        await Media.collection.drop()
+        await query.message.edit_text(f"Successfully deleted {files} files")
+        
+        
     elif query.data.startswith("send_all"):
         ident, pre, key = query.data.split("#")
         user = query.message.reply_to_message.from_user.id
