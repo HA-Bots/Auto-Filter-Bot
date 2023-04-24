@@ -566,7 +566,29 @@ async def delete(bot, message):
     
     
 
-
+@Client.on_message(filters.command('deleteall'))
+async def delete_all_index(bot, message):
+    if message.from_user.id not in ADMINS:
+        await message.reply('ᴏɴʟʏ ᴛʜᴇ ʙᴏᴛ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ... 😑')
+        return
+    await message.reply_text(
+        '<b>ᴛʜɪs ᴡɪʟʟ ᴅᴇʟᴇᴛᴇ ᴀʟʟ ɪɴᴅᴇxᴇᴅ ꜰɪʟᴇs.\nᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ??</b>',
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="ʏᴇs", callback_data="autofilter_delete"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="ᴄᴀɴᴄᴇʟ", callback_data="close_data"
+                    )
+                ],
+            ]
+        ),
+        quote=True,
+    )
 
 
 
