@@ -13,6 +13,7 @@ from typing import List
 from database.users_chats_db import db
 from bs4 import BeautifulSoup
 import requests
+from shortzy import Shortzy
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -202,3 +203,15 @@ def list_to_str(k):
     else:
         return ' '.join(f'{elem}, ' for elem in k)
 
+    
+async def get_shortlink(group_id, link, bot):
+    settings = await get_settings(group_id)
+    url = settings['url']
+    api = settings['api']
+    shortzy = Shortzy(api_key=api, base_site=url)
+    try:
+        link = await shortzy.convert(link)
+        return link
+    except:
+        await bot.send_message(group_id, 'Error in shortlink!')
+    
