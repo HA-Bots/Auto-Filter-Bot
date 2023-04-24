@@ -100,14 +100,17 @@ async def next_page(bot, query):
     settings = await get_settings(query.message.chat.id)
     pre = 'filep' if settings['file_secure'] else 'file'
     if settings["shortlink"]:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}')
-                )
+        try:
+            btn = [
+                [
+                    InlineKeyboardButton(
+                        text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}')
+                    )
+                ]
+                for file in files
             ]
-            for file in files
-        ]
+        except:
+            await message.reply(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
     else:
         btn = [
             [
