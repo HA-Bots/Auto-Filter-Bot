@@ -103,7 +103,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}', bot)
+                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}')
                 )
             ]
             for file in files
@@ -694,14 +694,17 @@ async def auto_filter(client, msg, spoll=False):
         await msg.message.delete()
     pre = 'filep' if settings['file_secure'] else 'file'
     if settings["shortlink"]:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}', client)
-                )
+        try:
+            btn = [
+                [
+                    InlineKeyboardButton(
+                        text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}')
+                    )
+                ]
+                for file in files
             ]
-            for file in files
-        ]
+        except:
+            await message.reply(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
     else:
         btn = [
             [
