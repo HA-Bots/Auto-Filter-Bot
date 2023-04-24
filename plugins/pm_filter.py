@@ -100,6 +100,7 @@ async def next_page(bot, query):
     temp.FILES[key] = files
     settings = await get_settings(query.message.chat.id)
     pre = 'filep' if settings['file_secure'] else 'file'
+    if settings["shortlink"]:
         try:
             btn = [
                 [
