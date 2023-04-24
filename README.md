@@ -9,6 +9,7 @@
 
 
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
+- [x] all group admins earn through bot
 - [x] send all button features
 - [x] auto remove other username from files
 - [x] render & heroku & koyeb support repo
