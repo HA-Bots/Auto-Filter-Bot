@@ -553,18 +553,21 @@ async def save_welcome(client, message):
     
 @Client.on_message(filters.command('delete') & filters.user(ADMINS))
 async def delete(bot, message):
-    try:
-        query = message.text.split(" ", 1)[1]
-    except:
-        return await message.reply_text("Command Incomplete!")
-    
-    files, total_results = await get_delete_files(query)
+    msg = await message.reply_text('Fetching...')
+    srt = await Media.count_documents({'mime_type': 'application/x-subrip'})
+    avi = await Media.count_documents({'mime_type': 'video/x-msvideo'})
+    zip = await Media.count_documents({'mime_type': 'application/zip'})
+    rar = await Media.count_documents({'mime_type': 'application/x-rar-compressed'})
     btn = [[
-        InlineKeyboardButton("YES", callback_data=f"delete_files#{query}")
+        InlineKeyboardButton(f"SRT ({srt})", callback_data="srt_delete"),
+        InlineKeyboardButton(f"AVI ({avi})", callback_data="avi_delete"),
+    ],[
+        InlineKeyboardButton(f"ZIP ({zip})", callback_data="zip_delete"),
+        InlineKeyboardButton(f"RAR ({rar})", callback_data="rar_delete")
     ],[
         InlineKeyboardButton("CLOSE", callback_data="close_data")
     ]]
-    await message.reply_text(f"Total {total_results} found in your query {query}\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
+    await msg.edit('Choose do you want to delete file type?', reply_markup=InlineKeyboardMarkup(btn))
     
     
 
