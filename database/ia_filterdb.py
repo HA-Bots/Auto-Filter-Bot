@@ -109,25 +109,6 @@ async def get_search_results(query, file_type=None, max_results=10, offset=0, fi
     files = await cursor.to_list(length=max_results)
 
     return files, next_offset, total_results
-
-
-async def get_delete_files(query):
-    query = query.strip()
-    if not query:
-        raw_pattern = '.'
-    elif ' ' not in query:
-        raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
-    else:
-        raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
-    
-    try:
-        regex = re.compile(raw_pattern, flags=re.IGNORECASE)
-    except:
-        return []
-
-    files = {'file_name': regex}
-    total_results = await Media.count_documents(files)
-    return files, total_results
     
     
 async def get_file_details(query):
