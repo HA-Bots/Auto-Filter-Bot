@@ -650,16 +650,38 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit_reply_markup(reply_markup)
 
 
-    elif query.data.startswith("delete_files"):
-        ident, search = query.data.split("#")
+    elif query.data == "srt_delete":
         await query.message.edit_text("Deleting...")
-        files, total_results = await get_delete_files(search)
-        result = await Media.collection.delete_many(files)
+        result = await Media.collection.delete_many({'mime_type': 'application/x-subrip'})
         if result.deleted_count:
-            await query.message.edit_text(f"Successfully deleted {total_results} files")
+            await query.message.edit_text(f"Successfully deleted srt files")
         else:
             await query.message.edit_text("Nothing to delete files")
 
+    elif query.data == "avi_delete":
+        await query.message.edit_text("Deleting...")
+        result = await Media.collection.delete_many({'mime_type': 'video/x-msvideo'})
+        if result.deleted_count:
+            await query.message.edit_text(f"Successfully deleted avi files")
+        else:
+            await query.message.edit_text("Nothing to delete files")
+            
+    elif query.data == "zip_delete":
+        await query.message.edit_text("Deleting...")
+        result = await Media.collection.delete_many({'mime_type': 'application/zip'})
+        if result.deleted_count:
+            await query.message.edit_text(f"Successfully deleted zip files")
+        else:
+            await query.message.edit_text("Nothing to delete files")
+            
+    elif query.data == "rar_delete":
+        await query.message.edit_text("Deleting...")
+        result = await Media.collection.delete_many({'mime_type': 'application/x-rar-compressed'})
+        if result.deleted_count:
+            await query.message.edit_text(f"Successfully deleted rar files")
+        else:
+            await query.message.edit_text("Nothing to delete files")
+            
     elif query.data.startswith("delete_all"):
         files = await Media.count_documents()
         await query.answer('Deleting...')
