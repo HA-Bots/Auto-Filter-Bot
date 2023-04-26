@@ -708,6 +708,7 @@ async def auto_filter(client, msg, spoll=False):
     key = f"{message.chat.id}-{message.id}"
     temp.FILES[key] = files
     if settings["shortlink"]:
+        g = await message.reply('Generating Shortlinks...')
         try:
             btn = [
                 [
@@ -719,9 +720,10 @@ async def auto_filter(client, msg, spoll=False):
             ]
             btn.insert(0,
                 [InlineKeyboardButton("🎈 Send All 🎈", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{pre}_{key}'))]
-            )    
+            )
+            await g.delete()
         except:
-            await message.reply(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
+            await g.edit(f"Error in shortlink!\nSupport group - {SUPPORT_LINK}")
     else:
         btn = [
             [
