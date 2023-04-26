@@ -137,9 +137,6 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                 if not media:
                     unsupported += 1
                     continue
-                elif media.mime_type not in ['video/mp4', 'video/x-matroska']:  # Non .mp4 and .mkv files are skipped
-                    unsupported += 1
-                    continue
                 media.file_type = message.media.value
                 media.caption = message.caption
                 aynav, vnay = await save_file(media)
