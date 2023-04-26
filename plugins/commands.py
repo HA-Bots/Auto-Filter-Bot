@@ -7,7 +7,7 @@ from Script import script
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_delete_files
+from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, PROTECT_CONTENT
 from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
