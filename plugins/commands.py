@@ -94,6 +94,8 @@ async def start(client, message):
     if mc.startswith('all'):
         _, grp_id, pre, key = mc.split("_", 3)
         files = temp.FILES.get(key)
+        if not files:
+            return await message.reply('No Such All Files Exist!')
         settings = await get_settings(grp_id)
         for file in files:
             CAPTION = settings['caption']
