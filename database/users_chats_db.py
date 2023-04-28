@@ -122,6 +122,7 @@ class Database:
         }
         chat = await self.grp.find_one({'id':int(id)})
         if chat:
+            await self.update_settings(id, default)
             return chat.get('settings', default)
         return default
     
