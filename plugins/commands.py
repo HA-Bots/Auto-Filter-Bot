@@ -97,7 +97,7 @@ async def start(client, message):
         files = temp.FILES.get(key)
         if not files:
             return await message.reply('No Such All Files Exist!')
-        settings = await get_settings(grp_id)
+        settings = await get_settings(int(grp_id))
         for file in files:
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
@@ -123,7 +123,7 @@ async def start(client, message):
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
-    settings = await get_settings(grp_id)
+    settings = await get_settings(int(grp_id))
     files = files_[0]
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
