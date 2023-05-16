@@ -176,6 +176,14 @@ async def channels_info(bot, message):
         os.remove(file)
 
 
+@Client.on_message(filters.command('logs') & filters.user(ADMINS))
+async def log_file(bot, message):
+    try:
+        await message.reply_document('Logs.txt')
+    except:
+        await message.reply('Not found logs!')
+
+
 @Client.on_message(filters.command('stats'))
 async def stats(bot, message):
     msg = await message.reply('Please Wait...')
