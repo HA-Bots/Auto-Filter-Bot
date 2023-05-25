@@ -591,6 +591,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit("I'm not connected to this group! Check /connections or /connect to this group.")
             return
 
+        if set_type == 'shortlink' and userid not in ADMINS:
+            return await query.answer("You can't change this setting.")
+
         if status == "True":
             await save_group_settings(grpid, set_type, False)
         else:
