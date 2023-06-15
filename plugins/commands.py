@@ -7,7 +7,7 @@ from Script import script
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
+from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, PROTECT_CONTENT
 from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
@@ -586,7 +586,21 @@ async def delete(bot, message):
     await msg.edit('Choose do you want to delete file type?', reply_markup=InlineKeyboardMarkup(btn))
     
     
+@Client.on_message(filters.command('delete_file') & filters.user(ADMINS))
+async def delete_file(bot, message):
+    try:
+        query = message.text.split(" ", 1)[1]
+    except:
+        return await message.reply_text("Command Incomplete!")
+    total, files = await delete_files(query)
+    btn = [[
+        InlineKeyboardButton("YES", callback_data=f"delete_{query}")
+    ],[
+        InlineKeyboardButton("CLOSE", callback_data="close_data")
+    ]]
+    await message.reply_text(f"Total {total} files found.\n\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
 
+    
 @Client.on_message(filters.command('delete_all') & filters.user(ADMINS))
 async def delete_all_index(bot, message):
     btn = [[
