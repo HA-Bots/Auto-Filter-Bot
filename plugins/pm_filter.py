@@ -15,7 +15,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
 from utils import get_size, is_subscribed, get_shortlink, get_poster, temp, get_settings, save_group_settings
 from database.users_chats_db import db
-from database.ia_filterdb import Media, get_file_details, get_search_results
+from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
 
 logger = logging.getLogger(__name__)
@@ -682,12 +682,23 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await query.message.edit_text("Nothing to delete files")
             
-    elif query.data.startswith("delete_all"):
+    elif query.data == "delete_all":
         files = await Media.count_documents()
         await query.answer('Deleting...')
         await Media.collection.drop()
         await query.message.edit_text(f"Successfully deleted {files} files")
         
+
+    elif query.data.startswith("delete"):
+        _, query_ = query.data.split("_")
+        deleted = 0
+        await query.message.edit('Deleting...')
+        total, files = await delete_files(query_)
+        async for file in files:
+            await Media.collection.delete_one({'_id': file['_id']})
+            deleted += 1
+       await query.message.edit(f'Deleted {deleted} files in your database')
+
         
     elif query.data.startswith("send_all"):
         ident, pre, key = query.data.split("#")
