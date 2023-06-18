@@ -599,7 +599,7 @@ async def delete_file(bot, message):
     ],[
         InlineKeyboardButton("CLOSE", callback_data="close_data")
     ]]
-    await msg.edit(f"Total {total} files found.\n\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
+    await msg.edit(f"Total {total} files found in your query {query}.\n\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
 
     
 @Client.on_message(filters.command('delete_all') & filters.user(ADMINS))
