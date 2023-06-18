@@ -594,6 +594,8 @@ async def delete_file(bot, message):
         return await message.reply_text("Command Incomplete!")
     msg = await message.reply_text('Searching...')
     total, files = await delete_files(query)
+    if int(total) == 0:
+        await message.reply_text('Not have files in your query')
     btn = [[
         InlineKeyboardButton("YES", callback_data=f"delete_{query}")
     ],[
