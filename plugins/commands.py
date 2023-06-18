@@ -592,13 +592,14 @@ async def delete_file(bot, message):
         query = message.text.split(" ", 1)[1]
     except:
         return await message.reply_text("Command Incomplete!")
+    msg = await message.reply_text('Searching...')
     total, files = await delete_files(query)
     btn = [[
         InlineKeyboardButton("YES", callback_data=f"delete_{query}")
     ],[
         InlineKeyboardButton("CLOSE", callback_data="close_data")
     ]]
-    await message.reply_text(f"Total {total} files found.\n\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
+    await msg.edit(f"Total {total} files found.\n\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
 
     
 @Client.on_message(filters.command('delete_all') & filters.user(ADMINS))
