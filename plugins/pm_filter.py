@@ -889,8 +889,7 @@ async def auto_filter(client, msg, spoll=False):
             await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
 
 
-async def advantage_spell_chok(msg):
-    message = msg
+async def advantage_spell_chok(message):
     search = message.text
     google_search = search.replace(" ", "+")
     btn = [[
@@ -928,7 +927,7 @@ async def advantage_spell_chok(msg):
     buttons.append(
         [InlineKeyboardButton("❌ Close ❌", callback_data="close_data")]
     )
-    s = await message.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {message.from_user.mention},\n\nI couldn't find the <b>'{search}'</b> you requested.\nSelect if you meant one of these? 👇", reply_markup=InlineKeyboardMarkup(buttons))
+    s = await message.reply_photo(photo=random.choice(PICS), caption=f"👋 Hello {message.from_user.mention},\n\nI couldn't find the <b>'{search}'</b> you requested.\nSelect if you meant one of these? 👇", reply_markup=InlineKeyboardMarkup(buttons), reply_to_message_id=message.id)
     await asyncio.sleep(300)
     await s.delete()
     try:
