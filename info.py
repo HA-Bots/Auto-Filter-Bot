@@ -59,6 +59,7 @@ MAX_LIST_ELM = environ.get("MAX_LIST_ELM", None)
 SHORTLINK_URL = environ.get("SHORTLINK_URL", "mdisklink.link")
 SHORTLINK_API = environ.get("SHORTLINK_API", "5843c3cc645f5077b2200a2c77e0344879880b3e")
 WELCOME_TEXT = environ.get("WELCOME_TEXT", "Hello {mention}, Welcome to {title} group!")
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/SL_Bots_Updates")
                            
 # Log
 LOG_STR = "Current Cusomized Configurations are:-\n"
