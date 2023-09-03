@@ -45,8 +45,7 @@ async def stream_downloader(bot, query):
                 InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=online),
                 InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
             ],[
-                InlineKeyboardButton('ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ', url=UPDATES_LINK),
-                InlineKeyboardButton('sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ', url=SUPPORT_LINK)
+                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]
         ]
     ))
@@ -153,7 +152,7 @@ async def next_page(bot, query):
             [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
         )
     btn.insert(0,
-        [InlineKeyboardButton("🔭 Tutorial 🔭", url=settings['tutorial'])]
+        [InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])]
     )
                
     if 0 < offset <= 10:
@@ -817,7 +816,7 @@ async def auto_filter(client, msg, spoll=False):
             [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
         )
     btn.insert(0,
-        [InlineKeyboardButton("🔭 Tutorial 🔭", url=settings['tutorial'])]
+        [InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])]
     )
     
     if offset != "":
