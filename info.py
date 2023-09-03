@@ -60,6 +60,11 @@ SHORTLINK_URL = environ.get("SHORTLINK_URL", "mdiskshortner.link")
 SHORTLINK_API = environ.get("SHORTLINK_API", "36f1ae74ba1aa01e5bd73bdd0bc22aa915443501")
 WELCOME_TEXT = environ.get("WELCOME_TEXT", "Hello {mention}, Welcome to {title} group!")
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/SL_Bots_Updates")
+
+# stream features vars
+F2LINK_C = environ.get("F2LINK_C", "-1001696019751")
+ON_DWNLD = environ.get("ON_DWNLD", "aks-file-to-link-ashubhskeleton1.koyeb.app")
+ON_WATCH = environ.get("ON_WATCH", "aks-file-to-link-ashubhskeleton1.koyeb.app")
                            
 # Log
 LOG_STR = "Current Cusomized Configurations are:-\n"
