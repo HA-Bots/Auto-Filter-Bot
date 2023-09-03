@@ -117,6 +117,8 @@ async def start(client, message):
             )
             
             btn = [[
+                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f'stream#{file_name}')
+            ],[
                 InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
                 InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
             ]]
@@ -143,6 +145,8 @@ async def start(client, message):
     )
     
     btn = [[
+        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f'stream#{file_name}')
+    ],[
         InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
     ]]
