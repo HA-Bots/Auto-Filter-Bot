@@ -9,7 +9,7 @@ from typing import Union
 import re
 import os
 from datetime import datetime
-from typing import List
+from typing import List, Any
 from database.users_chats_db import db
 from bs4 import BeautifulSoup
 import requests
@@ -232,6 +232,28 @@ def get_file_id(msg: Message):
             if obj:
                 setattr(obj, "message_type", message_type)
                 return obj
+
+#online streaming & fast download features
+def get_media_from_message(message: "Message") -> Any:
+    media_types = (
+        "audio",
+        "document",
+        "photo",
+        "sticker",
+        "animation",
+        "video",
+        "voice",
+        "video_note",
+    )
+    for attr in media_types:
+        media = getattr(message, attr, None)
+        if media:
+            return media
+
+
+def get_hash(media_msg: Message) -> str:
+    media = get_media_from_message(media_msg)
+    return getattr(media, "file_unique_id", "")[:6]
             
             
             
