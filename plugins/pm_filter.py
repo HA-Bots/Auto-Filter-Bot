@@ -8,12 +8,12 @@ from Script import script
 import pyrogram
 from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, \
     make_inactive
-from info import ADMINS, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, PICS, \
+from info import ADMINS, ON_WATCH, ON_DWNLD, F2LINK_C, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, PICS, \
     PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, get_shortlink, get_poster, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, get_hash, get_shortlink, get_poster, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -22,6 +22,31 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
 
 BUTTONS = {}
+
+@Client.on_callback_query(filters.regex(r"^stream"))
+async def stream_downloader(bot, query):
+    file_id = query.data.split('#', 1)[1]
+    files_ = await get_file_details(file_id)
+    files = files_[0]
+    log_channel = F2LINK_C
+    f_caption = f"{files.file_name}"
+    msg = await bot.send_cached_media(
+        chat_id=log_channel,
+        file_id=file_id,
+        caption=f_caption)
+    
+    online = f"https://{ON_WATCH}/watch/{msg.id}?hash={get_hash(msg)}"
+    download = f"https://{ON_DWNLD}/{msg.id}?hash={get_hash(msg)}"
+    
+    await query.edit_message_reply_markup(
+        reply_markup=InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=online),
+                InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
+            ],
+        ]
+    ))
 
 @Client.on_message((filters.group | filters.private) & filters.text & filters.incoming)
 async def give_filter(client, message):
