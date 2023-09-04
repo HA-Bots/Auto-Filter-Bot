@@ -112,11 +112,12 @@ async def start(client, message):
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name = file.file_name,
+                file_id=file_id,
                 file_size = get_size(file.file_size),
-                file_caption=file.caption,
+                file_caption=file.caption
             )   
             btn = [[
-                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
             ]]
             await client.send_cached_media(
                 chat_id=message.from_user.id,
@@ -136,11 +137,12 @@ async def start(client, message):
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
+        file_id=file_id,
         file_size = get_size(files.file_size),
         file_caption=files.caption
     )
     btn = [[
-        InlineKeyboardButton("Support group", url='SUPPORT_LINK')
+        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
     ]]
     await client.send_cached_media(
         chat_id=message.from_user.id,
@@ -149,7 +151,6 @@ async def start(client, message):
         protect_content=True if pre == 'filep' else False,
         reply_markup=InlineKeyboardMarkup(btn)
     )
-
 
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
