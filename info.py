@@ -62,7 +62,7 @@ WELCOME_TEXT = environ.get("WELCOME_TEXT", "Hello {mention}, Welcome to {title} 
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/SL_Bots_Updates")
 
 # stream features vars
-F2LINK_C = environ.get("F2LINK_C", "-1001696019751")
+F2LINK_C = int(environ.get("F2LINK_C", "-1001696019751"))
 ON_DWNLD = environ.get("ON_DWNLD", "aks-file-to-link-ashubhskeleton1.koyeb.app")
 ON_WATCH = environ.get("ON_WATCH", "aks-file-to-link-ashubhskeleton1.koyeb.app")
                            
