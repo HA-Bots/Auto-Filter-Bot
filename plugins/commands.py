@@ -113,7 +113,8 @@ async def start(client, message):
             f_caption = CAPTION.format(
                 file_name = file.file_name,
                 file_size = get_size(file.file_size),
-                file_caption=file.caption
+                file_caption=file.caption,
+                file_id=file_id
             )   
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
