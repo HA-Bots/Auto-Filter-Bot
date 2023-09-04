@@ -136,12 +136,11 @@ async def start(client, message):
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
-        file_id=file_id,
         file_size = get_size(files.file_size),
         file_caption=files.caption
     )
     btn = [[
-        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
+        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
     ]]
     await client.send_cached_media(
         chat_id=message.from_user.id,
