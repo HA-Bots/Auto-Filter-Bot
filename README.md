@@ -50,9 +50,9 @@
 * `AUTH_CHANNEL`: To add force subscriber
 * Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
 
-### Deploy buttons
+### Deploy
 
-<a target="_blank" href="https://heroku.com/deploy/?template=https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/deploy-buttons"><img alt="Deploy to Heroku" src="https://binbashbanana.github.io/deploy-buttons/buttons/remade/heroku.svg"></a>
-
-
-<a target="_blank" href="https://render.com/deploy?repo=https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/deploy-buttons"><img alt="Deploy to Render" src="https://binbashbanana.github.io/deploy-buttons/buttons/remade/render.svg"></a>
+- Heroku:
+Deploy manual using Procfile
+- Render:
+Deploy using Web Service and select Runtime to Docker (Default)
