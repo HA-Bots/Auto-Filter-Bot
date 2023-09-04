@@ -116,7 +116,7 @@ async def start(client, message):
                 file_caption=file.caption
             )   
             btn = [[
-                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
+                InlineKeyboardButton("ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ", url='SUPPORT_LINK')
             ]]
             await client.send_cached_media(
                 chat_id=message.from_user.id,
