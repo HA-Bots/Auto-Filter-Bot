@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
 
 BUTTONS = {}
+CAP = {}
 
 @Client.on_callback_query(filters.regex(r"^stream"))
 async def stream_downloader(bot, query):
@@ -112,6 +113,7 @@ async def next_page(bot, query):
     except:
         offset = 0
     search = BUTTONS.get(key)
+    cap = CAP.get(key)
     if not search:
         await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
         return
@@ -127,27 +129,32 @@ async def next_page(bot, query):
     temp.FILES[key] = files
     settings = await get_settings(query.message.chat.id)
     pre = 'filep' if settings['file_secure'] else 'file'
+    files_link = ''
     if settings["shortlink"]:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}')
-                )
+        if settings['links']:
+            btn = []
+            for file in files:
+                files_link += f"""\n\n<a href={await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a>"""
+        else:
+            btn = [[
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}'))
             ]
-            for file in files
-        ]
+                for file in files
+            ]
         btn.insert(0,
             [InlineKeyboardButton("🎈 Send All 🎈", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}'))]
         )
     else:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}',
-                )
+        if settings['links']:
+            btn = []
+            for file in files:
+                files_link += f"""\n\n<a href=https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a>"""
+        else:
+            btn = [[
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}')
             ]
-            for file in files
-        ]
+                for file in files
+            ]
         btn.insert(0,
             [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
         )
@@ -191,9 +198,7 @@ async def next_page(bot, query):
             ]
         )
     try:
-        await query.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(btn)
-        )
+        await query.message.edit_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn))
     except MessageNotModified:
         pass
 
@@ -791,27 +796,32 @@ async def auto_filter(client, msg, spoll=False):
     pre = 'filep' if settings['file_secure'] else 'file'
     key = f"{message.chat.id}-{message.id}"
     temp.FILES[key] = files
+    files_link = ""
     if settings["shortlink"]:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}')
-                )
+        if settings['links']:
+            btn = []
+            for file in files:
+                files_link += f"""\n\n<a href={await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a>"""
+        else:
+            btn = [[
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}'))
             ]
-            for file in files
-        ]
+                for file in files
+            ]
         btn.insert(0,
             [InlineKeyboardButton("🎈 Send All 🎈", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{pre}_{key}'))]
         )
     else:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}',
-                )
+        if settings['links']:
+            btn = []
+            for file in files:
+                files_link += f"""\n\n<a href=https://t.me/{temp.U_NAME}?start={pre}_{message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a>"""
+        else:
+            btn = [[
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}')
             ]
-            for file in files
-        ]
+                for file in files
+            ]
         btn.insert(0,
             [InlineKeyboardButton("🎈 Send All 🎈", callback_data=f"send_all#{pre}#{key}")]
         )
@@ -872,10 +882,11 @@ async def auto_filter(client, msg, spoll=False):
         )
     else:
         cap = f"✅ I Found: <code>{search}</code>\n\n🗣 Requested by: {message.from_user.mention}\n©️ Powered by: <b>{message.chat.title}</b>"
+    CAP[key] = cap + ("\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>" if settings["auto_delete"] else '')
     if imdb and imdb.get('poster'):
         try:
             if settings["auto_delete"]:
-                k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
+                k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -883,12 +894,12 @@ async def auto_filter(client, msg, spoll=False):
                 except:
                     pass
             else:
-                await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024], reply_markup=InlineKeyboardMarkup(btn))
+                await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
             if settings["auto_delete"]:
-                k = await message.reply_photo(photo=poster, caption=cap[:1024] + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn))
+                k = await message.reply_photo(photo=poster, caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -896,11 +907,11 @@ async def auto_filter(client, msg, spoll=False):
                 except:
                     pass
             else:
-                await message.reply_photo(photo=poster, caption=cap[:1024], reply_markup=InlineKeyboardMarkup(btn))
+                await message.reply_photo(photo=poster, caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
         except Exception as e:
             logger.exception(e)
             if settings["auto_delete"]:
-                k = await message.reply_text(cap + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+                k = await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -908,10 +919,10 @@ async def auto_filter(client, msg, spoll=False):
                 except:
                     pass
             else:
-                await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+                await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
     else:
         if settings["auto_delete"]:
-            k = await message.reply_text(cap + "\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>", reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            k = await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
             await asyncio.sleep(3600)
             await k.delete()
             try:
@@ -919,7 +930,7 @@ async def auto_filter(client, msg, spoll=False):
             except:
                 pass
         else:
-            await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
 
 
 async def advantage_spell_chok(message):
