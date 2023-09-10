@@ -9,6 +9,7 @@
 
 
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
+- [x] hyper text result mode or button mode
 - [x] groups and users broadcast cancel features
 - [x] all group admins earn through bot
 - [x] send all button features
