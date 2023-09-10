@@ -142,8 +142,8 @@ async def next_page(bot, query):
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}')),
-             InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#0#{offset}")]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}')),
+             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#0#{offset}")]
         )
     else:
         if settings['links']:
@@ -254,7 +254,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
         return 
     search = search.replace("_", " ")
-    files, n_offset, total = await get_search_results(f"{search} {lang}", max_results=int(MAX_BTN), offset=offset)
+    files, n_offset, total = await get_search_results(f"{search} {lang}", max_results=10, offset=offset)
     try:
         n_offset = int(n_offset)
     except:
@@ -941,7 +941,9 @@ async def auto_filter(client, msg, spoll=False):
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{pre}_{key}'))]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{pre}_{key}')),
+             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#0#{0}"),
+            ]
         )
     else:
         if settings['links']:
