@@ -142,7 +142,8 @@ async def next_page(bot, query):
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}'))]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}')),
+             InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#0#{offset}")]
         )
     else:
         if settings['links']:
@@ -156,7 +157,8 @@ async def next_page(bot, query):
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{pre}#{key}")]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{pre}#{key}"),
+             InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#0#{offset}")]
         )
     if settings["shortlink"]:
         btn.insert(0,
@@ -202,6 +204,124 @@ async def next_page(bot, query):
         await query.message.edit_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn))
     except MessageNotModified:
         pass
+
+@Client.on_callback_query(filters.regex(r"^languages#"))
+async def languages_cb_handler(client: Client, query: CallbackQuery):
+    req = query.message.reply_to_message.from_user.id
+    if int(req) not in [query.from_user.id, 0]:
+        return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
+
+    _, key, offset, orginal_offset = query.data.split("#")
+    orginal_offset = int(orginal_offset)
+    langs = ['english', 'tamil', 'hindi', 'malayalam', 'telugu']
+    btn = [
+        [
+            InlineKeyboardButton(
+                text=lang.title(),
+                callback_data=f"fl#{lang.lower()}#{key}#{offset}#{orginal_offset}"
+                ),
+        ]
+        for lang in langs
+    ]
+    btn.insert(
+        0,
+        [
+            InlineKeyboardButton(
+                text="👇🏻 sᴇʟᴇᴄᴛ ʏᴏᴜʀ ʟᴀɴɢᴜᴀɢᴇ 👇🏻", callback_data="laninfo"
+            )
+        ],
+    )
+
+    btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
+    settings = await get_settings(query.message.chat.id)
+    if settings["links"]:
+        await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ ʟᴀɴɢᴜᴀɢᴇ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, sᴇʟᴇᴄᴛ ʜᴇʀᴇ</b>", disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
+        return
+    d = await query.edit_message_reply_markup(InlineKeyboardMarkup(btn))
+    await asyncio.sleep(600)
+    await d.delete()
+
+@Client.on_callback_query(filters.regex(r"^fl#"))
+async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
+    _, lang, key, offset, orginal_offset = query.data.split("#")
+    req = query.message.reply_to_message.from_user.id
+    if int(req) not in [query.message.reply_to_message.from_user.id, 0]:
+        return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
+    offset = int(offset)
+    search = BUTTONS.get(key)
+    cap = CAP.get(key)
+    if not search:
+        await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
+        return 
+    search = search.replace("_", " ")
+    files, n_offset, total = await get_search_results(f"{search} {lang}", max_results=int(MAX_BTN), offset=offset)
+    try:
+        n_offset = int(n_offset)
+    except:
+        n_offset = 0
+    files = [file for file in files if re.search(lang, file.file_name, re.IGNORECASE)]
+    if not files:
+        await query.answer(f"sᴏʀʀʏ '{lang.title()}' ʟᴀɴɢᴜᴀɢᴇ ꜰɪʟᴇs ɴᴏᴛ ꜰᴏᴜɴᴅ 😕", show_alert=1)
+        return
+    reqnxt = query.from_user.id if query.from_user else 0
+    settings = await get_settings(query.message.chat.id)
+    group_id = query.message.chat.id
+    if settings["shortlink"]:
+        if settings["links"]:
+            btn = []
+            for file in files:
+                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+        else:
+            btn = [[
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}'))
+            ]
+                for file in files
+            ]
+            btn.insert(0,
+                [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}'))]
+            )
+    else:
+        if settings['links']:
+            btn = []
+            for file in files:
+                files_link += f"""<b>\n\n‼️ <a href=https://t.me/{temp.U_NAME}?start={pre}_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+        else:
+            btn = [[
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'{pre}#{file.file_id}')
+            ]
+                for file in files
+            ]
+        btn.insert(0,
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{pre}#{key}")]
+        )
+    if settings["shortlink"]:
+        btn.insert(0,
+                   [InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])]
+                  )
+    
+    if n_offset == 0:
+        btn.append(
+            [InlineKeyboardButton("⪻ ʙᴀᴄᴋ", callback_data=f"fl#{lang}#{key}#{offset}#{orginal_offset}"),
+             InlineKeyboardButton(f"{math.ceil(offset / 10) + 1} / {math.ceil(total / 10)}",callback_data="buttons",),
+            ])
+    elif offset is None:
+        btn.append(
+            [InlineKeyboardButton(text="ᴘᴀɢᴇꜱ ", callback_data="buttons"),
+             InlineKeyboardButton(f"{math.ceil(offset / 10) + 1} / {math.ceil(total / 10)}",callback_data="buttons",),
+             InlineKeyboardButton("ɴᴇxᴛ ⪼", callback_data=f"fl#{lang}#{key}#{n_offset}#{orginal_offset}"),])
+    else:
+        btn.append(
+            [InlineKeyboardButton("⪻ ʙᴀᴄᴋ", callback_data=f"fl#{lang}#{key}#{offset- 10}#{orginal_offset}"),
+             InlineKeyboardButton(f"{math.ceil(offset / 10) + 1} / {math.ceil(total / 10)}",callback_data="buttons",),
+             InlineKeyboardButton("ɴᴇxᴛ ⪼", callback_data=f"fl#{lang}#{key}#{n_offset}#{orginal_offset}"),])
+
+    btn.append([
+        InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"fl_{req}_{key}_{orginal_offset}"),
+    ])  
+
+    await query.message.edit_text(cap + files_link, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
+        return
+    await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
 
 
 @Client.on_callback_query(filters.regex(r"^spolling"))
@@ -839,8 +959,10 @@ async def auto_filter(client, msg, spoll=False):
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{pre}#{key}")]
-        )
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{pre}#{key}"),
+             InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#0#{0}"),
+             ]
+         )
     if settings["shortlink"]:
         btn.insert(0,
                    [InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])]
