@@ -317,12 +317,8 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
 
     btn.append([
         InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"fl_{req}_{key}_{orginal_offset}"),
-    ])  
-
+    ])
     await query.message.edit_text(cap + files_link, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
-        return
-    await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
-
 
 @Client.on_callback_query(filters.regex(r"^spolling"))
 async def advantage_spoll_choker(bot, query):
