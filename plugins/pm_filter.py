@@ -207,8 +207,8 @@ async def next_page(bot, query):
 
 @Client.on_callback_query(filters.regex(r"^languages#"))
 async def languages_cb_handler(client: Client, query: CallbackQuery):
-    req = query.message.reply_to_message.from_user.id
-    if int(req) not in [query.from_user.id, 0]:
+    req = query.from_user.id
+    if int(req) not in [query.message.reply_to_message.from_user.id, 0]:
         return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
 
     _, key, offset, orginal_offset = query.data.split("#")
