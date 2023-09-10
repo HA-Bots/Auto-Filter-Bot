@@ -537,6 +537,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                                          callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}')
                 ],
                 [
+                    InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('Link' if settings["links"] else 'Button',
+                                         callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
+                ],
+                [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
                 ]
             ]
@@ -618,6 +623,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                                          callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}')
                 ],
                 [
+                    InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('Link' if settings["links"] else 'Button',
+                                         callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
+                ],
+                [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
                 ]
             ]
@@ -696,6 +706,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('Shortlink', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}'),
                     InlineKeyboardButton('✅ Yes' if settings["shortlink"] else '❌ No',
                                          callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('Link' if settings["links"] else 'Button',
+                                         callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
                 ],
                 [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
