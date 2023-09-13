@@ -159,7 +159,7 @@ async def channels_info(bot, message):
     elif isinstance(INDEX_CHANNELS, list):
         channels = INDEX_CHANNELS
     else:
-        raise ValueError("Unexpected type of index channels")
+        return await message.reply("Unexpected type of index channels")
 
     text = '**Indexed Channels:**\n'
     for channel in channels:
