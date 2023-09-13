@@ -236,6 +236,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
 
     search = BUTTONS.get(key)
     cap = CAP.get(key)
+    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>1 hours</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else '')
     if not search:
         await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
         return 
@@ -290,7 +291,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         btn.append(
             [InlineKeyboardButton(text="🚸 ɴᴏ ᴍᴏʀᴇ ᴘᴀɢᴇs 🚸", callback_data="buttons")]
         )
-    await query.message.edit_text(cap + files_link, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
+    await query.message.edit_text(cap + files_link + del_msg, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
 
 
 @Client.on_callback_query(filters.regex(r"^lang_next"))
@@ -1081,12 +1082,13 @@ async def auto_filter(client, msg, spoll=False):
             **locals()
         )
     else:
-        cap = f"✅ I Found: <code>{search}</code>\n\n🗣 Requested by: {message.from_user.mention}\n©️ Powered by: <b>{message.chat.title}</b>"
-    CAP[key] = cap + ("\n\n<i>⚠️ This message will be auto delete after One Hours to avoid copyright issues.</i>" if settings["auto_delete"] else '')
+        cap = script.IMDB_OFF.format(message.from_user.mention, search, message.chat.title)
+    CAP[key] = cap
+    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>1 hours</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else '')
     if imdb and imdb.get('poster'):
         try:
             if settings["auto_delete"]:
-                k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
+                k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn))
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -1094,12 +1096,12 @@ async def auto_filter(client, msg, spoll=False):
                 except:
                     pass
             else:
-                await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
+                await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn))
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
             if settings["auto_delete"]:
-                k = await message.reply_photo(photo=poster, caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
+                k = await message.reply_photo(photo=poster, caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn))
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -1107,11 +1109,11 @@ async def auto_filter(client, msg, spoll=False):
                 except:
                     pass
             else:
-                await message.reply_photo(photo=poster, caption=cap[:1024] + files_link, reply_markup=InlineKeyboardMarkup(btn))
+                await message.reply_photo(photo=poster, caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn))
         except Exception as e:
             logger.exception(e)
             if settings["auto_delete"]:
-                k = await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+                k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
                 await asyncio.sleep(3600)
                 await k.delete()
                 try:
@@ -1119,10 +1121,10 @@ async def auto_filter(client, msg, spoll=False):
                 except:
                     pass
             else:
-                await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+                await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
     else:
         if settings["auto_delete"]:
-            k = await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
             await asyncio.sleep(3600)
             await k.delete()
             try:
@@ -1130,7 +1132,7 @@ async def auto_filter(client, msg, spoll=False):
             except:
                 pass
         else:
-            await message.reply_text(cap + files_link, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+            await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
 
 
 async def advantage_spell_chok(message):
