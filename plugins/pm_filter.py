@@ -993,6 +993,7 @@ async def auto_filter(client, msg, spoll=False):
     if spoll:
         await msg.message.delete()
     pre = 'filep' if settings['file_secure'] else 'file'
+    req = message.from_user.id if message.from_user else 0
     key = f"{message.chat.id}-{message.id}"
     temp.FILES[key] = files
     files_link = ""
