@@ -143,7 +143,7 @@ async def next_page(bot, query):
             ]
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{pre}_{key}')),
-             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}")]
+            ]
         )
     else:
         if settings['links']:
@@ -158,13 +158,15 @@ async def next_page(bot, query):
             ]
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{pre}#{key}"),
-             InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}")]
         )
     if settings["shortlink"]:
         btn.insert(0,
                    [InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])]
                   )
-               
+    btn.insert(0,
+              InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#{req}#{offset}")]
+              )
+    
     if 0 < offset <= 10:
         off_set = 0
     elif offset == 0:
