@@ -318,7 +318,8 @@ async def lang_next_page(bot, query):
         return 
 
     settings = await get_settings(query.message.chat.id)
-    files, n_offset, total = await get_search_results(search, offset=l_offset, filter=True)
+    files, n_offset, total = await get_search_results(f"{search} {lang}", filter=True, offset=l_offset)
+    files = [file for file in files if re.search(lang, file.file_name, re.IGNORECASE)]
     if not files:
         return
     try:
