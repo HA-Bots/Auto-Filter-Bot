@@ -66,7 +66,7 @@ async def save_file(media):
 
 
 
-async def get_search_results(query, file_type=None, max_results=10, offset=0, filter=False, lang=True):
+async def get_search_results(query, file_type=None, max_results=10, offset=0, filter=False, lang=False):
     """For given query return (results, next_offset)"""
 
     query = query.strip()
@@ -91,6 +91,8 @@ async def get_search_results(query, file_type=None, max_results=10, offset=0, fi
     else:
         filter = {'file_name': regex}
 
+    if lang:
+        filter = {"file_name": {"$regex": f"^{regex}"}}
     if file_type:
         filter['file_type'] = file_type
 
@@ -100,10 +102,7 @@ async def get_search_results(query, file_type=None, max_results=10, offset=0, fi
     if next_offset > total_results:
         next_offset = ''
 
-    if not lang:
-        cursor = Media.find(filter)
-    else:
-        cursor = Media.find({"file_name": {"$regex": f"^{regex}"}})
+    cursor = Media.find(filter)
     # Sort by recent
     cursor.sort('$natural', -1)
     # Slice files according to offset and max results
