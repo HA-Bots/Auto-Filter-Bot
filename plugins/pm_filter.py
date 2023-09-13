@@ -242,7 +242,6 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         return 
 
     files, l_offset, total_results = await get_search_results(f"{search} {lang}", filter=True, lang=True)
-    files = [file for file in files if re.search(lang, file.file_name, re.IGNORECASE)]
     if not files:
         await query.answer(f"sᴏʀʀʏ '{lang.title()}' ʟᴀɴɢᴜᴀɢᴇ ꜰɪʟᴇs ɴᴏᴛ ꜰᴏᴜɴᴅ 😕", show_alert=1)
         return
@@ -315,7 +314,6 @@ async def lang_next_page(bot, query):
 
     settings = await get_settings(query.message.chat.id)
     files, n_offset, total = await get_search_results(f"{search} {lang}", filter=True, offset=l_offset, lang=True)
-    files = [file for file in files if re.search(lang, file.file_name, re.IGNORECASE)]
     if not files:
         return
     try:
