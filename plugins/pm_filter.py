@@ -255,6 +255,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         return
     settings = await get_settings(query.message.chat.id)
     pre = 'filep' if settings['file_secure'] else 'file'
+    files_link = ''
     if settings["shortlink"]:
         if settings["links"]:
             btn = []
@@ -328,6 +329,7 @@ async def lang_next_page(bot, query):
         n_offset = 0
 
     pre = 'filep' if settings['file_secure'] else 'file'
+    files_link = ''
     if settings["shortlink"]:
         if settings["links"]:
             btn = []
