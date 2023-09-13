@@ -1084,7 +1084,7 @@ async def auto_filter(client, msg, spoll=False):
             **locals()
         )
     else:
-        cap = IMDB_OFF.format(message.from_user.mention, search, message.chat.title)
+        cap = IMDB_OFF
     CAP[key] = cap
     del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>1 hours</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
     if imdb and imdb.get('poster'):
