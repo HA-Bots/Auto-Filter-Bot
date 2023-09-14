@@ -79,7 +79,8 @@
 • /users - to get all users details.
 • /chats - to get all groups.
 • /invite_link - to generate invite link.
-• /logs - to check bot logs.```
+• /logs - to check bot logs.
+```
 
 ### Deploy
 
