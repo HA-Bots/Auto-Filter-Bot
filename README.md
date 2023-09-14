@@ -36,6 +36,8 @@
 
 - Sample Bot - [Trial Bot](https://telegram.dog/Try_bot2233_bot)
 
+- How to Deploy - [Click Here](https://telegram.dog/aks_bots/6)
+
 ## Variables
 
 ### Required Variables
