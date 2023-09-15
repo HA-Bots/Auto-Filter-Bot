@@ -668,4 +668,4 @@ async def save_tutorial(client, message):
         return await message.reply_text("Command Incomplete!")
     
     await save_group_settings(grp_id, 'tutorial', tutorial)
-    await message.reply_text(f"Successfully changed tutorial for {title} to\n\n{welcome}")
+    await message.reply_text(f"Successfully changed tutorial for {title} to\n\n{tutorial}")
