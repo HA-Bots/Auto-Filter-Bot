@@ -49,7 +49,8 @@
 * `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/JIoU6Mhv308)
 * `DATABASE_NAME`: Name of the database in [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/JIoU6Mhv308)
 * `LOG_CHANNEL` : A channel to log the activities of bot. Make sure bot is an admin in the channel.
-* `F2LINK_C`: this variable for streem features, add channel id and make both stream & your bot admin in channel.
+* `BIN_CHANNEL`: this variable for streem features, add channel id and make both stream & your bot admin in channel.
+* `URL`: add your app link
 ### Optional Variables
 * `PICS`: Telegraph links of images to show in start message.( Multiple images can be used separated by space )
 * `AUTH_CHANNEL`: To add force subscriber
@@ -84,8 +85,7 @@
 • /logs - to check bot logs.
 ```
 
-### Deploy
-
+## Deploy
 - Heroku:
 Deploy manual using Procfile
 - Render:
