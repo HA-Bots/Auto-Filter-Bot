@@ -7,7 +7,7 @@ from utils import is_subscribed, get_size, temp
 from info import CACHE_TIME, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION
 
 logger = logging.getLogger(__name__)
-cache_time = 0 if AUTH_USERS or AUTH_CHANNEL else CACHE_TIME
+cache_time = 0 if AUTH_CHANNEL else CACHE_TIME
 
 async def inline_users(query: InlineQuery):
     if query.from_user and query.from_user.id not in temp.BANNED_USERS:
