@@ -13,7 +13,7 @@ from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
 from plugins import web_server
-from info import SESSION, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, LOG_STR, PORT
+from info import SESSION, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
@@ -41,12 +41,11 @@ class Bot(Client):
         temp.ME = me.id
         temp.U_NAME = me.username
         temp.B_NAME = me.first_name
-        self.username = '@' + me.username
+        username = '@' + me.username
         app = web.AppRunner(await web_server())
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
-        logging.info(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
-        logging.info(LOG_STR)
+        logging.info(f"\n\n{username} is started!\n\n")
         await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
         chats = await db.get_all_chats()
         async for chat in chats:
