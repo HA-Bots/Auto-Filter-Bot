@@ -1,5 +1,7 @@
-import re
+import re, sys, logging
 from os import environ
+
+logging.basicConfig(level=logging.ERROR)
 
 id_pattern = re.compile(r'^.\d+$')
 def is_enabled(value, default):
@@ -12,9 +14,20 @@ def is_enabled(value, default):
 
 # Bot information
 SESSION = environ.get('SESSION', 'Auto_Filters_Bot')
-API_ID = int(environ.get('API_ID', ''))
+API_ID = environ.get('API_ID', '')
+if len(API_ID) == 0:
+    logging.error('API_ID is missing, exiting now')
+    exit()
+else:
+    API_ID = int(API_ID)
 API_HASH = environ.get('API_HASH', '')
+if len(API_HASH) == 0:
+    logging.error('API_HASH is missing, exiting now')
+    exit()
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
+if len(BOT_TOKEN) == 0:
+    logging.error('BOT_TOKEN is missing, exiting now')
+    exit()
 PORT = int(environ.get('PORT', '8080'))
 
 # Bot pics and stickers
@@ -22,16 +35,29 @@ STICKERS = (environ.get('STICKERS', 'CAACAgIAAxkBAAEGm9hjhf69CtQmXoeQ2HidYCGBFeZ
 PICS = (environ.get('PICS', 'https://telegra.ph/file/58fef5cb458d5b29b0186.jpg https://telegra.ph/file/f0aa4f433132769f8970c.jpg https://telegra.ph/file/f515fbc2084592eca60a5.jpg https://telegra.ph/file/20dbdcffaa89bd3d09a74.jpg https://telegra.ph/file/6045ba953af4def846238.jpg')).split()
 
 # Bot Admins
-ADMINS = [int(admins) if id_pattern.search(admins) else admins for admins in environ.get('ADMINS', '').split()]
+ADMINS = environ.get('ADMINS', '')
+if len(ADMINS) == 0:
+    logging.error('ADMINS is missing, exiting now')
+    exit()
+else:
+    ADMINS = [int(admins) if id_pattern.search(admins) else admins for admins in ADMINS.split()]
 
 # Channels
 INDEX_CHANNELS = [int(index_channels) if id_pattern.search(index_channels) else index_channels for index_channels in environ.get('INDEX_CHANNELS', '').split()]
 auth_channel = environ.get('AUTH_CHANNEL', '')
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', ''))
+LOG_CHANNEL = environ.get('LOG_CHANNEL', '')
+if len(LOG_CHANNEL) == 0:
+    logging.error('LOG_CHANNEL is missing, exiting now')
+    exit()
+else:
+    LOG_CHANNEL = int(LOG_CHANNEL)
 
 # MongoDB information
 DATABASE_URL = environ.get('DATABASE_URL', "")
+if len(DATABASE_URL) == 0:
+    logging.error('DATABASE_URL is missing, exiting now')
+    exit()
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
 
@@ -62,6 +88,16 @@ TUTORIAL = environ.get("TUTORIAL", "https://t.me/SL_Bots_Updates")
 
 # stream features vars
 """Deploy this repo: https://github.com/adarsh-goel/filestreambot"""
-BIN_CHANNEL = int(environ.get("BIN_CHANNEL", "0"))
-URL = environ.get("URL", "https://sl-bots-0db4fd13c9ad.herokuapp.com/")
-                           
+BIN_CHANNEL = environ.get("BIN_CHANNEL", "")
+if len(BIN_CHANNEL) == 0:
+    logging.error('BIN_CHANNEL is missing, exiting now')
+    exit()
+else:
+    BIN_CHANNEL = int(BIN_CHANNEL)
+URL = environ.get("URL", "")
+if len(URL) == 0:
+    logging.error('URL is missing, exiting now')
+    exit()
+else:
+    if not URL.endswith("/"):
+        URL += '/'
