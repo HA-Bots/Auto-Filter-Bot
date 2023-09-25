@@ -22,15 +22,9 @@ async def answer(bot, query):
         await query.answer(results=[],
                            cache_time=0,
                            switch_pm_text="You're not auth user :(",
-                           switch_pm_parameter="admins")
+                           switch_pm_parameter="start")
         return
 
-    if AUTH_CHANNEL and not await is_subscribed(bot, query):
-        await query.answer(results=[],
-                           cache_time=0,
-                           switch_pm_text='Please join my Updates Channel :)',
-                           switch_pm_parameter="subscribe")
-        return
 
     results = []
     if '|' in query.query:
@@ -59,7 +53,7 @@ async def answer(bot, query):
                 title=file.file_name,
                 document_file_id=file.file_id,
                 caption=f_caption,
-                description=f'Size: {get_size(file.file_size)}\nType: {file.file_type}',
+                description=f'Size: {get_size(file.file_size)}',
                 reply_markup=reply_markup))
 
     if results:
