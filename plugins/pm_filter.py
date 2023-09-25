@@ -61,18 +61,12 @@ async def give_filter(client, message):
                 pass
             return
 
-        if AUTH_CHANNEL and not await is_subscribed(client, message):
-            try:
-                invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
-            except ChatAdminRequired:
-                logger.error("Make sure Bot is admin in Forcesub channel")
-                return
-            buttons = [[
-                InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
-            ],[
-                InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")
-            ]]
-            reply_markup = InlineKeyboardMarkup(buttons)
+        btn = await is_subscribed(client, message):
+        if btn:
+            btn.append(
+                [InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")]
+            )
+            reply_markup = InlineKeyboardMarkup(btn)
             k = await message.reply_photo(
                 photo=random.choice(PICS),
                 caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and request again. 😇",
@@ -579,8 +573,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
         user = query.message.reply_to_message.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nThis Is Not For You!", show_alert=True)
-        if AUTH_CHANNEL and not await is_subscribed(client, query):
+        btn = await is_subscribed(client, query)
+        if btn:
             await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and request again.", show_alert=True)
+            btn.append(
+                [InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")]
+            )
+            await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
             return
         await query.answer(f"Hello {query.from_user.first_name},\nGood, Can You Request Now!", show_alert=True)
         await query.message.delete()
