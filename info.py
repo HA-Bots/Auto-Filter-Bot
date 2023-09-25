@@ -98,5 +98,9 @@ if len(URL) == 0:
     logging.error('URL is missing, exiting now')
     exit()
 else:
-    if not URL.endswith("/"):
-        URL += '/'
+    if URL.startswith(('https://', 'http://')):
+        if not URL.endswith("/"):
+            URL += '/'
+    else:
+        logging.error('URL is not valid, exiting now')
+        exit()
