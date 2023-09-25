@@ -61,7 +61,7 @@ async def give_filter(client, message):
                 pass
             return
 
-        btn = await is_subscribed(client, message):
+        btn = await is_subscribed(client, message)
         if btn:
             btn.append(
                 [InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")]
