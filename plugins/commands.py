@@ -59,51 +59,10 @@ async def start(client, message):
             parse_mode=enums.ParseMode.HTML
         )
         return
-    if AUTH_CHANNEL and not await is_subscribed(client, message):
-        try:
-            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
-        except ChatAdminRequired:
-            logger.error("Make sure Bot is admin in Forcesub channel")
-            return
-        btn = [[
-            InlineKeyboardButton("📢 Updates Channel 📢", url=invite_link.invite_link)
-        ]]
-
-        if message.command[1] != "subscribe" and not message.command[1].startswith("all"):
-            try:
-                kk, file_id = message.command[1].split("_", 1)
-                pre = 'checksubp' if kk == 'filep' else 'checksub' 
-                btn.append([InlineKeyboardButton("🔄 Try Again 🔄", callback_data=f"{pre}#{file_id}")])
-            except (IndexError, ValueError):
-                btn.append([InlineKeyboardButton("🔄 Try Again 🔄", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
-        await message.reply_photo(
-            photo=random.choice(PICS),
-            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and try again. 😇",
-            reply_markup=InlineKeyboardMarkup(btn),
-            parse_mode=enums.ParseMode.HTML
-        )
-        return
-    if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help", "start", "admins"]:
-        buttons = [[
-            InlineKeyboardButton("+ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ +", url=f'http://t.me/{temp.U_NAME}?startgroup=start')
-        ],[
-            InlineKeyboardButton('⚡️ ᴏᴡɴᴇʀ', callback_data='my_owner'),
-            InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='my_about')
-        ],[
-            InlineKeyboardButton('💰 ᴇᴀʀɴ ᴍᴏɴᴇʏ ʙʏ ʙᴏᴛ 💰', callback_data='earn')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_photo(
-            photo=random.choice(PICS),
-            caption=script.START_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-        return
 
     mc = message.command[1]
     if mc.startswith('all'):
-        _, grp_id, pre, key = mc.split("_", 3)
+        _, grp_id, key = mc.split("_", 3)
         files = temp.FILES.get(key)
         if not files:
             return await message.reply('No Such All Files Exist!')
@@ -122,12 +81,12 @@ async def start(client, message):
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
                 caption=f_caption,
-                protect_content=True if pre == 'filep' else False,
+                protect_content=settings['file_secure'],
                 reply_markup=InlineKeyboardMarkup(btn)
             )
         return
         
-    pre, grp_id, file_id = mc.split("_", 2)
+    grp_id, file_id = mc.split("_", 2)
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
@@ -146,7 +105,7 @@ async def start(client, message):
         chat_id=message.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        protect_content=True if pre == 'filep' else False,
+        protect_content=settings['file_secure'],
         reply_markup=InlineKeyboardMarkup(btn)
     )
 
