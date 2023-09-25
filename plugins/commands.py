@@ -62,10 +62,11 @@ async def start(client, message):
 
     btn = await is_subscribed(client, message)
     mc = message.command[1]
-    if (btn) or (btn and mc == 'subscribe'):
-        btn.append(
-            [InlineKeyboardButton("🔁 Try Again 🔁", url=f"https://t.me/{temp.U_NAME}?start={mc}")]
-        )
+    if btn:
+        if mc != 'subscribe':
+            btn.append(
+                [InlineKeyboardButton("🔁 Try Again 🔁", url=f"https://t.me/{temp.U_NAME}?start={mc}")]
+            )
         await message.reply_photo(
             photo=random.choice(PICS),
             caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and request again. 😇",
