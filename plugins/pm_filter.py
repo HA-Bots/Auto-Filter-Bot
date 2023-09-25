@@ -45,7 +45,7 @@ async def stream_downloader(bot, query):
         ]
     ))
 
-@Client.on_message((filters.group | filters.private) & filters.text & filters.incoming)
+@Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
     if settings["auto_filter"]:
@@ -95,6 +95,15 @@ async def give_filter(client, message):
             await message.delete()
         except:
             pass
+
+@Client.on_message(filters.private & filters.text)
+async def pm_search(client, message):
+    files, n_offset, total = await get_search_results(message.text, filter=True)
+    if int(total) != 0:
+        btn = [[
+            InlineKeyboardButton("Here", url='https://t.me/SL_Films_World')
+        ]]
+        await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
 
 
 @Client.on_callback_query(filters.regex(r"^next"))
