@@ -62,7 +62,7 @@ async def start(client, message):
 
     mc = message.command[1]
     if mc.startswith('all'):
-        _, grp_id, key = mc.split("_", 3)
+        _, grp_id, key = mc.split("_", 2)
         files = temp.FILES.get(key)
         if not files:
             return await message.reply('No Such All Files Exist!')
@@ -86,7 +86,7 @@ async def start(client, message):
             )
         return
         
-    grp_id, file_id = mc.split("_", 2)
+    _, grp_id, file_id = mc.split("_", 2)
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
