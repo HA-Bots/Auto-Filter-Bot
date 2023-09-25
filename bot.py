@@ -47,12 +47,7 @@ class Bot(Client):
         await web.TCPSite(app, "0.0.0.0", PORT).start()
         logging.info(f"\n\n{username} is started!\n\n")
         await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
-        chats = await db.get_all_chats()
-        async for chat in chats:
-            try:
-                await self.send_message(chat_id=chat['id'], text="Bot Restarted! 🤖")
-            except:
-                pass
+
 
     async def stop(self, *args):
         await super().stop()
