@@ -53,7 +53,7 @@
 * `URL`: add your app link
 ### Optional Variables
 * `PICS`: Telegraph links of images to show in start message.( Multiple images can be used separated by space )
-* `AUTH_CHANNEL`: To add force subscriber
+* `AUTH_CHANNEL`: To add force subscribe channels ( Multiple id can be used separated by space )
 * Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
 
 ## Commands
