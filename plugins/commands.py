@@ -62,7 +62,7 @@ async def start(client, message):
 
     btn = await is_subscribed(client, message)
     mc = message.command[1]
-    if btn or mc == 'subscribe':
+    if (btn) or (btn and mc == 'subscribe'):
         btn.append(
             [InlineKeyboardButton("🔁 Try Again 🔁", url=f"https://t.me/{temp.U_NAME}?start={mc}")]
         )
@@ -72,7 +72,7 @@ async def start(client, message):
             reply_markup=InlineKeyboardMarkup(btn)
         )
         return
-            
+
     if mc.startswith('all'):
         _, grp_id, key = mc.split("_", 2)
         files = temp.FILES.get(key)
