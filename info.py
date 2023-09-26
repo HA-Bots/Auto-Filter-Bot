@@ -4,7 +4,6 @@ from Script import script
 
 logging.basicConfig(level=logging.ERROR)
 
-id_pattern = re.compile(r'^.\d+$')
 def is_enabled(value, default):
     if value.lower() in ["true", "yes", "1", "enable", "y"]:
         return True
@@ -41,11 +40,11 @@ if len(ADMINS) == 0:
     logging.error('ADMINS is missing, exiting now')
     exit()
 else:
-    ADMINS = [int(admins) if id_pattern.search(admins) else admins for admins in ADMINS.split()]
+    ADMINS = [int(admins) for admins in ADMINS.split()]
 
 # Channels
-INDEX_CHANNELS = [int(index_channels) if id_pattern.search(index_channels) else index_channels for index_channels in environ.get('INDEX_CHANNELS', '').split()]
-AUTH_CHANNEL = [int(auth_channels) if id_pattern.search(auth_channels) else auth_channels for auth_channels in environ.get('AUTH_CHANNEL', '').split()]
+INDEX_CHANNELS = [int(index_channels) for index_channels in environ.get('INDEX_CHANNELS', '').split()]
+AUTH_CHANNEL = [int(auth_channels) for auth_channels in environ.get('AUTH_CHANNEL', '').split()]
 LOG_CHANNEL = environ.get('LOG_CHANNEL', '')
 if len(LOG_CHANNEL) == 0:
     logging.error('LOG_CHANNEL is missing, exiting now')
