@@ -39,6 +39,14 @@ class script(object):
 
 ★ Message: {}"""
 
+    NOT_FILE_TXT = """👋 Hello {},
+
+I can't find the <b>{}</b> in my database! 🥲
+
+👉 Google Search and check your spelling is correct.
+👉 Please read the Instructions to get better results.
+👉 Or not been released yet."""
+    
     EARN_TXT = """<b>ʜᴏᴡ ᴛᴏ ᴇᴀʀɴ ꜰʀᴏᴍ ᴛʜɪs ʙᴏᴛ
 
 ➥ ɴᴏᴡ ʏᴏᴜ ᴄᴀɴ ᴀʟsᴏ ᴇᴀʀɴ ᴍᴏɴᴇʏ ʙʏ ᴜsɪɴɢ ᴛʜɪꜱ ʙᴏᴛ.
