@@ -8,7 +8,7 @@ from Script import script
 import pyrogram
 from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, \
     make_inactive
-from info import ADMINS, URL, BIN_CHANNEL, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, PICS, \
+from info import ADMINS, URL, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, LOG_CHANNEL, SUPPORT_LINK, UPDATES_LINK, PICS, \
     PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
@@ -1057,7 +1057,7 @@ async def auto_filter(client, msg, spoll=False):
         try:
             if settings["auto_delete"]:
                 k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn))
-                await asyncio.sleep(3600)
+                await asyncio.sleep(DELETE_TIME)
                 await k.delete()
                 try:
                     await message.delete()
@@ -1070,7 +1070,7 @@ async def auto_filter(client, msg, spoll=False):
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
             if settings["auto_delete"]:
                 k = await message.reply_photo(photo=poster, caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn))
-                await asyncio.sleep(3600)
+                await asyncio.sleep(DELETE_TIME)
                 await k.delete()
                 try:
                     await message.delete()
@@ -1082,7 +1082,7 @@ async def auto_filter(client, msg, spoll=False):
             logger.exception(e)
             if settings["auto_delete"]:
                 k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
-                await asyncio.sleep(3600)
+                await asyncio.sleep(DELETE_TIME)
                 await k.delete()
                 try:
                     await message.delete()
@@ -1093,7 +1093,7 @@ async def auto_filter(client, msg, spoll=False):
     else:
         if settings["auto_delete"]:
             k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
-            await asyncio.sleep(3600)
+            await asyncio.sleep(DELETE_TIME)
             await k.delete()
             try:
                 await message.delete()
