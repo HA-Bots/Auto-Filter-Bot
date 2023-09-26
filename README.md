@@ -19,6 +19,7 @@
 
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
 - [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
+- [x] 𝑂𝑛𝑙𝑖𝑛𝑒 𝑠𝑡𝑟𝑒𝑎𝑚 𝑎𝑛𝑑 𝑑𝑜𝑤𝑛𝑙𝑜𝑎𝑑
 - [x] 𝐹𝑖𝑙𝑒 𝑐𝑎𝑝𝑡𝑖𝑜𝑛 𝑠𝑒𝑡
 - [x] 𝐼𝑛𝑑𝑒𝑥𝑒𝑠 𝐹𝑖𝑙𝑒𝑠 𝑎𝑏𝑜𝑣𝑒 2𝐺𝐵
 - [x] 𝑆𝑝𝑒𝑐𝑖𝑓𝑖𝑐 𝑓𝑖𝑙𝑒𝑠 𝐷𝑒𝑙𝑒𝑡𝑒 𝑀𝑜𝑑𝑒
@@ -68,7 +69,6 @@
 ```
 
 ## Variables
-
 ### Required Variables
 * `BOT_TOKEN`: Create a bot using [@BotFather](https://telegram.dog/BotFather), and get the Telegram API token.
 * `API_ID`: Get this value from [telegram.org](https://my.telegram.org/apps)
@@ -87,7 +87,6 @@
 
 
 ## Deploy
-
 - [Watch Here](https://telegram.dog/aks_bots/6)
 
 
