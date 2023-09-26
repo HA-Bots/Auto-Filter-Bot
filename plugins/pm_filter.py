@@ -587,6 +587,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
 
     elif query.data == "stats":
+        if query.from_user.id not in ADMINS:
+            return await query.answer("ADMINS Only!", show_alert=True)
         files = await Media.count_documents()
         users = await db.total_users_count()
         chats = await db.total_chat_count()
