@@ -34,18 +34,10 @@ async def answer(bot, query):
 
 
     results = []
-    if '|' in query.query:
-        string, file_type = query.query.split('|', maxsplit=1)
-        string = string.strip()
-        file_type = file_type.strip().lower()
-    else:
-        string = query.query.strip()
-        file_type = None
-
+    string, = query.query.strip()
     offset = int(query.offset or 0)
     reply_markup = get_reply_markup(query=string)
     files, next_offset, total = await get_search_results(string,
-                                                  file_type=file_type,
                                                   max_results=10,
                                                   offset=offset)
 
