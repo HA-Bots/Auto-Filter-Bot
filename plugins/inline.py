@@ -34,7 +34,7 @@ async def answer(bot, query):
 
 
     results = []
-    string, = query.query.strip()
+    string, = query.query
     offset = int(query.offset or 0)
     reply_markup = get_reply_markup(query=string)
     files, next_offset, total = await get_search_results(string,
