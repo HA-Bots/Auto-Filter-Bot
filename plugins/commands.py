@@ -9,8 +9,8 @@ from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, PROTECT_CONTENT
-from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
+from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, PROTECT_CONTENT
+from utils import get_settings, get_size, is_subscribed, save_group_settings, temp, get_readable_time
 from database.connections_mdb import active_connection
 import re
 import json
@@ -260,7 +260,7 @@ async def settings(client, message):
                     callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'
                 ),
                 InlineKeyboardButton(
-                    'One Hours' if settings["auto_delete"] else '❌ No',
+                    f'{get_readable_time(DELETE_TIME)}' if settings["auto_delete"] else '❌ No',
                     callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'
                 )
             ],
