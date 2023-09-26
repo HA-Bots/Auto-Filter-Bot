@@ -73,14 +73,14 @@
 * `BOT_TOKEN`: Create a bot using [@BotFather](https://telegram.dog/BotFather), and get the Telegram API token.
 * `API_ID`: Get this value from [telegram.org](https://my.telegram.org/apps)
 * `API_HASH`: Get this value from [telegram.org](https://my.telegram.org/apps)
-* `ADMINS`: Username or ID of Admin. (Multiple admins can be used separated by space)
+* `ADMINS`: ID of Admins. (Multiple admins can be used separated by space)
 * `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
-* `LOG_CHANNEL` : A channel to log the activities of bot. Make sure bot is an admin in the channel.
+* `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
 * `BIN_CHANNEL`: This variable for stream features, add channel id and make both stream & your bot admin in channel.
 * `URL`: Add your stream bot app link
 ### Optional Variables
-* `AUTH_CHANNEL`: Username or ID of force subscribe channels (Multiple channels can be used separated by space)
-* `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
+* `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
+* `INDEX_CHANNELS`: ID of your files channels (Multiple channels can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
 * `STICKERS`: Add telegram sticker id (Multiple sticker can be used separated by space)
 * Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
@@ -108,5 +108,5 @@
 
 ## Disclaimer
 [![GNU Affero General Public License 2.0](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)    
-Licensed under [GNU AGPL 2.0.](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE)
+Licensed under [GNU AGPL v2.0](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE)
 Selling The Codes To Other People For Money Is *Strictly Prohibited*.
