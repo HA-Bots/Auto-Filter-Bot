@@ -1,62 +1,45 @@
-![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+to+advance+auto+filter+bot;Created+by+HANSAKA!;A+advance+and+powerfully+repo!;And+more+features!)
-</p>
 <p align="center">
-  <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="ADV AUTO FILTER BOT">
+  <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="Auto Filter Bot">
 </p>
 <h1 align="center">
-  <b>ADV Auto Filter Bot</b>
+  <b>𝘼𝙪𝙩𝙤 𝙁𝙞𝙡𝙩𝙚𝙧 𝘽𝙤𝙩</b>
 </h1>
 
+![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+2𝐺𝐵)
+</p>
+
+<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/stargazers"><img src="https://img.shields.io/github/stars/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" alt="Stars" /></a>
+<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/network/members"> <img src="https://img.shields.io/github/forks/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
+<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta"> <img src="https://img.shields.io/github/repo-size/HansakaAnuhas-TG/AutoFilterBot-Beta?color=skyblue&logo=github&logoColor=blue&style=for-the-badge" /></a>   
+<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/commits"> <img src="https://img.shields.io/github/last-commit/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
+<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta"> <img src="https://img.shields.io/github/contributors/HansakaAnuhas-TG/AutoFilterBot-Beta?color=skyblue&logo=github&logoColor=blue&style=for-the-badge" /></a>
+<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE"> <img src="https://img.shields.io/badge/License- GPL 2.0 license -blueviolet?style=for-the-badge" alt="License" /> </a>
+<a href="https://www.python.org/"> <img src="https://img.shields.io/badge/Written%20in-Python-skyblue?style=for-the-badge&logo=python" alt="Python" /> </a>
+<a href="https://pypi.org/project/Pyrogram/"> <img src="https://img.shields.io/pypi/v/pyrogram?color=white&label=pyrogram&logo=python&logoColor=blue&style=for-the-badge" /></a>
 
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
-- [x] hyper text result mode or button mode
-- [x] groups and users broadcast cancel features
-- [x] all group admins earn through bot
-- [x] send all button features
-- [x] auto remove other username from files
-- [x] render & heroku & koyeb support repo
-- [x] imdb template set features
-- [x] index above 2gb+ file
-- [x] pre-dvd & cam-rip delete mode
-- [x] multiple files delete
-- [x] settings menue
-- [x] set custom welcome message
-- [x] file protect
-- [x] imdb
-- [x] users broadcast
-- [x] group broadcast
-- [x] imdb search
-- [x] random pics
-- [x] id & users info
-- [x] spell check features
-- [x] auto delete
-- [x] and more...
+- [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
+- [x] 𝐹𝑖𝑙𝑒 𝑐𝑎𝑝𝑡𝑖𝑜𝑛 𝑠𝑒𝑡
+- [x] 𝐼𝑛𝑑𝑒𝑥𝑒𝑠 𝐹𝑖𝑙𝑒𝑠 𝑎𝑏𝑜𝑣𝑒 2𝐺𝐵
+- [x] 𝑆𝑝𝑒𝑐𝑖𝑓𝑖𝑐 𝑓𝑖𝑙𝑒𝑠 𝐷𝑒𝑙𝑒𝑡𝑒 𝑀𝑜𝑑𝑒
+- [x] 𝑆𝑒𝑡𝑡𝑖𝑛𝑔𝑠 𝑀𝑒𝑛𝑢
+- [x] 𝑀𝑢𝑙𝑡𝑖𝑝𝑙𝑒 𝐹𝑜𝑟𝑐𝑒 𝑆𝑢𝑏𝑠𝑐𝑟𝑖𝑝𝑡𝑖𝑜𝑛
+- [x] 𝑊𝑒𝑙𝑐𝑜𝑚𝑒 𝑀𝑒𝑠𝑠𝑎𝑔𝑒 𝑆𝑒𝑡
+- [x] 𝑆ℎ𝑜𝑟𝑡𝑙𝑖𝑛𝑘 𝑠𝑢𝑝𝑝𝑜𝑟𝑡
+- [x] 𝐴𝑢𝑡𝑜𝑚𝑎𝑡𝑖𝑐 𝐹𝑖𝑙𝑒 𝐹𝑖𝑙𝑡𝑒𝑟𝑖𝑛𝑔
+- [x] 𝐹𝑖𝑙𝑒 𝑃𝑟𝑜𝑡𝑒𝑐𝑡
+- [x] 𝑈𝑠𝑒𝑟 𝐵𝑟𝑜𝑎𝑑𝑐𝑎𝑠𝑡
+- [x] 𝐺𝑟𝑜𝑢𝑝 𝐵𝑟𝑜𝑎𝑑𝑐𝑎𝑠𝑡
+- [x] 𝐼𝑛𝑙𝑖𝑛𝑒 𝑆𝑒𝑎𝑟𝑐ℎ
+- [x] 𝑅𝑎𝑛𝑑𝑜𝑚 𝑝𝑖𝑐𝑠
+- [x] 𝐵𝑜𝑡 𝑆𝑡𝑎𝑡𝑠
+- [x] 𝑆𝑝𝑒𝑙𝑙𝑖𝑛𝑔 𝐶ℎ𝑒𝑐𝑘 𝐹𝑒𝑎𝑡𝑢𝑟𝑒
+- [x] 𝐴𝑢𝑡𝑜 𝐷𝑒𝑙𝑒𝑡𝑒
+- [x] 𝐴𝑛𝑑 𝑀𝑜𝑟𝑒...
 
-<b>To know about all features, join our <a href='https://telegram.me/SL_Bots_Updates'>updates channel</a>.</b>
+<b>𝑇𝑜 𝑘𝑛𝑜𝑤 𝑎𝑏𝑜𝑢𝑡 𝑎𝑙𝑙 𝑓𝑒𝑎𝑡𝑢𝑟𝑒𝑠, 𝐽𝑜𝑖𝑛 𝑜𝑢𝑟 <a href='https://t.me/SL_Bots_Updates'>𝑢𝑝𝑑𝑎𝑡𝑒𝑠 𝑐ℎ𝑎𝑛𝑛𝑒𝑙</a>. 𝐴𝑛𝑑 𝑎𝑙𝑠𝑜 𝑗𝑜𝑖𝑛 <a href='https://t.me/SL_Bots_Support'>𝑠𝑢𝑝𝑝𝑜𝑟𝑡 𝑔𝑟𝑜𝑢𝑝</a>.</b>
 
-- Sample Bot - [Trial Bot](https://telegram.dog/Try_bot2233_bot)
-
-- How to Deploy - [Click Here](https://telegram.dog/aks_bots/6)
-
-## Variables
-
-### Required Variables
-* `BOT_TOKEN`: Create a bot using [@BotFather](https://telegram.dog/BotFather), and get the Telegram API token.
-* `API_ID`: Get this value from [telegram.org](https://my.telegram.org/apps)
-* `API_HASH`: Get this value from [telegram.org](https://my.telegram.org/apps)
-* `INDEX_CHANNELS`: Username or ID of channel or group. Separate multiple IDs by space
-* `ADMINS`: Username or ID of Admin. Separate multiple Admins by space
-* `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/JIoU6Mhv308)
-* `DATABASE_NAME`: Name of the database in [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/JIoU6Mhv308)
-* `LOG_CHANNEL` : A channel to log the activities of bot. Make sure bot is an admin in the channel.
-* `BIN_CHANNEL`: this variable for streem features, add channel id and make both stream & your bot admin in channel.
-* `URL`: add your app link
-### Optional Variables
-* `PICS`: Telegraph links of images to show in start message.( Multiple images can be used separated by space )
-* `AUTH_CHANNEL`: To add force subscribe channels ( Multiple id can be used separated by space )
-* Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
-
-## Commands
+## 𝐶𝑜𝑚𝑚𝑎𝑛𝑑𝑠
 ```
 • /start - to check bot alive or not.
 • /index_channels - to check how many index channel id added.
@@ -85,8 +68,43 @@
 • /logs - to check bot logs.
 ```
 
+## Variables
+
+### Required Variables
+* `BOT_TOKEN`: Create a bot using [@BotFather](https://telegram.dog/BotFather), and get the Telegram API token.
+* `API_ID`: Get this value from [telegram.org](https://my.telegram.org/apps)
+* `API_HASH`: Get this value from [telegram.org](https://my.telegram.org/apps)
+* `ADMINS`: Username or ID of Admin. (Multiple admins can be used separated by space)
+* `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
+* `LOG_CHANNEL` : A channel to log the activities of bot. Make sure bot is an admin in the channel.
+* `BIN_CHANNEL`: This variable for stream features, add channel id and make both stream & your bot admin in channel.
+* `URL`: Add your stream bot app link
+### Optional Variables
+* `AUTH_CHANNEL`: Username or ID of force subscribe channels (Multiple channels can be used separated by space)
+* `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
+* `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
+* `STICKERS`: Add telegram sticker id (Multiple sticker can be used separated by space)
+* Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
+
+
 ## Deploy
-- Heroku:
-Deploy manual using Procfile
-- Render:
-Deploy using Web Service and select Runtime to Docker (Default)
+
+- [Watch Here](https://telegram.dog/aks_bots/6)
+
+
+## Credits 
+* [![EvaMaria](https://img.shields.io/static/v1?label=EvaMaria&message=Developers&color=critical)](https://t.me/TeamEvamaria)
+* [![ᕼᗩᘉSᗩᖽᐸᗩ](https://img.shields.io/static/v1?label=ᕼᗩᘉSᗩᖽᐸᗩ&message=TG&color=critical)](https://t.me/Hansaka_Anuhas)
+
+## Thanks To
+ - [Pyrogram](https://t.me/pyrogramchat) To the members who helped
+ - [TECHNICAL AKS](https://t.me/Technicalaks123) For some helps
+
+## Note
+ - Importing this repo instead of forking is strictly prohibited, Kindly fork and edit as your wish (Must Give Credits for developer)
+ - If you find any bugs or errors, report it
+
+## Disclaimer
+[![GNU Affero General Public License 2.0](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)    
+Licensed under [GNU AGPL 2.0.](https://github.com/EvamariaTG/evamaria/blob/master/LICENSE)
+Selling The Codes To Other People For Money Is *Strictly Prohibited*.
