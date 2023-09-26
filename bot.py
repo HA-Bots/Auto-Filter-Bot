@@ -17,6 +17,7 @@ from info import SESSION, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
+import time
 
 class Bot(Client):
 
@@ -32,6 +33,7 @@ class Bot(Client):
         )
 
     async def start(self):
+        temp.START_TIME = time.time()
         b_users, b_chats = await db.get_banned()
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
