@@ -37,7 +37,6 @@
 - [x] 𝐴𝑢𝑡𝑜 𝐷𝑒𝑙𝑒𝑡𝑒
 - [x] 𝐴𝑛𝑑 𝑀𝑜𝑟𝑒...
 
-<b>𝑇𝑜 𝑘𝑛𝑜𝑤 𝑎𝑏𝑜𝑢𝑡 𝑎𝑙𝑙 𝑓𝑒𝑎𝑡𝑢𝑟𝑒𝑠, 𝐽𝑜𝑖𝑛 𝑜𝑢𝑟 <a href='https://t.me/SL_Bots_Updates'>𝑢𝑝𝑑𝑎𝑡𝑒𝑠 𝑐ℎ𝑎𝑛𝑛𝑒𝑙</a>. 𝐴𝑛𝑑 𝑎𝑙𝑠𝑜 𝑗𝑜𝑖𝑛 <a href='https://t.me/SL_Bots_Support'>𝑠𝑢𝑝𝑝𝑜𝑟𝑡 𝑔𝑟𝑜𝑢𝑝</a>.</b>
 
 ## 𝐶𝑜𝑚𝑚𝑎𝑛𝑑𝑠
 ```
@@ -92,6 +91,10 @@
 - [Watch Here](https://telegram.dog/aks_bots/6)
 
 
+## Support
+* [![Support](https://img.shields.io/static/v1?label=Support&message=Group&color=critical)](https://t.me/SL_Bots_Support)
+* [![Updates](https://img.shields.io/static/v1?label=Updates&message=Channel&color=critical)](https://t.me/SL_Bots_Updates)
+
 ## Credits 
 * [![EvaMaria](https://img.shields.io/static/v1?label=EvaMaria&message=Developers&color=critical)](https://t.me/TeamEvamaria)
 * [![ᕼᗩᘉSᗩᖽᐸᗩ](https://img.shields.io/static/v1?label=ᕼᗩᘉSᗩᖽᐸᗩ&message=TG&color=critical)](https://t.me/Hansaka_Anuhas)
@@ -106,5 +109,5 @@
 
 ## Disclaimer
 [![GNU Affero General Public License 2.0](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)    
-Licensed under [GNU AGPL 2.0.](https://github.com/EvamariaTG/evamaria/blob/master/LICENSE)
+Licensed under [GNU AGPL 2.0.](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE)
 Selling The Codes To Other People For Money Is *Strictly Prohibited*.
