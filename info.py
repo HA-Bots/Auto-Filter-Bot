@@ -75,7 +75,6 @@ WELCOME = is_enabled((environ.get('WELCOME', "False")), False)
 PROTECT_CONTENT = is_enabled((environ.get('PROTECT_CONTENT', "False")), False)
 LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False"), False)
 LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
-USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', False))
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 
 # Other
