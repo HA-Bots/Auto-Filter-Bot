@@ -46,6 +46,8 @@ async def start(client, message):
         buttons = [[
             InlineKeyboardButton("+ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ +", url=f'http://t.me/{temp.U_NAME}?startgroup=start')
         ],[
+            InlineKeyboardButton('🔎 Search Inline 🔍', switch_inline_query_current_chat='')
+        ],[
             InlineKeyboardButton('⚡️ ᴏᴡɴᴇʀ', callback_data='my_owner'),
             InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='my_about')
         ],[
@@ -161,7 +163,7 @@ async def log_file(bot, message):
         await message.reply('Not found logs!')
 
 
-@Client.on_message(filters.command('stats'))
+@Client.on_message(filters.command('stats') & filters.user(ADMINS))
 async def stats(bot, message):
     msg = await message.reply('Please Wait...')
     files = await Media.count_documents()
