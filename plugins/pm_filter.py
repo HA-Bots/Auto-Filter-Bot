@@ -286,6 +286,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         btn.append(
             [InlineKeyboardButton(text="🚸 ɴᴏ ᴍᴏʀᴇ ᴘᴀɢᴇs 🚸", callback_data="buttons")]
         )
+    btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
     await query.message.edit_text(cap + files_link + del_msg, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
 
 
@@ -302,12 +303,12 @@ async def lang_next_page(bot, query):
 
     search = BUTTONS.get(key)
     cap = CAP.get(key)
+    settings = await get_settings(query.message.chat.id)
     del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
     if not search:
         await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
         return 
 
-    settings = await get_settings(query.message.chat.id)
     files, n_offset, total = await get_search_results(search, filter=True, offset=l_offset, lang=lang)
     if not files:
         return
@@ -373,9 +374,7 @@ async def lang_next_page(bot, query):
              InlineKeyboardButton(f"{math.ceil(int(l_offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="buttons"),
              InlineKeyboardButton("ɴᴇxᴛ »", callback_data=f"lang_next#{req}#{key}#{lang}#{n_offset}#{offset}")]
         )
-    btn.append(
-        [InlineKeyboardButton("« ʙᴀᴄᴋ", callback_data=f"next_{req}_{key}_{offset}")]
-    )
+    btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])
     await query.message.edit_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
 
 
