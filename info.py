@@ -87,13 +87,13 @@ TUTORIAL = environ.get("TUTORIAL", "https://t.me/SL_Bots_Updates")
 
 # stream features vars
 """Deploy this repo: https://github.com/adarsh-goel/filestreambot"""
-BIN_CHANNEL = environ.get("BIN_CHANNEL", "")
+BIN_CHANNEL = environ.get("BIN_CHANNEL", "-1001980751762")
 if len(BIN_CHANNEL) == 0:
     logging.error('BIN_CHANNEL is missing, exiting now')
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-URL = environ.get("URL", "")
+URL = environ.get("URL", "https://sl-stream-bot-59659d7f8144.herokuapp.com/")
 if len(URL) == 0:
     logging.error('URL is missing, exiting now')
     exit()
