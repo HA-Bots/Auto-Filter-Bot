@@ -1,6 +1,6 @@
 import random
 import asyncio
-import re
+import re, time
 import ast
 import math
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
@@ -559,6 +559,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         buttons = [[
             InlineKeyboardButton("+ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ +", url=f'http://t.me/{temp.U_NAME}?startgroup=start')
         ],[
+            InlineKeyboardButton('🔎 Search Inline 🔍', switch_inline_query_current_chat='')
+        ],[
             InlineKeyboardButton('⚡️ ᴏᴡɴᴇʀ', callback_data='my_owner'),
             InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='my_about')
         ],[
@@ -572,8 +574,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
     elif query.data == "my_about":
         buttons = [[
-            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
+            InlineKeyboardButton('📊 Stats', callback_data='stats'),
             InlineKeyboardButton('📖 ʀᴇᴘᴏʀᴛ ʙᴜɢs', url=SUPPORT_LINK)
+        ],[
+            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
@@ -581,6 +585,21 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+
+    elif query.data == "stats":
+        files = await Media.count_documents()
+        users = await db.total_users_count()
+        chats = await db.total_chat_count()
+        size = await db.get_db_size()
+        free = 536870912 - size
+        uptime = get_readable_time(time.time() - temp.START_TIME)
+        size = get_size(size)
+        free = get_size(free)
+        buttons = [[
+            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='my_about')
+        ]]
+        await query.message.edit_text(script.STATUS_TXT.format(files, users, chats, size, free, uptime), reply_markup=InlineKeyboardMarkup(buttons))
+        
     elif query.data == "my_owner":
         buttons = [[
             InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
