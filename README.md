@@ -80,7 +80,7 @@
 * `URL`: Add your stream bot app link
 ### Optional Variables
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
-* `INDEX_CHANNELS`: ID of your files channels (Multiple channels can be used separated by space)
+* `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
 * `STICKERS`: Add telegram sticker id (Multiple sticker can be used separated by space)
 * Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
