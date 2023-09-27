@@ -53,7 +53,12 @@ async def new_grp_msg(bot, message):
 async def leave_a_chat(bot, message):
     if len(message.command) == 1:
         return await message.reply('Give me a chat ID')
-    chat = message.command[1]
+    if len(r) > 2:
+        reason = message.text.split(None, 2)[2]
+        chat = message.text.split(None, 2)[1]
+    else:
+        chat = message.command[1]
+        reason = "No reason provided."
     try:
         chat = int(chat)
     except:
@@ -65,7 +70,7 @@ async def leave_a_chat(bot, message):
         reply_markup=InlineKeyboardMarkup(buttons)
         await bot.send_message(
             chat_id=chat,
-            text='Hello Friends,\nMy owner has told me to leave from group so i go! If you need add me again contact my support group.',
+            text=f'Hello Friends,\nMy owner has told me to leave from group so i go! If you need add me again contact my support group.\nReason - <code>{reason}</code>',
             reply_markup=reply_markup,
         )
 
@@ -141,8 +146,6 @@ async def gen_invite_link(bot, message):
         return await message.reply('Give me a valid chat ID')
     try:
         link = await bot.create_chat_invite_link(chat)
-    except ChatAdminRequired:
-        return await message.reply("Invite link generation failed, I'am not having sufficient rights")
     except Exception as e:
         return await message.reply(f'Error {e}')
     await message.reply(f'Here is your invite link: {link.invite_link}')
@@ -164,13 +167,11 @@ async def ban_a_user(bot, message):
         pass
     try:
         k = await bot.get_users(chat)
-    except PeerIdInvalid:
-        return await message.reply("This is an invalid user, Make sure i have met him before.")
-    except IndexError:
-        return await message.reply("This might be a channel, Make sure it a user.")
     except Exception as e:
         return await message.reply(f'Error - {e}')
     else:
+        if k.id in ADMINS:
+            return await message.reply('You ADMINS')
         jar = await db.get_ban_status(k.id)
         if jar['is_banned']:
             return await message.reply(f"{k.mention} is already banned.\nReason - <code>{jar['ban_reason']}</code>")
@@ -195,10 +196,6 @@ async def unban_a_user(bot, message):
         pass
     try:
         k = await bot.get_users(chat)
-    except PeerIdInvalid:
-        return await message.reply("This is an invalid user, Make sure i have met him before.")
-    except IndexError:
-        return await message.reply("Thismight be a channel, Make sure it a user.")
     except Exception as e:
         return await message.reply(f'Error - {e}')
     else:
