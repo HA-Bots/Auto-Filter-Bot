@@ -90,14 +90,15 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
     deleted = 0
     no_media = 0
     unsupported = 0
+    temp.CANCEL = False
+    current = temp.CURRENT
     async with lock:
         try:
-            current = temp.CURRENT
-            temp.CANCEL = False
             async for message in bot.iter_messages(chat, lst_msg_id, temp.CURRENT):
                 if temp.CANCEL:
                     await msg.edit(f"Successfully Cancelled!\n\nSaved <code>{total_files}</code> files to Database!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>")
-                    break
+                    temp.CURRENT = 0
+                    return
                 current += 1
                 if current % 20 == 0:
                     can = [[InlineKeyboardButton('CANCEL', callback_data=f'index#cancel#{chat}#{lst_msg_id}')]]
@@ -129,5 +130,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
         except Exception as e:
             logger.exception(e)
             await msg.edit(f'Error: {e}')
+            temp.CURRENT = 0
         else:
             await msg.edit(f'Succesfully saved <code>{total_files}</code> to Database!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>')
+            temp.CURRENT = 0
