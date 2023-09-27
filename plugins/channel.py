@@ -9,6 +9,5 @@ media_filter = filters.document | filters.video
 async def media(bot, message):
     """Media Handler"""
     media = getattr(message, message.media.value, None)
-    media.file_type = message.media.value
     media.caption = message.caption
     await save_file(media)
