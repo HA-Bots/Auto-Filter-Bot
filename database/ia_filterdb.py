@@ -44,19 +44,16 @@ async def save_file(media):
         )
     except ValidationError:
         logger.exception('Error occurred while saving file in database')
-        return False, 2
+        return 'err'
     else:
         try:
             await file.commit()
         except DuplicateKeyError:      
-            logger.warning(
-                f'{getattr(media, "file_name", "NO_FILE")} is already saved in database'
-            )
-
-            return False, 0
+            logger.warning(f'{file_name} is already saved in database')
+            return 'dup'
         else:
-            logger.info(f'{getattr(media, "file_name", "NO_FILE")} is saved to database')
-            return True, 1
+            logger.info(f'{file_name} is saved to database')
+            return 'suc'
 
 
 
