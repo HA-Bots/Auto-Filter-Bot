@@ -100,7 +100,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                     break
                 current += 1
                 if current % 20 == 0:
-                    can = [[InlineKeyboardButton('CANCEL', callback_data=f'index#cancel#{chat}#{last_msg_id}')]]
+                    can = [[InlineKeyboardButton('CANCEL', callback_data=f'index#cancel#{chat}#{lst_msg_id}')]]
                     reply = InlineKeyboardMarkup(can)
                     await msg.edit_text(
                         text=f"Total messages received: <code>{current}</code>\nTotal messages saved: <code>{total_files}</code>\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>",
