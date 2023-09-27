@@ -18,16 +18,8 @@ from shortzy import Shortzy
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-BTN_URL_REGEX = re.compile(
-    r"(\[([^\[]+?)\]\((buttonurl|buttonalert):(?:/{0,2})(.+?)(:same)?\))"
-)
 
 imdb = Cinemagoer() 
-
-BANNED = {}
-SMART_OPEN = '“'
-SMART_CLOSE = '”'
-START_CHAR = ('\'', '"', SMART_OPEN)
 
 # temp db for banned 
 class temp(object):
@@ -35,7 +27,7 @@ class temp(object):
     BANNED_USERS = []
     BANNED_CHATS = []
     ME = None
-    CURRENT=int(os.environ.get("SKIP", 2))
+    CURRENT=0
     CANCEL = False
     U_NAME = None
     B_NAME = None
@@ -137,23 +129,13 @@ async def get_poster(query, bulk=False, id=False, file=None):
 async def broadcast_messages(user_id, message):
     try:
         await message.copy(chat_id=user_id)
-        return True, "Success"
+        return "Success"
     except FloodWait as e:
-        await asyncio.sleep(e.x)
+        await asyncio.sleep(e.value)
         return await broadcast_messages(user_id, message)
-    except InputUserDeactivated:
-        await db.delete_user(int(user_id))
-        logging.info(f"{user_id}-Removed from Database, since deleted account.")
-        return False, "Deleted"
-    except UserIsBlocked:
-        logging.info(f"{user_id} -Blocked the bot.")
-        return False, "Blocked"
-    except PeerIdInvalid:
-        await db.delete_user(int(user_id))
-        logging.info(f"{user_id} - PeerIdInvalid")
-        return False, "Error"
     except Exception as e:
-        return False, "Error"
+        await db.delete_user(int(user_id))
+        return "Error"
 
 async def groups_broadcast_messages(chat_id, message):
     try:
@@ -162,12 +144,13 @@ async def groups_broadcast_messages(chat_id, message):
             await k.pin()
         except:
             pass
-        return True, "Success"
+        return "Success"
     except FloodWait as e:
-        await asyncio.sleep(e.x)
+        await asyncio.sleep(e.value)
         return await groups_broadcast_messages(chat_id, message)
     except Exception as e:
-        return False, "Error"
+        await db.delete_chat(chat_id)
+        return "Error"
 
 
 async def get_settings(group_id):
