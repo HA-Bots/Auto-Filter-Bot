@@ -36,12 +36,12 @@ async def answer(bot, query):
     results = []
     string = query.query
     offset = int(query.offset or 0)
-    reply_markup = get_reply_markup(query=string)
     files, next_offset, total = await get_search_results(string,
                                                   max_results=10,
                                                   offset=offset)
 
     for file in files:
+        reply_markup = get_reply_markup(file.file_id)
         f_caption=FILE_CAPTION.format(
             file_name=file.file_name,
             file_size=get_size(file.file_size),
@@ -66,8 +66,6 @@ async def answer(bot, query):
                            switch_pm_text=switch_pm_text,
                            switch_pm_parameter="start",
                            next_offset=str(next_offset))
-        except QueryIdInvalid:
-            pass
         except Exception as e:
             logging.exception(str(e))
     else:
@@ -82,9 +80,8 @@ async def answer(bot, query):
                            switch_pm_parameter="start")
 
 
-def get_reply_markup(query):
+def get_reply_markup(file_id):
     buttons = [[
-        InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
-        InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
+        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
     ]]
     return InlineKeyboardMarkup(buttons)
