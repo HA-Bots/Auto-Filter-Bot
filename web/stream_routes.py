@@ -9,6 +9,7 @@ from aiohttp import web
 from web.utils.custom_dl import TGCustomYield, chunk_size, offset_fix
 from web.utils.render_template import render_page
 from urllib.parse import quote_plus
+from web import routes
 
 
 @routes.get("/watch/{message_id}")
@@ -33,7 +34,7 @@ async def old_stream_handler(request):
 
 async def media_streamer(request, message_id: int):
     range_header = request.headers.get('Range', 0)
-    media_msg = await StreamBot.get_messages(BIN_CHANNEL, message_id)
+    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, message_id)
     file_properties = await TGCustomYield().generate_file_properties(media_msg)
     file_size = file_properties.file_size
 
