@@ -9,3 +9,4 @@ bs4
 cinemagoer
 shortzy
 aiohttp
+aiofiles
