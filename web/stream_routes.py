@@ -11,6 +11,12 @@ from web.utils.render_template import render_page
 from urllib.parse import quote_plus
 from web import routes
 
+routes = web.RouteTableDef()
+
+@routes.get("/", allow_head=True)
+async def root_route_handler(request):
+    return web.json_response(text="@SL_Bots_Updates")
+
 
 @routes.get("/watch/{message_id}")
 async def stream_handler(request):
