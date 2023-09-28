@@ -42,7 +42,7 @@ home_template = """
     <img src="https://telegra.ph/file/582962dbc60ae9ce722b0.jpg" alt="Chatbot Image" class="chatbot-image">
 
     <!-- Chatbot title -->
-    <h1 class="chatbot-title">SL Bot</h1>
+    <h1 class="chatbot-title">SL Bots</h1>
 </body>
 </html>
 """
