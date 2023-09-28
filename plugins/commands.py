@@ -52,6 +52,8 @@ async def start(client, message):
             InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='my_about')
         ],[
             InlineKeyboardButton('💰 ᴇᴀʀɴ ᴍᴏɴᴇʏ ʙʏ ʙᴏᴛ 💰', callback_data='earn')
+        ],[
+            InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK)
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
