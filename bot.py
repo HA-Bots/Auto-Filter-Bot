@@ -12,7 +12,7 @@ from pyrogram.raw.all import layer
 from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
-from plugins import web_server
+from web import web_server
 from info import SESSION, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
@@ -38,6 +38,7 @@ class Bot(Client):
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
         await super().start()
+        temp.BOT = self
         await Media.ensure_indexes()
         me = await self.get_me()
         temp.ME = me.id
