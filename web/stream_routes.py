@@ -9,7 +9,6 @@ from aiohttp import web
 from web.utils.custom_dl import TGCustomYield, chunk_size, offset_fix
 from web.utils.render_template import render_page
 from urllib.parse import quote_plus
-from web import routes
 
 routes = web.RouteTableDef()
 
