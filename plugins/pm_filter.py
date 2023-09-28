@@ -49,6 +49,13 @@ async def stream_downloader(bot, query):
 async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
     if settings["auto_filter"]:
+        if message.text.startswith("/"):
+            return
+        elif re.findall(r'(https?://\S+)|(@\w+)', message.text):
+            if message.from_user.id in ADMINS:
+                return
+            await message.delete()
+            return await message.reply('Links not allowed here!')
         userid = message.from_user.id if message.from_user else None
         if not userid:
             search = message.text
@@ -954,17 +961,13 @@ async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
         settings = await get_settings(message.chat.id)
-        if message.text.startswith("/"): return  # ignore commands
-        if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
-            return
-        if 2 < len(message.text) < 100:
-            search = message.text
-            files, offset, total_results = await get_search_results(search.lower(), offset=0, filter=True)
-            if not files:
-                if settings["spell_check"]:
-                    return await advantage_spell_chok(msg)
-                else:
-                    return
+        search = message.text
+        files, offset, total_results = await get_search_results(search, offset=0, filter=True)
+        if not files:
+            if settings["spell_check"]:
+                return await advantage_spell_chok(msg)
+            else:
+                return
         else:
             return
     else:
