@@ -76,8 +76,8 @@
 * `ADMINS`: ID of Admins. (Multiple admins can be used separated by space)
 * `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
 * `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
-* `BIN_CHANNEL`: This variable for stream features, add channel id and make both stream & your bot admin in channel.
-* `URL`: Add your stream bot app link
+* `BIN_CHANNEL`: A channel to the stream and download feature, add channel id and make bot admin in channel.
+* `URL`: Add you deployed bot app link
 ### Optional Variables
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
