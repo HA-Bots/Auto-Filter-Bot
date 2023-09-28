@@ -12,9 +12,44 @@ from urllib.parse import quote_plus
 
 routes = web.RouteTableDef()
 
+# From chatGPT
+home_template = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SL Bot</title>
+    <style>
+        /* Add your CSS styles for the chatbot title and image here */
+        /* Example styles for the title */
+        .chatbot-title {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        /* Example styles for the image */
+        .chatbot-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Image above the chatbot title -->
+    <img src="https://telegra.ph/file/582962dbc60ae9ce722b0.jpg" alt="Chatbot Image" class="chatbot-image">
+
+    <!-- Chatbot title -->
+    <h1 class="chatbot-title">SL Bot</h1>
+</body>
+</html>
+"""
+
 @routes.get("/", allow_head=True)
 async def root_route_handler(request):
-    return web.json_response(text="@SL_Bots_Updates")
+    return web.Response(text=home_template, content_type='text/html')
 
 
 @routes.get("/watch/{message_id}")
