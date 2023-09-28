@@ -24,7 +24,6 @@ logger.setLevel(logging.ERROR)
 BUTTONS = {}
 CAP = {}
 
-"""Deploy this repo: https://github.com/adarsh-goel/filestreambot"""
 @Client.on_callback_query(filters.regex(r"^stream"))
 async def stream_downloader(bot, query):
     file_id = query.data.split('#', 1)[1]
