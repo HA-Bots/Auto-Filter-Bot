@@ -1,4 +1,4 @@
-import random
+import random, os, sys
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
@@ -48,6 +48,13 @@ async def new_grp_msg(bot, message):
                 )
                 await message.reply(welcome_msg)
                 
+@Client.on_message(filters.command('restart') & filters.user(ADMINS))
+async def restart_bot(bot, message):
+    msg = await message.reply("Restarting...")
+    with open('restart.txt', 'w+') as file:
+        await file.write(f"{msg.chat.id}\n{msg.id}")
+    os.execl(sys.executable, sys.executable, "bot.py")
+
 
 @Client.on_message(filters.command('leave') & filters.user(ADMINS))
 async def leave_a_chat(bot, message):
