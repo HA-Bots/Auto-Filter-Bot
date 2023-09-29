@@ -8,6 +8,9 @@ from pyrogram import enums
 from typing import Union
 import re
 import os
+import pytz
+import datetime
+import time
 from datetime import datetime
 from typing import List, Any
 from database.users_chats_db import db
@@ -223,3 +226,15 @@ def get_readable_time(seconds):
             period_value, seconds = divmod(seconds, period_seconds)
             result += f'{int(period_value)}{period_name}'
     return result
+
+def get_wish():
+    tz = pytz.timezone('Asia/Colombo')
+    time = datetime.now(tz)
+    now = time.strftime("%H")
+    if now < "12":
+        status = "ɢᴏᴏᴅ ᴍᴏʀɴɪɴɢ 🌞"
+    elif now < "18":
+        status = "ɢᴏᴏᴅ ᴀꜰᴛᴇʀɴᴏᴏɴ 🌗"
+    else:
+        status = "ɢᴏᴏᴅ ᴇᴠᴇɴɪɴɢ 🌘"
+    return status
