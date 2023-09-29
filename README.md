@@ -52,6 +52,9 @@
 • /set_welcome - to set custom new joined users welcome message for group.
 • /delete - to delete file type like SRT, AVI, ZIP, RAR.
 • /delete_all - to delete all indexed file.
+• /broadcast - to send message to all bot users.
+• /grp_broadcast - to send message to all groups.
+• /restart - to restart bot.
 • /set_tutorial - to set custom tutorial link in result page button.
 • /connect - to connect group.
 • /disconnect - to disconnect group.
