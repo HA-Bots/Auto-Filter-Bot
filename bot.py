@@ -18,6 +18,9 @@ from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 import time, os
+from pyrogram.errors import BadRequest, Unauthorized
+
+LOGGER = logging.getLogger(__name__)
 
 class Bot(Client):
 
@@ -53,7 +56,12 @@ class Bot(Client):
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
         logging.info(f"\n\n{username} is started!\n\n")
-        await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
+        try:
+            await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
+        except Unauthorized:
+            LOGGER.warning("Bot isn't able to send message to LOG_CHANNEL")
+        except BadRequest as e:
+            LOGGER.error(e)
 
 
     async def stop(self, *args):
