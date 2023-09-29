@@ -17,7 +17,7 @@ from info import SESSION, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
-import time
+import time, os
 
 class Bot(Client):
 
@@ -38,6 +38,10 @@ class Bot(Client):
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
         await super().start()
+        if os.path.exists('restart.txt'):
+            with open("restart.txt") as file:
+                chat_id, msg_id = map(int, file)
+            await self.edit_message_text(chat_id=chat_id, message_id=msg_id, text='Restarted Successfully!')
         temp.BOT = self
         await Media.ensure_indexes()
         me = await self.get_me()
