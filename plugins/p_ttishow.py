@@ -52,7 +52,7 @@ async def new_grp_msg(bot, message):
 async def restart_bot(bot, message):
     msg = await message.reply("Restarting...")
     with open('restart.txt', 'w+') as file:
-        await file.write(f"{msg.chat.id}\n{msg.id}")
+        file.write(f"{msg.chat.id}\n{msg.id}")
     os.execl(sys.executable, sys.executable, "bot.py")
 
 
