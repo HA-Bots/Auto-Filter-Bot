@@ -10,7 +10,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, STICKERS, PICS, PROTECT_CONTENT
-from utils import get_settings, get_size, is_subscribed, save_group_settings, temp, get_readable_time
+from utils import get_settings, get_size, is_subscribed, save_group_settings, temp, get_readable_time, get_wish
 from database.connections_mdb import active_connection
 import re
 import json
@@ -23,12 +23,12 @@ logger = logging.getLogger(__name__)
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        wish = get_wish()
         btn = [[
-            InlineKeyboardButton('⚡️ Updates Channel ⚡️', url=UPDATES_LINK),
-            InlineKeyboardButton('🔥 Support Group 🔥', url=SUPPORT_LINK)
+            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK)
         ]]
-        s = await message.reply_sticker(sticker=random.choice(STICKERS), reply_markup=InlineKeyboardMarkup(btn))
-        await asyncio.sleep(30)
+        s = await message.reply(text=f"<b>ʜᴇʏ ᴛʜᴇʀᴇ {wish},\nʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ??</b>", reply_markup=InlineKeyboardMarkup(btn))
+        await asyncio.sleep(60)
         await s.delete()
         try:
             await message.delete()
