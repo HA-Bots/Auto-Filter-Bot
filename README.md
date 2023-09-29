@@ -5,7 +5,7 @@
   <b>𝘼𝙪𝙩𝙤 𝙁𝙞𝙡𝙩𝙚𝙧 𝘽𝙤𝙩</b>
 </h1>
 
-![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+2𝐺𝐵)
+![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)
 </p>
 
 <a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/stargazers"><img src="https://img.shields.io/github/stars/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" alt="Stars" /></a>
@@ -21,7 +21,7 @@
 - [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
 - [x] 𝑂𝑛𝑙𝑖𝑛𝑒 𝑠𝑡𝑟𝑒𝑎𝑚 𝑎𝑛𝑑 𝑑𝑜𝑤𝑛𝑙𝑜𝑎𝑑
 - [x] 𝐹𝑖𝑙𝑒 𝑐𝑎𝑝𝑡𝑖𝑜𝑛 𝑠𝑒𝑡
-- [x] 𝐼𝑛𝑑𝑒𝑥𝑒𝑠 𝐹𝑖𝑙𝑒𝑠 𝑎𝑏𝑜𝑣𝑒 2𝐺𝐵
+- [x] 𝐼𝑛𝑑𝑒𝑥𝑒𝑠 𝐹𝑖𝑙𝑒𝑠 𝑎𝑏𝑜𝑣𝑒 4𝐺𝐵
 - [x] 𝑆𝑝𝑒𝑐𝑖𝑓𝑖𝑐 𝑓𝑖𝑙𝑒𝑠 𝐷𝑒𝑙𝑒𝑡𝑒 𝑀𝑜𝑑𝑒
 - [x] 𝑆𝑒𝑡𝑡𝑖𝑛𝑔𝑠 𝑀𝑒𝑛𝑢
 - [x] 𝑀𝑢𝑙𝑡𝑖𝑝𝑙𝑒 𝐹𝑜𝑟𝑐𝑒 𝑆𝑢𝑏𝑠𝑐𝑟𝑖𝑝𝑡𝑖𝑜𝑛
