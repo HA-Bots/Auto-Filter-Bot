@@ -697,12 +697,12 @@ async def set_fsub(client, message):
     except ValueError:
         return await message.reply_text('Make sure ids is integer.')
         
-    title = "Channels:\n"
+    titles = "Channels:\n"
     for id in fsub_ids:
         try:
-            title += (await client.get_chat(id)).title
-            title += '\n'
+            titles += (await client.get_chat(id)).title
+            titles += '\n'
         except Exception as e:
-            return await message.reply_text(f"{id} is invalid!\n\nError - {e}")
+            return await message.reply_text(f"{id} is invalid!\nMake sure this bot admin in that channel.\n\nError - {e}")
     await save_group_settings(grp_id, 'fsub', fsub_ids)
-    await message.reply_text(f"Successfully set fsub for {title} to\n\n{title}")
+    await message.reply_text(f"Successfully set fsub for {title}\n\n{titles}")
