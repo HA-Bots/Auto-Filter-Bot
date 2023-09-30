@@ -17,8 +17,8 @@ async def addconnection(client, message):
 
     if chat_type == enums.ChatType.PRIVATE:
         try:
-            cmd, group_id = message.text.split(" ", 1)
-        except:
+            group_id = int(message.text.split(" ", 1)[1])
+        except IndexError:
             await message.reply_text(
                 "Enter in correct format!\n\n"
                 "<code>/connect group_id</code>\n\n"
@@ -26,6 +26,8 @@ async def addconnection(client, message):
                 quote=True
             )
             return
+        except ValueError:
+            return await message.reply_text('Make sure ids is integer.')
 
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         group_id = message.chat.id
