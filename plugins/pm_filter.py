@@ -105,7 +105,6 @@ async def pm_search(client, message):
         ]]
         await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
 
-
 @Client.on_callback_query(filters.regex(r"^next"))
 async def next_page(bot, query):
     ident, req, key, offset = query.data.split("_")
@@ -534,7 +533,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file_id}")
 
-
     elif query.data.startswith("pm_checksub"):
         ident, mc = query.data.split("#")
         btn = await is_subscribed(client, query)
@@ -547,8 +545,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
         await query.message.delete()
-
-        
+   
     elif query.data == "grp_checksub":
         user = query.message.reply_to_message.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
@@ -583,7 +580,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('🔎 sᴇᴀʀᴄʜ ɪɴʟɪɴᴇ 🔍', switch_inline_query_current_chat=''),
             InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK)
         ],[
-            InlineKeyboardButton('⚡️ ᴏᴡɴᴇʀ', callback_data='my_owner'),
+            InlineKeyboardButton('👨‍🚒 ʜᴇʟᴘ', callback_data='help'),
             InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='my_about')
         ],[
             InlineKeyboardButton('💰 ᴇᴀʀɴ ᴍᴏɴᴇʏ ʙʏ ʙᴏᴛ 💰', callback_data='earn')
@@ -597,7 +594,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "my_about":
         buttons = [[
             InlineKeyboardButton('📊 sᴛᴀᴛᴜs', callback_data='stats'),
-            InlineKeyboardButton('📖 ʀᴇᴘᴏʀᴛ ʙᴜɢs', url=SUPPORT_LINK)
+            InlineKeyboardButton('🔋 sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ', callback_data='source')
         ],[
             InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start')
         ]]
@@ -622,7 +619,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         buttons = [[
             InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='my_about')
         ]]
-        await query.message.edit_text(script.STATUS_TXT.format(files, users, chats, size, free, uptime), reply_markup=InlineKeyboardMarkup(buttons))
+        await query.message.edit_text(script.STATUS_TXT.format(files, users, chats, size, free, uptime), reply_markup=InlineKeyboardMarkup(buttons)
+        )
         
     elif query.data == "my_owner":
         buttons = [[
@@ -635,6 +633,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+        
     elif query.data == "earn":
         buttons = [[
             InlineKeyboardButton('‼️ ʜᴏᴡ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ sʜᴏʀᴛɴᴇʀ ‼️', callback_data='howshort')
@@ -648,6 +647,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+        
     elif query.data == "howshort":
         buttons = [[
             InlineKeyboardButton('≼ ʙᴀᴄᴋ', callback_data='earn')
@@ -658,7 +658,29 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-
+        
+    elif query.data == "help":
+        buttons = [[
+            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
+            InlineKeyboardButton('ᴏᴡɴᴇʀ', callback_data='my_owner')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.HELP_TXT,
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+        
+    elif query.data == "source":
+        buttons = [[
+            InlineKeyboardButton('≼ ʙᴀᴄᴋ', callback_data='my_about')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.SOURCE_TXT,
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
 
     elif query.data.startswith("opn_pm_setgs"):
         ident, grp_id = query.data.split("#")
@@ -904,7 +926,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer("Changed!")
             await query.message.edit_reply_markup(reply_markup)
 
-
     elif query.data == "srt_delete":
         await query.message.edit_text("Deleting...")
         result = await Media.collection.delete_many({'mime_type': 'application/x-subrip'})
@@ -943,7 +964,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await Media.collection.drop()
         await query.message.edit_text(f"Successfully deleted {files} files")
         
-
     elif query.data.startswith("delete"):
         _, query_ = query.data.split("_")
         deleted = 0
@@ -953,8 +973,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await Media.collection.delete_one({'_id': file['_id']})
             deleted += 1
         await query.message.edit(f'Deleted {deleted} files in your database in your query {query_}')
-
-        
+     
     elif query.data.startswith("send_all"):
         ident, key = query.data.split("#")
         user = query.message.reply_to_message.from_user.id
@@ -964,10 +983,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         files = temp.FILES.get(key)
         if not files:
             await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
-            return
-        
+            return        
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}")
-        
         
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
@@ -1129,7 +1146,6 @@ async def auto_filter(client, msg, spoll=False):
         else:
             await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
 
-
 async def advantage_spell_chok(message):
     search = message.text
     google_search = search.replace(" ", "+")
@@ -1175,3 +1191,5 @@ async def advantage_spell_chok(message):
         await message.delete()
     except:
         pass
+
+
