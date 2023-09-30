@@ -28,7 +28,6 @@ class Media(Document):
         indexes = ('$file_name', )
         collection_name = COLLECTION_NAME
 
-
 async def save_file(media):
     """Save file in database"""
 
@@ -55,30 +54,21 @@ async def save_file(media):
             logger.info(f'{file_name} is saved to database')
             return 'suc'
 
-
-
 async def get_search_results(query, max_results=10, offset=0, filter=False, lang=None):
     """For given query return (results, next_offset)"""
 
     query = query.strip()
-    # for better results
-  #  if filter:
-  #      query = query.replace(' ', r'(\s|\.|\+|\-|_)')
-  #      raw_pattern = r'(\s|_|\-|\.|\+)' + query + r'(\s|_|\-|\.|\+)'
     if not query:
         raw_pattern = '.'
     elif ' ' not in query:
         raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
     else:
-        raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
-    
+        raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]') 
     try:
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
     except:
         return None, None, None
-
     filter = {'file_name': regex}
-
     cursor = Media.find(filter)
 
     # Sort by recent
@@ -97,15 +87,12 @@ async def get_search_results(query, max_results=10, offset=0, filter=False, lang
     cursor.skip(offset).limit(max_results)
     # Get list of files
     files = await cursor.to_list(length=max_results)
-
     total_results = await Media.count_documents(filter)
     next_offset = offset + max_results
     if next_offset > total_results:
-        next_offset = ''
-        
+        next_offset = ''       
     return files, next_offset, total_results
     
-
 async def delete_files(query, filter=True):
     query = query.strip()
     # for better results
@@ -134,7 +121,6 @@ async def get_file_details(query):
     filedetails = await cursor.to_list(length=1)
     return filedetails
 
-
 def encode_file_id(s: bytes) -> str:
     r = b""
     n = 0
@@ -150,7 +136,6 @@ def encode_file_id(s: bytes) -> str:
             r += bytes([i])
 
     return base64.urlsafe_b64encode(r).decode().rstrip("=")
-
 
 def unpack_new_file_id(new_file_id):
     """Return file_id, file_ref"""
