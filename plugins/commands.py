@@ -303,9 +303,6 @@ async def settings(client, message):
                 InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
             ]
         ]
-        if settings != db.bool_setgs:
-            buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
-
 
     if chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         btn = [[
