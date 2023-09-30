@@ -664,7 +664,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        st = await client.get_chat_member(grp_id, userid)
+        st = await client.get_chat_member(int(grp_id), userid)
         if (
                 st.status != enums.ChatMemberStatus.ADMINISTRATOR
                 and st.status != enums.ChatMemberStatus.OWNER
@@ -755,7 +755,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        st = await client.get_chat_member(grp_id, userid)
+        st = await client.get_chat_member(int(grp_id), userid)
         if (
                 st.status != enums.ChatMemberStatus.ADMINISTRATOR
                 and st.status != enums.ChatMemberStatus.OWNER
@@ -834,7 +834,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, set_type, status, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        st = await client.get_chat_member(grp_id, userid)
+        st = await client.get_chat_member(int(grp_id), userid)
         if (
                 st.status != enums.ChatMemberStatus.ADMINISTRATOR
                 and st.status != enums.ChatMemberStatus.OWNER
@@ -917,7 +917,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        st = await client.get_chat_member(grp_id, userid)
+        st = await client.get_chat_member(int(grp_id), userid)
         if (
                 st.status != enums.ChatMemberStatus.ADMINISTRATOR
                 and st.status != enums.ChatMemberStatus.OWNER
