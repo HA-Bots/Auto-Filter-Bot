@@ -93,3 +93,45 @@ I can't find the <b>{}</b> in my database! 🥲
 ᴘʟᴇᴀsᴇ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ᴄʟᴏsᴇ ʙᴜᴛᴛᴏɴ ɪꜰ ʏᴏᴜ ʜᴀᴠᴇ sᴇᴇɴ ᴛʜᴇ ᴍᴏᴠɪᴇ"""
 
     WELCOME_TEXT = """Hello {mention}, Welcome to {title} group!"""
+
+    HELP_TXT = """<b>ʜᴇʀᴇ ɪs ʙᴏᴛ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs -
+    
+• /start - to check bot alive or not.
+• /index_channels - to check how many index channel id added.
+• /stats - to get bot status.
+• /settings - to change group settings as your wish.
+• /set_template - to set custom imdb template.
+• /set_caption - to set custom bot files caption.
+• /set_shortlink - group admin can set custom shortlink.
+• /get_shortlink - to get your connected shortlink details.
+• /set_welcome - to set custom new joined users welcome message for group.
+• /delete - to delete file type like SRT, AVI, ZIP, RAR.
+• /delete_all - to delete all indexed file.
+• /broadcast - to send message to all bot users.
+• /grp_broadcast - to send message to all groups.
+• /restart - to restart bot.
+• /set_tutorial - to set custom tutorial link in result page button.
+• /connect - to connect group.
+• /disconnect - to disconnect group.
+• /connections - to check how many your groups connected by bot.
+• /id - to check group or channel id.
+• /leave - to leave your bot from particular group.
+• /enable - to enable group.
+• /disable - to disable group.
+• /ban - to ban a users from bot.
+• /unban - to unban a users from bot.
+• /users - to get all users details.
+• /chats - to get all groups.
+• /invite_link - to generate invite link.
+• /logs - to check bot logs.</b>"""
+
+    SOURCE_TXT = """<b>ʙᴏᴛ ɢɪᴛʜᴜʙ ʀᴇᴘᴏsɪᴛᴏʀʏ -
+
+- ᴛʜɪꜱ ʙᴏᴛ ɪꜱ ᴀɴ ᴏᴘᴇɴ ꜱᴏᴜʀᴄᴇ ᴘʀᴏᴊᴇᴄᴛ.
+
+- ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta>ʜᴇʀᴇ</a>
+
+ᴅᴇᴠʟᴏᴘᴇʀ -
+
+<a href=https://telegram.me/Hansaka_Anuhas>ʜᴀɴsᴀᴋᴀ</a>
+<a href=https://telegram.me/Technicalaks123>ᴀᴋs</a></b>"""
