@@ -102,7 +102,7 @@
 
 ## Thanks To
  - [Pyrogram](https://t.me/pyrogramchat) To the members who helped
- - [Contributors](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/graphs/contributors) For some helps
+ - [Contributors](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/graphs/contributors) For free helps
 
 ## Note
  - Importing this repo instead of forking is strictly prohibited, Kindly fork and edit as your wish (Must Give Credits for developer)
