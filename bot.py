@@ -44,7 +44,11 @@ class Bot(Client):
         if os.path.exists('restart.txt'):
             with open("restart.txt") as file:
                 chat_id, msg_id = map(int, file)
-            await self.edit_message_text(chat_id=chat_id, message_id=msg_id, text='Restarted Successfully!')
+            try:
+                await self.edit_message_text(chat_id=chat_id, message_id=msg_id, text='Restarted Successfully!')
+            except:
+                pass
+            os.remove(restart.txt)
         temp.BOT = self
         await Media.ensure_indexes()
         me = await self.get_me()
@@ -59,9 +63,11 @@ class Bot(Client):
         try:
             await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
         except Unauthorized:
-            LOGGER.warning("Bot isn't able to send message to LOG_CHANNEL")
+            LOGGER.error("Bot isn't able to send message to LOG_CHANNEL, exiting now")
+            exit()
         except BadRequest as e:
-            LOGGER.error(e)
+            LOGGER.error(f'{e}, exiting now')
+            exit()
 
 
     async def stop(self, *args):
