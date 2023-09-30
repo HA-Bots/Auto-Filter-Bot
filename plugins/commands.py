@@ -64,13 +64,18 @@ async def start(client, message):
         )
         return
 
-    btn = await is_subscribed(client, message)
+    btn = await is_subscribed(client, message) # This func is for AUTH_CHANNEL
     mc = message.command[1]
     if btn:
         if mc != 'subscribe':
-            btn.append(
-                [InlineKeyboardButton("🔁 Try Again 🔁", url=f"https://t.me/{temp.U_NAME}?start={mc}")]
-            )
+            try:
+                btn.append(
+                    [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"pm_checksub#{mc}")]
+                )
+            except (IndexError, ValueError):
+                btn.append(
+                    [InlineKeyboardButton("🔁 Try Again 🔁", url=f"https://t.me/{temp.U_NAME}?start={mc}")]
+                )
         await message.reply_photo(
             photo=random.choice(PICS),
             caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and request again. 😇",
@@ -647,3 +652,57 @@ async def save_tutorial(client, message):
     await save_group_settings(grp_id, 'tutorial', tutorial)
     await message.reply_text(f"Successfully changed tutorial for {title} to\n\n{tutorial}")
 
+
+@Client.on_message(filters.command('set_fsub'))
+async def set_fsub(client, message):
+    userid = message.from_user.id if message.from_user else None
+    if not userid:
+        return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
+    chat_type = message.chat.type
+
+    if chat_type == enums.ChatType.PRIVATE:
+        grpid = await active_connection(str(userid))
+        if grpid is not None:
+            grp_id = grpid
+            try:
+                chat = await client.get_chat(grpid)
+                title = chat.title
+            except:
+                await message.reply_text("Make sure I'm present in your group!!", quote=True)
+                return
+        else:
+            await message.reply_text("I'm not connected to any groups!", quote=True)
+            return
+
+    elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        grp_id = message.chat.id
+        title = message.chat.title
+
+    else:
+        return
+
+    st = await client.get_chat_member(grp_id, userid)
+    if (
+            st.status != enums.ChatMemberStatus.ADMINISTRATOR
+            and st.status != enums.ChatMemberStatus.OWNER
+            and str(userid) not in ADMINS
+    ):
+        return
+
+    try:
+        ids = message.text.split(" ", 1)[1]
+        fsub_ids = list(map(int, ids.split()))
+    except IndexError:
+        return await message.reply_text("Command Incomplete!\n\nCan multiple channel add separate by spaces. Like: /set_fsub id1 id2 id3")
+    except ValueError:
+        return await message.reply_text('Make sure ids is integer.')
+        
+    title = "Channels:\n"
+    for id in fsub_ids:
+        try:
+            title += (await client.get_chat(id)).title
+            title += '\n'
+        except Exception as e:
+            return await message.reply_text(f"{id} is invalid!\n\nError - {e}")
+    await save_group_settings(grp_id, 'fsub', fsub_ids)
+    await message.reply_text(f"Successfully set fsub for {title} to\n\n{title}")
