@@ -19,17 +19,6 @@ class Database:
         'links': LINK_MODE,
         'fsub': AUTH_CHANNEL
     }
-
-    bool_setgs = {
-        'auto_filter': AUTO_FILTER,
-        'file_secure': PROTECT_CONTENT,
-        'imdb': IMDB,
-        'spell_check': SPELL_CHECK,
-        'auto_delete': AUTO_DELETE,
-        'welcome': WELCOME,
-        'shortlink': SHORTLINK,
-        'links': LINK_MODE
-    }
     
     def __init__(self):
         self._client = motor.motor_asyncio.AsyncIOMotorClient(DATABASE_URL)
