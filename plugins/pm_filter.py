@@ -13,7 +13,7 @@ from info import ADMINS, URL, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, LOG_CHANNE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, get_shortlink, get_readable_time, get_poster, reset_settings, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, get_shortlink, get_readable_time, get_poster, reset_bool_settings, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -730,7 +730,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
                 ]
             ]
-            if settings != db.default_setgs:
+            if settings != db.bool_setgs:
                 buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
 
             try:
@@ -818,7 +818,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
                 ]
             ]
-            if settings != db.default_setgs:
+            if settings != db.bool_setgs:
                 buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
 
             reply_markup = InlineKeyboardMarkup(buttons)
@@ -906,7 +906,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
                 ]
             ]
-            if settings != db.default_setgs:
+            if settings != db.bool_setgs:
                 buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
 
             reply_markup = InlineKeyboardMarkup(buttons)
@@ -928,7 +928,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if str(grp_id) != str(grpid):
             await query.message.edit("I'm not connected to this group! Check /connections or /connect to this group.")
             return
-        await reset_settings(grpid)
+        await reset_bool_settings(grpid)
         settings = await get_settings(grpid)
 
         if settings is not None:
