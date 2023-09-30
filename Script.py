@@ -96,7 +96,7 @@ I can't find the <b>{}</b> in my database! 🥲
 
 Welcome to {title} group! 💞"""
 
-    HELP_TXT = """<b>Here is bot admin commands -
+    ADMIN_TXT = """<b>Here is bot admin commands -
 
 /index_channels - to check how many index channel id added
 /stats - to get bot status
