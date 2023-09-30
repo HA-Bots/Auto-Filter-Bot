@@ -11,3 +11,4 @@ cinemagoer
 shortzy
 aiohttp
 aiofiles
+telegraph
