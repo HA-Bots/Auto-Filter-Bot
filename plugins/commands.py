@@ -296,13 +296,16 @@ async def settings(client, message):
             ],
             [
                 InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
-                InlineKeyboardButton('Link' if settings["links"] else 'Button',
+                InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button',
                                     callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
             ],
             [
                 InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
             ]
         ]
+        if settings != db.default_setgs:
+            buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
+
 
     if chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         btn = [[
