@@ -13,14 +13,13 @@ from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
 from web import web_server
-from info import SESSION, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT
+from info import SESSION, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 import time, os
-from pyrogram.errors import BadRequest, Unauthorized
+from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid
 
-LOGGER = logging.getLogger(__name__)
 
 class Bot(Client):
 
@@ -40,7 +39,11 @@ class Bot(Client):
         b_users, b_chats = await db.get_banned()
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
-        await super().start()
+        try:
+            await super().start()
+        except (AccessTokenExpired, AccessTokenInvalid):
+            logging.error("Your BOT_TOKEN revoke and add again, exiting now")
+            exit()
         if os.path.exists('restart.txt'):
             with open("restart.txt") as file:
                 chat_id, msg_id = map(int, file)
@@ -62,11 +65,14 @@ class Bot(Client):
         logging.info(f"\n\n{username} is started!\n\n")
         try:
             await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
-        except Unauthorized:
-            LOGGER.error("Bot isn't able to send message to LOG_CHANNEL, exiting now")
+        except:
+            logging.error("Make sure bot admin in LOG_CHANNEL, exiting now")
             exit()
-        except BadRequest as e:
-            LOGGER.error(f'{e}, exiting now')
+        try:
+            m = await self.send_message(chat_id=BIN_CHANNEL, text="Test")
+            await m.delete()
+        except:
+            logging.error("Make sure bot admin in BIN_CHANNEL, exiting now")
             exit()
 
 
