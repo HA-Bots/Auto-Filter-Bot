@@ -39,9 +39,9 @@ class temp(object):
     GROUPS_CANCEL = False
     BOT = None
 
-async def is_subscribed(bot, query):
+async def is_subscribed(bot, query, channel=AUTH_CHANNEL):
     btn = []
-    for id in AUTH_CHANNEL:
+    for id in channel:
         chat = await bot.get_chat(id)
         try:
             await bot.get_chat_member(id, query.from_user.id)
@@ -49,6 +49,8 @@ async def is_subscribed(bot, query):
             btn.append(
                 [InlineKeyboardButton(f'Join {chat.title}', url=chat.invite_link)]
             )
+        except Exception as e:
+            logger.exception(e)
     return btn
 
 async def get_poster(query, bulk=False, id=False, file=None):
