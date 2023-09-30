@@ -627,7 +627,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         
     elif query.data == "my_owner":
         buttons = [[
-            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='help'),
+            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
             InlineKeyboardButton('☎️ ᴄᴏɴᴛᴀᴄᴛ', url='https://t.me/Hansaka_Anuhas')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
@@ -641,8 +641,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         buttons = [[
             InlineKeyboardButton('‼️ ʜᴏᴡ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ sʜᴏʀᴛɴᴇʀ ‼️', callback_data='howshort')
         ],[
-            InlineKeyboardButton('≼ ʙᴀᴄᴋ', callback_data='start'),
-            InlineKeyboardButton('💬 ʜᴇʟᴘ', url="https://telegram.me/SL_Bots_Support"),
+            InlineKeyboardButton('≼ ʙᴀᴄᴋ', callback_data='start')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
