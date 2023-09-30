@@ -13,7 +13,7 @@ from info import ADMINS, URL, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, LOG_CHANNE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, get_shortlink, get_readable_time, get_poster, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, get_wish, get_shortlink, get_readable_time, get_poster, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -590,7 +590,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
-            text=script.START_TXT.format(query.from_user.mention),
+            text=script.START_TXT.format(query.from_user.mention, get_wish()),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
