@@ -80,7 +80,7 @@
 * `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
 * `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
 * `BIN_CHANNEL`: A channel to the stream and download feature, add channel id and make bot admin in channel.
-* `URL`: Add you deployed bot app link
+* `URL`: Add you deployed bot app link or vps IP address
 ### Optional Variables
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
@@ -89,8 +89,17 @@
 
 
 ## Deploy
+### Static Server
 - [Watch Here](https://telegram.dog/aks_bots/6)
-
+### Local Server (VPS)
+- Build the Docker Image:
+```
+sudo docker build -t autofilterbot-beta .
+```
+- Run the Docker Container as Web App:
+```
+sudo docker run -d -p 8080:8080 --name AutoFilterBot autofilterbot-beta
+```
 
 ## Support
 * [![Support](https://img.shields.io/static/v1?label=Support&message=Group&color=critical)](https://t.me/SL_Bots_Support)
