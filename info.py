@@ -96,7 +96,9 @@ if len(URL) == 0:
     logging.error('URL is missing, exiting now')
     exit()
 else:
-    if URL.startswith(('https://', 'http://')):
+    if '.' in URL:
+        URL = f'http://{URL}:8080/'
+    elif URL.startswith('https://'):
         if not URL.endswith("/"):
             URL += '/'
     else:
