@@ -98,6 +98,8 @@ async def start(client, message):
             )   
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+            ],[
+                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]]
             await client.send_cached_media(
                 chat_id=message.from_user.id,
@@ -122,6 +124,8 @@ async def start(client, message):
     )
     btn = [[
         InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
+    ],[
+        InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
     ]]
     await client.send_cached_media(
         chat_id=message.from_user.id,
