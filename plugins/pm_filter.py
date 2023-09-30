@@ -581,7 +581,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK)
         ],[
             InlineKeyboardButton('👨‍🚒 ʜᴇʟᴘ', callback_data='help'),
-            InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='my_about')
+            InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='my_about'),
+            InlineKeyboardButton('👤 ᴏᴡɴᴇʀ', callback_data='my_owner')
         ],[
             InlineKeyboardButton('💰 ᴇᴀʀɴ ᴍᴏɴᴇʏ ʙʏ ʙᴏᴛ 💰', callback_data='earn')
         ]]
@@ -661,8 +662,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         
     elif query.data == "help":
         buttons = [[
-            InlineKeyboardButton('ᴏᴡɴᴇʀ', callback_data='my_owner'),
-            InlineKeyboardButton('Admin Command', callback_data='admin_cmd')
+            InlineKeyboardButton('User Command', callback_data='user_command'),
+            InlineKeyboardButton('Admin Command', callback_data='admin_command')
         ],[
             InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start')
         ]]
@@ -672,7 +673,17 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup
         )
 
-    elif query.data == "admin_cmd":
+    elif query.data == "user_command":
+        buttons = [[
+            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='help')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.USER_COMMAND_TXT,
+            reply_markup=reply_markup
+        )
+        
+    elif query.data == "admin_command":
         if query.from_user.id not in ADMINS:
             return await query.answer("ADMINS Only!", show_alert=True)
         buttons = [[
@@ -680,7 +691,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
-            text=script.ADMIN_TXT,
+            text=script.ADMIN_COMMAND_TXT,
             reply_markup=reply_markup
         )
 
