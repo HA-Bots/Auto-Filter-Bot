@@ -13,7 +13,7 @@ from info import ADMINS, URL, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, LOG_CHANNE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, get_shortlink, get_readable_time, get_poster, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, get_shortlink, get_readable_time, get_poster, reset_settings, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -545,8 +545,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             )
             await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
             return
-        await query.message.delete()
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
+        await query.message.delete()
 
         
     elif query.data == "grp_checksub":
@@ -723,13 +723,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ],
                 [
                     InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('Link' if settings["links"] else 'Button',
+                    InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button',
                                          callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
                 ],
                 [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
                 ]
             ]
+            if settings != db.default_setgs:
+                buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
 
             try:
                 await client.send_message(
@@ -809,13 +811,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ],
                 [
                     InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('Link' if settings["links"] else 'Button',
+                    InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button',
                                          callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
                 ],
                 [
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
                 ]
             ]
+            if settings != db.default_setgs:
+                buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
+
             reply_markup = InlineKeyboardMarkup(buttons)
             k = await query.message.edit_text(text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙", reply_markup=reply_markup)
             await asyncio.sleep(300)
@@ -894,7 +899,81 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ],
                 [
                     InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('Link' if settings["links"] else 'Button',
+                    InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button',
+                                         callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
+                ]
+            ]
+            if settings != db.default_setgs:
+                buttons.append([InlineKeyboardButton('🔧 Reset Settings 🔧', callback_data=f'reset_setgs#{grp_id}')])
+
+            reply_markup = InlineKeyboardMarkup(buttons)
+            await query.answer("Changed!")
+            await query.message.edit_reply_markup(reply_markup)
+
+    elif query.data.startswith("reset_setgs"):
+        ident, grp_id = query.data.split("#")
+        grpid = await active_connection(str(query.from_user.id))
+        userid = query.from_user.id if query.from_user else None
+        st = await client.get_chat_member(grp_id, userid)
+        if (
+                st.status != enums.ChatMemberStatus.ADMINISTRATOR
+                and st.status != enums.ChatMemberStatus.OWNER
+                and str(userid) not in ADMINS
+        ):
+            await query.answer("This Is Not For You!", show_alert=True)
+            return
+        if str(grp_id) != str(grpid):
+            await query.message.edit("I'm not connected to this group! Check /connections or /connect to this group.")
+            return
+        await reset_settings(grpid)
+        settings = await get_settings(grpid)
+
+        if settings is not None:
+            buttons = [
+                [
+                    InlineKeyboardButton('Auto Filter',
+                                         callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["auto_filter"] else '❌ No',
+                                         callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('File Secure',
+                                         callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No',
+                                         callback_data=f'setgs#file_secure#{settings["file_secure"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('IMDb Poster', callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["imdb"] else '❌ No',
+                                         callback_data=f'setgs#imdb#{settings["imdb"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Spelling Check',
+                                         callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["spell_check"] else '❌ No',
+                                         callback_data=f'setgs#spell_check#{settings["spell_check"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Auto Delete', callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{str(grp_id)}'),
+                    InlineKeyboardButton(f'{get_readable_time(DELETE_TIME)}' if settings["auto_delete"] else '❌ No',
+                                         callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No',
+                                         callback_data=f'setgs#welcome#{settings["welcome"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Shortlink', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["shortlink"] else '❌ No',
+                                         callback_data=f'setgs#shortlink#{settings["shortlink"]}#{str(grp_id)}')
+                ],
+                [
+                    InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button',
                                          callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
                 ],
                 [
@@ -902,10 +981,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
-            await query.answer("Changed!")
+            await query.answer("Settings successfully reset!", show_alert=True)
             await query.message.edit_reply_markup(reply_markup)
-
-
+            
+    
     elif query.data == "srt_delete":
         await query.message.edit_text("Deleting...")
         result = await Media.collection.delete_many({'mime_type': 'application/x-subrip'})
