@@ -2,6 +2,23 @@ import motor.motor_asyncio
 from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
 
 class Database:
+    default_setgs = {
+        'auto_filter': AUTO_FILTER,
+        'file_secure': PROTECT_CONTENT,
+        'imdb': IMDB,
+        'spell_check': SPELL_CHECK,
+        'auto_delete': AUTO_DELETE,
+        'welcome': WELCOME,
+        'welcome_text': WELCOME_TEXT,
+        'template': IMDB_TEMPLATE,
+        'caption': FILE_CAPTION,
+        'url': SHORTLINK_URL,
+        'api': SHORTLINK_API,
+        'shortlink': SHORTLINK,
+        'tutorial': TUTORIAL,
+        'links': LINK_MODE,
+        'fsub': AUTH_CHANNEL
+    }
     
     def __init__(self, uri, database_name):
         self._client = motor.motor_asyncio.AsyncIOMotorClient(uri)
@@ -109,27 +126,10 @@ class Database:
         
     
     async def get_settings(self, id):
-        default = {
-            'auto_filter': AUTO_FILTER,
-            'file_secure': PROTECT_CONTENT,
-            'imdb': IMDB,
-            'spell_check': SPELL_CHECK,
-            'auto_delete': AUTO_DELETE,
-            'welcome': WELCOME,
-            'welcome_text': WELCOME_TEXT,
-            'template': IMDB_TEMPLATE,
-            'caption': FILE_CAPTION,
-            'url': SHORTLINK_URL,
-            'api': SHORTLINK_API,
-            'shortlink': SHORTLINK,
-            'tutorial': TUTORIAL,
-            'links': LINK_MODE,
-            'fsub': AUTH_CHANNEL
-        }
         chat = await self.grp.find_one({'id':int(id)})
         if chat:
-            return chat.get('settings', default)
-        return default
+            return chat.get('settings', self.default_setgs)
+        return self.default_setgs
     
 
     async def disable_chat(self, chat, reason="No Reason"):
