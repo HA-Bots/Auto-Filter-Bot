@@ -46,6 +46,7 @@ class Database:
                 is_disabled=False,
                 reason="",
             ),
+            settings=self.default_setgs
         )
     
     async def add_user(self, id, name):
@@ -128,7 +129,7 @@ class Database:
     async def get_settings(self, id):
         chat = await self.grp.find_one({'id':int(id)})
         if chat:
-            return chat.get('settings', self.default_setgs)
+            return chat.get('settings')
         return self.default_setgs
     
 
