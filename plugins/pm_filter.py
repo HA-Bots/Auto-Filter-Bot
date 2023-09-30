@@ -661,15 +661,29 @@ async def cb_handler(client: Client, query: CallbackQuery):
         
     elif query.data == "help":
         buttons = [[
-            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
-            InlineKeyboardButton('ᴏᴡɴᴇʀ', callback_data='my_owner')
+            InlineKeyboardButton('ᴏᴡɴᴇʀ', callback_data='my_owner'),
+            InlineKeyboardButton('Admin Command', callback_data='admin_cmd')
+        ],[
+            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.HELP_TXT,
             reply_markup=reply_markup
         )
-        
+
+    elif query.data == "admin_cmd":
+        if query.from_user.id not in ADMINS:
+            return await query.answer("ADMINS Only!", show_alert=True)
+        buttons = [[
+            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='help')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(
+            text=script.ADMIN_TXT,
+            reply_markup=reply_markup
+        )
+
     elif query.data == "source":
         buttons = [[
             InlineKeyboardButton('≼ ʙᴀᴄᴋ', callback_data='my_about')
