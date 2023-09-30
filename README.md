@@ -98,7 +98,7 @@ sudo docker build -t autofilterbot-beta .
 ```
 - Run the Docker Container as Web App:
 ```
-sudo docker run -d -p 8080:8080 --name AutoFilterBot autofilterbot-beta
+sudo docker run -d -p 8080:8080 --name AutoFilterBot-Beta autofilterbot-beta
 ```
 
 ## Support
