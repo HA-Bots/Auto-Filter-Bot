@@ -2,14 +2,14 @@ import os
 from pyrogram import Client, filters
 from telegraph import upload_file
 
-@Client.on_message(filters.private & filters.photo)
+@Client.on_message((filters.photo | filters.video) & filters.private & filters.incoming)
 async def telegraph_upload(bot, message):
-    text = await message.reply_text(text="<code>ᴘʀᴏᴄᴇssɪɴɢ....</code>")   
+    text = await message.reply_text(text="ᴘʀᴏᴄᴇssɪɴɢ....")   
     media = await message.download()  
     try:
         response = upload_file(media)
     except Exception as e:
-        await text.edit_text(text=f"Error :- {e}")
+        await text.edit_text(text=f"Error - {e}")
         return    
     try:
         os.remove(media)
