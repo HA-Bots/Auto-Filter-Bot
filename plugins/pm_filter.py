@@ -13,7 +13,7 @@ from info import ADMINS, URL, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, LOG_CHANNE
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, get_wish, get_shortlink, get_readable_time, get_poster, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_readable_time, get_poster, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -58,6 +58,8 @@ async def give_filter(client, message):
             return await message.reply('Links not allowed here!')
             
         elif '@admin' in message.text.lower() or '@admins' in message.text.lower():
+            if await is_check_admin(client, message.chat.id, message.from_user.id):
+                return
             success = False
             async for member in client.get_chat_members(chat_id=message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
                 if not member.user.is_bot:
@@ -741,12 +743,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        st = await client.get_chat_member(int(grp_id), userid)
-        if (
-                st.status != enums.ChatMemberStatus.ADMINISTRATOR
-                and st.status != enums.ChatMemberStatus.OWNER
-                and str(userid) not in ADMINS
-        ):
+        if not await is_check_admin(client, grpid, userid):
             await query.answer("This Is Not For You!", show_alert=True)
             return
         if str(grp_id) != str(grpid):
@@ -829,12 +826,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        st = await client.get_chat_member(int(grp_id), userid)
-        if (
-                st.status != enums.ChatMemberStatus.ADMINISTRATOR
-                and st.status != enums.ChatMemberStatus.OWNER
-                and str(userid) not in ADMINS
-        ):
+        if not await is_check_admin(client, grpid, userid):
             await query.answer("This Is Not For You!", show_alert=True)
             return
         if str(grp_id) != str(grpid):
@@ -905,12 +897,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, set_type, status, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        st = await client.get_chat_member(int(grp_id), userid)
-        if (
-                st.status != enums.ChatMemberStatus.ADMINISTRATOR
-                and st.status != enums.ChatMemberStatus.OWNER
-                and str(userid) not in ADMINS
-        ):
+        if not await is_check_admin(client, grpid, userid):
             await query.answer("This Is Not For You!", show_alert=True)
             return
 
