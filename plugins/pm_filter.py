@@ -50,11 +50,41 @@ async def give_filter(client, message):
     if settings["auto_filter"]:
         if message.text.startswith("/"):
             return
+            
         elif re.findall(r'(https?://\S+)|(@\w+)', message.text):
             if message.from_user.id in ADMINS:
                 return
             await message.delete()
             return await message.reply('Links not allowed here!')
+            
+        elif '@admin' in message.text.lower() or '@admins' in message.text.lower():
+            success = False
+            async for member in client.get_chat_members(chat_id=message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
+                if not member.user.is_bot:
+                    if message.reply_to_message:
+                        try:
+                            sent_msg = await message.reply_to_message.forward(member.user.id)
+                            await sent_msg.reply_text(f"#Attention\n★ User: {message.from_user.mention}\n★ Group: {message.chat.title}\n\n★ <a href={message.reply_to_message.link}>Go to message</a>", disable_web_page_preview=True)
+                            success = True
+                        except:
+                            pass
+                    else:
+                        try:
+                            sent_msg = await message.forward(member.user.id)
+                            await sent_msg.reply_text(f"#Attention\n★ User: {message.from_user.mention}\n★ Group: {message.chat.title}\n\n★ <a href={message.link}>Go to message</a>", disable_web_page_preview=True)
+                            success = True
+                        except:
+                            pass
+            if success:
+                await message.reply_text("Report sent!")
+            else:
+                await message.reply_text("Something went wrong.")
+            return
+
+        elif '#request' in message.text.lower():
+            await client.send_message(LOG_CHANNEL, f"#Request\n★ User: {message.from_user.mention}\n★ Group: {message.chat.title}\n\n★ Message: {re.sub(r'#request', '', message.text.lower())}")
+            return
+            
         userid = message.from_user.id if message.from_user else None
         if not userid:
             search = message.text
