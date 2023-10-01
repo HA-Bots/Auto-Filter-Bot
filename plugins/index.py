@@ -26,7 +26,7 @@ async def index_files(bot, query):
         await index_files_to_db(int(lst_msg_id), chat, msg, bot)
     elif ident == 'cancel':
         temp.CANCEL = True
-        await query.answer("Cancelling Indexing...")
+        await query.message.edit("Trying to cancel Indexing...")
 
 
 @Client.on_message((filters.forwarded | filters.regex(r'https?://t\.me/[\w/]+')) & filters.private & filters.incoming & filters.user(ADMINS))
