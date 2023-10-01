@@ -51,12 +51,6 @@ async def give_filter(client, message):
         if message.text.startswith("/"):
             return
             
-        elif re.findall(r'(https?://\S+)|(@\w+)', message.text):
-            if message.from_user.id in ADMINS:
-                return
-            await message.delete()
-            return await message.reply('Links not allowed here!')
-            
         elif '@admin' in message.text.lower() or '@admins' in message.text.lower():
             if await is_check_admin(client, message.chat.id, message.from_user.id):
                 return
@@ -83,8 +77,17 @@ async def give_filter(client, message):
                 await message.reply_text("Something went wrong.")
             return
 
+        elif re.findall(r'(https?://\S+)|(@\w+)', message.text):
+            if await is_check_admin(client, message.chat.id, message.from_user.id):
+                return
+            await message.delete()
+            return await message.reply('Links not allowed here!')
+        
         elif '#request' in message.text.lower():
+            if message.from_user.id in ADMINS:
+                return
             await client.send_message(LOG_CHANNEL, f"#Request\n★ User: {message.from_user.mention}\n★ Group: {message.chat.title}\n\n★ Message: {re.sub(r'#request', '', message.text.lower())}")
+            await message.reply_text("Request sent!")
             return
             
         userid = message.from_user.id if message.from_user else None
