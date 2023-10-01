@@ -2,7 +2,8 @@ import os
 from pyrogram import Client, filters
 from telegraph import upload_file
 
-@Client.on_message((filters.photo | filters.video) & filters.private & filters.incoming)
+#@Client.on_message((filters.photo | filters.video) & filters.private & filters.incoming)
+@Client.on_message(filters.photo & filters.private & filters.incoming)
 async def telegraph_upload(bot, message):
     text = await message.reply_text(text="ᴘʀᴏᴄᴇssɪɴɢ....")   
     media = await message.download()  
