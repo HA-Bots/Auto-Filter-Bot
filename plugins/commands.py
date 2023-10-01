@@ -10,7 +10,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
-from utils import get_settings, get_size, is_subscribed, save_group_settings, temp, get_readable_time, get_wish
+from utils import get_settings, get_size, is_subscribed, is_check_admin, save_group_settings, temp, get_readable_time, get_wish
 from database.connections_mdb import active_connection
 import re
 import json
@@ -220,13 +220,8 @@ async def settings(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     settings = await get_settings(grp_id)
 
@@ -365,13 +360,8 @@ async def save_template(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     try:
         template = message.text.split(" ", 1)[1]
@@ -410,13 +400,8 @@ async def save_caption(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     try:
         caption = message.text.split(" ", 1)[1]
@@ -455,13 +440,8 @@ async def save_shortlink(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     try:
         _, url, api = message.text.split(" ", 2)
@@ -508,13 +488,8 @@ async def get_shortlink(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     settings = await get_settings(grp_id)
     url = settings["url"]
@@ -550,13 +525,8 @@ async def save_welcome(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     try:
         welcome = message.text.split(" ", 1)[1]
@@ -644,13 +614,8 @@ async def save_tutorial(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     try:
         tutorial = message.text.split(" ", 1)[1]
@@ -689,13 +654,8 @@ async def set_fsub(client, message):
     else:
         return
 
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
+    if not await is_check_admin(client, grp_id, userid):
+        return await message.reply_text('You not admin in this group.')
 
     try:
         ids = message.text.split(" ", 1)[1]
