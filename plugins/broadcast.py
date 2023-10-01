@@ -3,7 +3,7 @@ import datetime
 import time
 from database.users_chats_db import db
 from info import ADMINS
-from utils import broadcast_messages, groups_broadcast_messages, temp
+from utils import broadcast_messages, groups_broadcast_messages, temp, get_readable_time
 import asyncio
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -32,9 +32,10 @@ async def users_broadcast(bot, message):
     success = 0
         
     async for user in users:
+        time_taken = get_readable_time(time.time()-start_time)
         if temp.USERS_CANCEL:
-            await msg.edit(f"Users Successfully Broadcast Canceled!")
-            break
+            await sts.edit(f"Users broadcast Cancelled!\nCompleted in {time_taken}\n\nTotal Users: <code>{total_users}</code>\nCompleted: <code>{done} / {total_users}</code>\nSuccess: <code>{success}</code>")
+            return
         sts = await broadcast_messages(int(user['id']), b_msg)
         if sts == 'Success':
             success += 1
@@ -46,9 +47,9 @@ async def users_broadcast(bot, message):
                 InlineKeyboardButton('CANCEL', callback_data=f'broadcast_cancel#users')
             ]]
             await sts.edit(f"Users broadcast in progress...\n\nTotal Users: <code>{total_users}</code>\nCompleted: <code>{done} / {total_users}</code>\nSuccess: <code>{success}</code>", reply_markup=InlineKeyboardMarkup(btn))    
-    time_taken = datetime.timedelta(seconds=int(time.time()-start_time))
-    await sts.edit(f"Users broadcast completed.\nCompleted in {time_taken} seconds.\n\nTotal Users: <code>{total_users}</code>\nCompleted: <code>{done} / {total_users}</code>\nSuccess: <code>{success}</code>")
-        
+    await sts.edit(f"Users broadcast completed.\nCompleted in {time_taken}\n\nTotal Users: <code>{total_users}</code>\nCompleted: <code>{done} / {total_users}</code>\nSuccess: <code>{success}</code>")
+
+
 @Client.on_message(filters.command("grp_broadcast") & filters.user(ADMINS) & filters.reply)
 async def groups_broadcast(bot, message):
     chats = await db.get_all_chats()
@@ -64,9 +65,10 @@ async def groups_broadcast(bot, message):
     success = 0
         
     async for chat in chats:
+        time_taken = get_readable_time(time.time()-start_time)
         if temp.GROUPS_CANCEL:
-            await msg.edit(f"Groups Successfully Broadcast Canceled!")
-            break
+            await sts.edit(f"Groups broadcast Cancelled!\nCompleted in {time_taken}\n\nTotal Groups: <code>{total_chats}</code>\nCompleted: <code>{done} / {total_chats}</code>\nSuccess: <code>{success}</code>\nFailed: <code>{failed}</code>")
+            return
         sts = await groups_broadcast_messages(int(chat['id']), b_msg)
         if sts == 'Success':
             success += 1
@@ -78,7 +80,6 @@ async def groups_broadcast(bot, message):
                 InlineKeyboardButton('CANCEL', callback_data=f'broadcast_cancel#groups')
             ]]
             await sts.edit(f"Groups groadcast in progress...\n\nTotal Groups: <code>{total_chats}</code>\nCompleted: <code>{done} / {total_chats}</code>\nSuccess: <code>{success}</code>\nFailed: <code>{failed}</code>", reply_markup=InlineKeyboardMarkup(btn))    
-    time_taken = datetime.timedelta(seconds=int(time.time()-start_time))
-    await sts.edit(f"Groups broadcast completed.\nCompleted in {time_taken} seconds.\n\nTotal Groups: <code>{total_chats}</code>\nCompleted: <code>{done} / {total_chats}</code>\nSuccess: <code>{success}</code>\nFailed: <code>{failed}</code>")
+    await sts.edit(f"Groups broadcast completed.\nCompleted in {time_taken}\n\nTotal Groups: <code>{total_chats}</code>\nCompleted: <code>{done} / {total_chats}</code>\nSuccess: <code>{success}</code>\nFailed: <code>{failed}</code>")
 
 
