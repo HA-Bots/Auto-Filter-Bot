@@ -746,7 +746,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        if not await is_check_admin(client, grpid, userid):
+        if not await is_check_admin(client, int(grp_id), userid):
             await query.answer("This Is Not For You!", show_alert=True)
             return
         if str(grp_id) != str(grpid):
@@ -829,7 +829,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        if not await is_check_admin(client, grpid, userid):
+        if not await is_check_admin(client, int(grp_id), userid):
             await query.answer("This Is Not For You!", show_alert=True)
             return
         if str(grp_id) != str(grpid):
@@ -900,7 +900,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ident, set_type, status, grp_id = query.data.split("#")
         grpid = await active_connection(str(query.from_user.id))
         userid = query.from_user.id if query.from_user else None
-        if not await is_check_admin(client, grpid, userid):
+        if not await is_check_admin(client, int(grp_id), userid):
             await query.answer("This Is Not For You!", show_alert=True)
             return
 
