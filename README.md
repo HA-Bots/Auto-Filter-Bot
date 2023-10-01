@@ -38,7 +38,6 @@
 - [x] 𝐴𝑢𝑡𝑜 𝐷𝑒𝑙𝑒𝑡𝑒
 - [x] 𝐴𝑛𝑑 𝑀𝑜𝑟𝑒...
 
-## Example Bot
 * [![ExampleBot](https://img.shields.io/static/v1?label=Example&message=Bot&color=critical)](https://t.me/SL_Bots_Test_Bot)
 
 ## 𝐶𝑜𝑚𝑚𝑎𝑛𝑑𝑠
