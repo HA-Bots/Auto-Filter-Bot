@@ -6,7 +6,7 @@ from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, ChatAdmin
 from info import ADMINS, LOG_CHANNEL
 from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from utils import temp
+from utils import temp, get_readable_time
 import re
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -77,6 +77,7 @@ async def set_skip_number(bot, message):
 
 
 async def index_files_to_db(lst_msg_id, chat, msg, bot):
+    start_time = time.time()
     total_files = 0
     duplicate = 0
     errors = 0
@@ -85,15 +86,17 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
     unsupported = 0
     temp.CANCEL = False
     current = temp.CURRENT
+    
     async with lock:
         try:
             async for message in bot.iter_messages(chat, lst_msg_id, temp.CURRENT):
+                time_taken = get_readable_time(time.time()-start_time)
                 if temp.CANCEL:
-                    await msg.edit(f"Successfully Cancelled!\n\nSaved <code>{total_files}</code> files to Database!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>")
+                    await msg.edit(f"Successfully Cancelled!\nCompleted in {time_taken}\n\nSaved <code>{total_files}</code> files to Database!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>")
                     temp.CURRENT = 0
                     return
                 current += 1
-                if current % 20 == 0:
+                if current % 30 == 0:
                     can = [[InlineKeyboardButton('CANCEL', callback_data=f'index#cancel#{chat}#{lst_msg_id}')]]
                     reply = InlineKeyboardMarkup(can)
                     await msg.edit_text(
@@ -122,8 +125,8 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                     errors += 1
         except Exception as e:
             logger.exception(e)
-            await msg.edit(f'Error: {e}')
+            await msg.reply(f'Index canceled due to Error: {e}')
             temp.CURRENT = 0
         else:
-            await msg.edit(f'Succesfully saved <code>{total_files}</code> to Database!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>')
+            await msg.edit(f'Succesfully saved <code>{total_files}</code> to Database!\nCompleted in {time_taken}\n\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>')
             temp.CURRENT = 0
