@@ -29,20 +29,21 @@ async def index_files(bot, query):
         await query.answer("Cancelling Indexing...")
 
 
-@Client.on_message((filters.forwarded | (filters.regex("(https://)?(t\.me/|telegram\.me/|telegram\.dog/)(c/)?(\d+|[a-zA-Z_0-9]+)/(\d+)$")) & filters.text ) & filters.private & filters.incoming)
+@Client.on_message((filters.forwarded | filters.regex(r'https?://t\.me/[\w/]+')) & filters.private & filters.incoming & filters.user(ADMINS))
 async def send_for_index(bot, message):
     if lock.locked():
         return await message.reply('Wait until previous process complete.')
-    if message.text:
-        regex = re.compile("(https://)?(t\.me/|telegram\.me/|telegram\.dog/)(c/)?(\d+|[a-zA-Z_0-9]+)/(\d+)$")
-        match = regex.match(message.text)
-        if not match:
-            return await message.reply('Invalid link')
-        chat_id = match.group(4)
-        last_msg_id = int(match.group(5))
-        if chat_id.isnumeric():
-            chat_id  = int(("-100" + chat_id))
-    elif message.forward_from_chat.type == enums.ChatType.CHANNEL:
+    if message.text and message.text.startswith("https://t.me"):
+        try:
+            msg_link = message.text.split("/")
+            last_msg_id = int(msg_link[-1])
+            chat_id = msg_link[-2]
+            if chat_id.isnumeric():
+                chat_id = int(("-100" + chat_id))
+        except:
+            await message.reply('Invalid message link!')
+            return
+    elif message.forward_from_chat and message.forward_from_chat.type == enums.ChatType.CHANNEL:
         last_msg_id = message.forward_from_message_id
         chat_id = message.forward_from_chat.username or message.forward_from_chat.id
     else:
@@ -55,22 +56,14 @@ async def send_for_index(bot, message):
 
     if chat.type != enums.ChatType.CHANNEL:
         return await message.reply("I can index only channels.")
-    if message.from_user.id in ADMINS:
-        buttons = [
-            [
-                InlineKeyboardButton('YES',
-                                     callback_data=f'index#yes#{chat_id}#{last_msg_id}')
-            ],
-            [
-                InlineKeyboardButton('CLOSE', callback_data='close_data'),
-            ]
-        ]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply(
-            f'Do you want to index this channel?\n\nChannel ID or Username: <code>{chat_id}</code>\nLast Message ID: <code>{last_msg_id}</code>',
-            reply_markup=reply_markup)
-    else:
-        await message.reply("Sorry! You can't index files, You'r not my owner.")
+    buttons = [[
+        InlineKeyboardButton('YES', callback_data=f'index#yes#{chat_id}#{last_msg_id}')
+    ],[
+        InlineKeyboardButton('CLOSE', callback_data='close_data'),
+    ]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await message.reply(f'Do you want to index {chat.title} channel?\nTotal Messages: <code>{last_msg_id}</code>', reply_markup=reply_markup)
+
 
 
 @Client.on_message(filters.command('set_skip') & filters.user(ADMINS))
