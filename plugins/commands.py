@@ -42,7 +42,7 @@ async def start(client, message):
         await client.send_message(LOG_CHANNEL, script.NEW_USER_TXT.format(message.from_user.mention, message.from_user.id))
 
     verify_status = await db.get_verify_status(message.from_user.id)
-    if VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
+    if verify_status['is_verified'] and VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
         await db.update_verify_status(message.from_user.id, is_verified=False)
     
     if (len(message.command) != 2) or (len(message.command) == 2 and message.command[1] == 'start'):
