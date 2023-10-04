@@ -88,6 +88,7 @@
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
+* `SESSION_STRING`: Add your user bot string session for index private channels.
 * Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
 
 
