@@ -27,7 +27,7 @@ BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     logging.error('BOT_TOKEN is missing, exiting now')
     exit()
-SESSION_STRING = environ.get('SESSION_STRING' '')
+SESSION_STRING = environ.get('SESSION_STRING', '')
 PORT = int(environ.get('PORT', '8080'))
 
 # Bot pics
