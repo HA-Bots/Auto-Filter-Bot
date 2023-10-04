@@ -52,7 +52,7 @@ class Bot(Client):
             )
             try:
                 await user_bot.start()
-                name = f'@{username}' if (username:=user_bot.me.username) else user_bot.me.first_name
+                name = f'@{username}' if (username := user_bot.me.username) else user_bot.me.first_name
                 logging.info(f'User Bot [{name}] Started!')
                 temp.USER_BOT = user_bot
             except:
