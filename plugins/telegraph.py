@@ -2,7 +2,7 @@ import os
 from pyrogram import Client, filters
 from telegraph import upload_file
 
-@Client.on_message(filters.command('telegraph') & filters.private)
+@Client.on_message(filters.command('telegraph'))
 async def telegraph_upload(bot, message):
     if not (reply_to_message := message.reply_to_message):
         return await message.reply('Reply to any photo or video.')
