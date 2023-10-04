@@ -171,15 +171,15 @@ async def next_page(bot, query):
         if settings['links']:
             btn = []
             for file in files:
-                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
         else:
             btn = [[
-                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}'))
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}'))
             ]
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
         )
     else:
         if settings['links']:
@@ -282,15 +282,15 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         if settings["links"]:
             btn = []
             for file in files:
-                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
         else:
             btn = [[
-                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}'))
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}'))
             ]
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
         )
     else:
         if settings['links']:
@@ -357,15 +357,15 @@ async def lang_next_page(bot, query):
         if settings["links"]:
             btn = []
             for file in files:
-                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
         else:
             btn = [[
-                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}'))
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}'))
             ]
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(query.message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
         )
     else:
         if settings['links']:
@@ -1056,15 +1056,15 @@ async def auto_filter(client, msg, spoll=False):
         if settings['links']:
             btn = []
             for file in files:
-                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+                files_link += f"""<b>\n\n‼️ <a href={await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{message.chat.id}_{file.file_id}')}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
         else:
             btn = [[
-                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=file_{message.chat.id}_{file.file_id}'))
+                InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=file_{message.chat.id}_{file.file_id}'))
             ]
                 for file in files
             ]
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ", url=await get_shortlink(message.chat.id, f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}')),
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}')),
             ]
         )
     else:
