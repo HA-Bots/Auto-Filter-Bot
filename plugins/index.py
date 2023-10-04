@@ -41,7 +41,7 @@ async def index_files(bot, query):
 async def send_for_index(bot, message):
     if lock.locked():
         return await message.reply('Wait until previous process complete.')
-    if not reply_to_message := message.reply_to_message:
+    if not (reply_to_message := message.reply_to_message):
         return await message.reply('Forwarded message or message link reply this command.')
     if reply_to_message.text and reply_to_message.text.startswith("https://t.me"):
         try:
@@ -81,7 +81,7 @@ async def send_for_private_index(bot, message):
         return await message.reply('Wait until previous process complete.')
     if not temp.USER_BOT:
         return await message.reply('You not added SESSION_STRING')
-    if not reply_to_message := message.reply_to_message:
+    if not (reply_to_message := message.reply_to_message):
         return await message.reply('Forwarded message or message link reply this command.')
     if reply_to_message.text and reply_to_message.text.startswith("https://t.me"):
         try:
@@ -106,6 +106,8 @@ async def send_for_private_index(bot, message):
 
     if chat.type != enums.ChatType.CHANNEL:
         return await message.reply("I can index only channels.")
+    if chat.username:
+        return await message.reply('This channel is public, Use /index')
     buttons = [[
         InlineKeyboardButton('YES', callback_data=f'index#user#{chat_id}#{last_msg_id}')
     ],[
