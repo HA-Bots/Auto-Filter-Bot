@@ -104,7 +104,7 @@ async def start(client, message):
     if IS_VERIFY and not verify_status['is_verified']:
         token = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
         await db.update_verify_status(message.from_user.id, verify_token=token)
-        link = await get_shortlink(SHORTLINK_URL, f'https://t.me/{temp.U_NAME}?start=verify_{mc}_{token}')
+        link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{mc}_{token}')
         btn = [[
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
         ]]
@@ -491,7 +491,7 @@ async def save_shortlink(client, message):
     
     
 @Client.on_message(filters.command('get_shortlink'))
-async def get_shortlink(client, message):
+async def get_save_shortlink(client, message):
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
