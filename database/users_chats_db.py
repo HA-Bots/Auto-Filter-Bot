@@ -145,11 +145,11 @@ class Database:
         await self.grp.update_one({'id': int(chat)}, {'$set': {'chat_status': chat_status}})
     
 
-    async def get_verify_status(user_id):
+    async def get_verify_status(self, user_id):
         user = await self.col.find_one({'id':int(user_id)})
         return user.get('verify_status')
 
-    async def update_verify_status(user_id, verify_token="", is_verified=False, verified_time=""):
+    async def update_verify_status(self, user_id, verify_token="", is_verified=False, verified_time=""):
         default = dict(
             is_verified=is_verified,
             verified_time=verified_time,
