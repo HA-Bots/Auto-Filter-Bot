@@ -70,6 +70,8 @@
 • /chats - to get all groups.
 • /invite_link - to generate invite link.
 • /logs - to check bot logs.
+• /index - to index bot accessible channels.
+• /private_index - to index private channels.
 ```
 
 ## Variables
