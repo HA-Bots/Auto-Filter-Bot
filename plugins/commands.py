@@ -89,26 +89,26 @@ async def start(client, message):
         return
 
     if mc.startswith('verify'):
-        _, new_mc, token = mc.split("_", 2)
+        _, token = mc.split("_", 1)
         verify_status = await db.get_verify_status(message.from_user.id)
         if verify_status['verify_token'] != token:
             return await message.reply("Your verify token is invalid.")
         await db.update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
         btn = [[
-            InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={new_mc}')
+            InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
         ]]
         await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
     
     verify_status = await db.get_verify_status(message.from_user.id)
     if IS_VERIFY and not verify_status['is_verified']:
-        token = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
-        await db.update_verify_status(message.from_user.id, verify_token=token)
-        link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{mc}_{token}')
+        token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+        await db.update_verify_status(message.from_user.id, verify_token=token, link=mc)
+        link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{token}')
         btn = [[
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
         ]]
-        await message.reply("You now verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+        await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
  
     if mc.startswith('all'):
