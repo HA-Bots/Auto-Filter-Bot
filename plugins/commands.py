@@ -1,6 +1,6 @@
 import os
 import logging
-import random
+import random, string
 import asyncio
 import time
 from Script import script
@@ -9,8 +9,8 @@ from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
-from utils import get_settings, get_size, is_subscribed, is_check_admin, save_group_settings, temp, get_readable_time, get_wish
+from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_EXPIRE, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
+from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, save_group_settings, temp, get_readable_time, get_wish
 from database.connections_mdb import active_connection
 import re
 import json
@@ -82,6 +82,29 @@ async def start(client, message):
         )
         return
 
+    if mc.startswith('verify'):
+        _, new_mc, token = mc.split("_", 2)
+        verify_status = await db.get_verify_status(message.from_user.id)
+        if verify_status['verify_token'] != token:
+            return await message.reply("Your verify token is invalid.")
+        await db.update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
+        btn = [[
+            InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={new_mc}')
+        ]]
+        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+        return
+    
+    verify_status = await db.get_verify_status(message.from_user.id)
+    if IS_VERIFY and not verify_status['is_verified']:
+        token = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
+        await db.update_verify_status(message.from_user.id, verify_token=token)
+        link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{mc}_{token}')
+        btn = [[
+            InlineKeyboardButton("🧿 Verify 🧿", url=link)
+        ]]
+        await message.reply("You now verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+        return
+ 
     if mc.startswith('all'):
         _, grp_id, key = mc.split("_", 2)
         files = temp.FILES.get(key)
