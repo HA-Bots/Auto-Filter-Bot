@@ -52,6 +52,8 @@ class Bot(Client):
             )
             try:
                 await user_bot.start()
+                name = f'@{username}' if (username:=user_bot.me.username) else user_bot.me.first_name
+                logging.info(f'User Bot [{name}] Started!')
                 temp.USER_BOT = user_bot
             except:
                 logging.error("Your SESSION_STRING revoke and add again, exiting now")
@@ -74,7 +76,7 @@ class Bot(Client):
         app = web.AppRunner(await web_server())
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
-        logging.info(f"\n\n{username} is started!\n\n")
+        logging.info(f"\n\nBot [{username}] Started!\n\n")
         try:
             await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
         except:
