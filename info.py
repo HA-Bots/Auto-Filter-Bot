@@ -13,7 +13,6 @@ def is_enabled(value, default):
         return default
 
 # Bot information
-SESSION = environ.get('SESSION', 'Auto_Filters_Bot')
 API_ID = environ.get('API_ID', '')
 if len(API_ID) == 0:
     logging.error('API_ID is missing, exiting now')
@@ -28,6 +27,7 @@ BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     logging.error('BOT_TOKEN is missing, exiting now')
     exit()
+SESSION_STRING = environ.get('SESSION_STRING' '')
 PORT = int(environ.get('PORT', '8080'))
 
 # Bot pics
