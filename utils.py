@@ -237,12 +237,8 @@ def list_to_str(k):
         return ' '.join(f'{elem}, ' for elem in k)
 
     
-async def get_shortlink(group_id, link):
-    settings = await get_settings(group_id)
-    url = settings['url']
-    api = settings['api']
+async def get_shortlink(url, api, link):
     shortzy = Shortzy(api_key=api, base_site=url)
-
     link = await shortzy.convert(link)
     return link
 
