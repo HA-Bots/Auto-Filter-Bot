@@ -2,14 +2,18 @@ import os
 from pyrogram import Client, filters
 from telegraph import upload_file
 
-@Client.on_message((filters.photo | filters.video) & filters.private)
+@Client.on_message(filters.command('telegraph') & filters.private)
 async def telegraph_upload(bot, message):
-    file = message.photo or message.video
+    if not (reply_to_message := message.reply_to_message):
+        return await message.reply('Reply to any photo or video.')
+    file = reply_to_message.photo or reply_to_message.video or None
+    if file is None:
+        return await message.reply('Invalid media.')
     if file.file_size >= 5242880:
         await message.reply_text(text="Send less than 5MB")   
         return
     text = await message.reply_text(text="ᴘʀᴏᴄᴇssɪɴɢ....")   
-    media = await message.download()  
+    media = await reply_to_message.download()  
     try:
         response = upload_file(media)
     except Exception as e:
