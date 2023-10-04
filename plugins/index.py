@@ -57,6 +57,7 @@ async def send_for_index(bot, message):
         last_msg_id = reply_to_message.forward_from_message_id
         chat_id = reply_to_message.forward_from_chat.username or reply_to_message.forward_from_chat.id
     else:
+        await message.reply('Not replied valid message.')
         return
     try:
         chat = await bot.get_chat(chat_id)
@@ -97,6 +98,7 @@ async def send_for_private_index(bot, message):
         last_msg_id = reply_to_message.forward_from_message_id
         chat_id = reply_to_message.forward_from_chat.username or reply_to_message.forward_from_chat.id
     else:
+        await message.reply('Not replied valid message.')
         return
     try:
         chat = await temp.USER_BOT.get_chat(chat_id)
