@@ -38,7 +38,8 @@ class Database:
             verify_status=dict(
                 is_verified=False,
                 verified_time="",
-                verify_token=""
+                verify_token="",
+                link=""
         ))
 
 
@@ -149,11 +150,12 @@ class Database:
         user = await self.col.find_one({'id':int(user_id)})
         return user.get('verify_status')
 
-    async def update_verify_status(self, user_id, verify_token="", is_verified=False, verified_time=""):
+    async def update_verify_status(self, user_id, verify_token="", is_verified=False, verified_time="", link=""):
         default = dict(
             is_verified=is_verified,
             verified_time=verified_time,
-            verify_token=verify_token
+            verify_token=verify_token,
+            link=link
         )
         await self.col.update_one({'id': int(user_id)}, {'$set': {'verify_status': default}})
 
