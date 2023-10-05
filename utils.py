@@ -38,7 +38,6 @@ class temp(object):
     USERS_CANCEL = False
     GROUPS_CANCEL = False
     BOT = None
-    USER_BOT = None
 
 async def is_subscribed(bot, query, channel=AUTH_CHANNEL):
     btn = []
