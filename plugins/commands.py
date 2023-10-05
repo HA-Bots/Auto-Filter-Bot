@@ -232,7 +232,7 @@ async def settings(client, message):
             try:
                 chat = await client.get_chat(id)
                 btn.append(
-                    [InlineKeyboardButton(text=chat.title, callback_data=f'settings#{chat.id}')]
+                    [InlineKeyboardButton(text=chat.title, callback_data=f'pm_settings#{chat.id}')]
                 )
             except:
                 await delete_connections(id)
