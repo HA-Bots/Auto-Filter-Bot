@@ -75,7 +75,7 @@ async def give_filter(client, message):
                 await message.reply_text("Something went wrong.")
             return
 
-        elif re.findall(r'(https?://\S+)|(@\w+)', message.text):
+        elif re.findall(r'https?://\S+|www\.\S+|t\.me/\S+', message.text):
             if await is_check_admin(client, message.chat.id, message.from_user.id):
                 return
             await message.delete()
@@ -437,12 +437,18 @@ async def advantage_spoll_choker(bot, query):
 @Client.on_callback_query()
 async def cb_handler(client: Client, query: CallbackQuery):
     if query.data == "close_data":
-        user = query.message.reply_to_message.from_user.id
+        try:
+            user = query.message.reply_to_message.from_user.id
+        except:
+            user = query.from_user.id
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nThis Is Not For You!", show_alert=True)
         await query.answer("Closed!")
         await query.message.delete()
-        await query.message.reply_to_message.delete()
+        try:
+            await query.message.reply_to_message.delete()
+        except:
+            pass
 
     
     if query.data.startswith("file"):
@@ -726,17 +732,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙",
                     reply_markup=InlineKeyboardMarkup(buttons)
                 )
-                k = await query.message.edit_text(text="Settings menu sent in private chat. ⚙️", reply_markup=InlineKeyboardMarkup(btn))
-                await asyncio.sleep(60)
-                await k.delete()
-                try:
-                    await query.message.reply_to_message.delete()
-                except:
-                    pass
-            except UserIsBlocked:
-                await query.answer('You blocked me, Please unblock me and try again.', show_alert=True)
-            except PeerIdInvalid:
-                await query.answer("You didn't started this bot yet, Please start me and try again.", show_alert=True)
+                await query.message.edit_text(text="Settings menu sent in private chat. ⚙️", reply_markup=InlineKeyboardMarkup(btn))
+            except:
+                await query.answer("Something went wrong!, Please start me private and try again.", show_alert=True)
 
     elif query.data.startswith("opn_grp_setgs"):
         ident, grp_id = query.data.split("#")
@@ -786,13 +784,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(buttons)
-            k = await query.message.edit_text(text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙", reply_markup=reply_markup)
-            await asyncio.sleep(300)
-            await k.delete()
-            try:
-                await query.message.reply_to_message.delete()
-            except:
-                pass
+            await query.message.edit_text(text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙", reply_markup=reply_markup)
 
     elif query.data.startswith("setgs"):
         ident, set_type, status, grp_id = query.data.split("#")
