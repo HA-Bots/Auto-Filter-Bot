@@ -1,53 +1,37 @@
 import random, os, sys
 from pyrogram import Client, filters, enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ChatMemberUpdated
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
-from info import ADMINS, LOG_CHANNEL, PICS, SUPPORT_LINK
+from info import ADMINS, LOG_CHANNEL, PICS, SUPPORT_LINK, UPDATES_LINK
 from database.users_chats_db import db
 from database.ia_filterdb import Media
 from utils import get_size, temp, get_settings
 from Script import script
 from pyrogram.errors import ChatAdminRequired
 
-@Client.on_message(filters.new_chat_members & filters.group)
-async def new_grp_msg(bot, message):
-    r_j_check = [u.id for u in message.new_chat_members]
-    if temp.ME in r_j_check:
-        if message.chat.id in temp.BANNED_CHATS:
+@Client.on_chat_member_updated(filters.group)
+async def welcome(bot, message: ChatMemberUpdated):
+    if message.new_chat_member and not message.old_chat_member:
+        if message.new_chat_member.user.id == temp.ME:
             buttons = [[
+                InlineKeyboardButton('Updates Channel', url=UPDATES_LINK),
                 InlineKeyboardButton('Support Group', url=SUPPORT_LINK)
             ]]
             reply_markup=InlineKeyboardMarkup(buttons)
-            k = await message.reply(
-                text='<b><u>Chat Not Allowed</u></b>\n\nMy owner has restricted me from working here! If you want to know more about it contact support group.',
-                reply_markup=reply_markup,
-            )
-
-            try:
-                await k.pin()
-            except:
-                pass
-            await bot.leave_chat(message.chat.id)
+            user = message.from_user.mention if message.from_user else "Dear"
+            await bot.send_message(chat_id=message.chat.id, photo=random.choice(PICS), caption=f"👋 Hello {user},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>", reply_markup=reply_markup)
             return
-        buttons = [[
-            InlineKeyboardButton('Support Group', url=SUPPORT_LINK)
-        ]]
-        reply_markup=InlineKeyboardMarkup(buttons)
-        r_j = message.from_user.mention if message.from_user else "Dear"
-        await message.reply_photo(
-            photo=random.choice(PICS), caption=f"👋 Hello {r_j},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>",
-            reply_markup=reply_markup)
-    else:
+            
         settings = await get_settings(message.chat.id)
         if settings["welcome"]:
-            for u in message.new_chat_members:
-                WELCOME = settings['welcome_text']
-                welcome_msg = WELCOME.format(
-                    mention = u.mention,
-                    title = message.chat.title
-                )
-                await message.reply(welcome_msg)
-                
+            WELCOME = settings['welcome_text']
+            welcome_msg = WELCOME.format(
+                mention = message.new_chat_member.user.mention,
+                title = message.chat.title
+            )
+            await message.reply(welcome_msg)
+
+
 @Client.on_message(filters.command('restart') & filters.user(ADMINS))
 async def restart_bot(bot, message):
     msg = await message.reply("Restarting...")
