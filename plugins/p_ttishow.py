@@ -29,7 +29,7 @@ async def welcome(bot, message: ChatMemberUpdated):
                 mention = message.new_chat_member.user.mention,
                 title = message.chat.title
             )
-            await message.reply(welcome_msg)
+            await bot.send_message(chat_id=message.chat.id, text=welcome_msg)
 
 
 @Client.on_message(filters.command('restart') & filters.user(ADMINS))
