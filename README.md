@@ -49,7 +49,7 @@
 • /set_template - to set custom imdb template.
 • /set_caption - to set custom bot files caption.
 • /set_shortlink - group admin can set custom shortlink.
-• /get_shortlink - to get your connected shortlink details.
+• /get_custom_settings - to get your group settings details.
 • /set_welcome - to set custom new joined users welcome message for group.
 • /delete - to delete file type like SRT, AVI, ZIP, RAR.
 • /delete_all - to delete all indexed file.
