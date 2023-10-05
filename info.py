@@ -27,7 +27,6 @@ BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     logging.error('BOT_TOKEN is missing, exiting now')
     exit()
-SESSION_STRING = environ.get('SESSION_STRING', '')
 PORT = int(environ.get('PORT', '8080'))
 
 # Bot pics
@@ -50,11 +49,7 @@ if len(LOG_CHANNEL) == 0:
     exit()
 else:
     LOG_CHANNEL = int(LOG_CHANNEL)
-FILES_CHANNEL = environ.get('FILES_CHANNEL', '')
-if len(FILES_CHANNEL) == 0:
-    FILES_CHANNEL = None
-else:
-    FILES_CHANNEL = int(FILES_CHANNEL)
+
 
 # MongoDB information
 DATABASE_URL = environ.get('DATABASE_URL', "")
