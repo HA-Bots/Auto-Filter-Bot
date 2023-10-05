@@ -13,7 +13,7 @@ from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
 from web import web_server
-from info import SESSION_STRING, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, FILES_CHANNEL
+from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
@@ -38,40 +38,7 @@ class Bot(Client):
         b_users, b_chats = await db.get_banned()
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
-        try:
-            await super().start()
-        except (AccessTokenExpired, AccessTokenInvalid):
-            logging.error("Your BOT_TOKEN revoke and add again, exiting now")
-            exit()
-        if len(SESSION_STRING) != 0:
-            if not FILES_CHANNEL:
-                logging.error('FILES_CHANNEL is need to index private channel with user bot, exiting now')
-                exit()
-            user_bot = Client(
-                name='Auto_Filter_User_Bot',
-                api_id=API_ID,
-                api_hash=API_HASH,
-                session_string=SESSION_STRING
-            )
-            try:
-                await user_bot.start()
-                name = f'@{username}' if (username := user_bot.me.username) else user_bot.me.first_name
-                logging.info(f'User Bot [{name}] Started!')
-                temp.USER_BOT = user_bot
-            except:
-                logging.error("Your SESSION_STRING delete and add new, exiting now")
-                exit()
-            try:
-                m = await user_bot.send_message(chat_id=FILES_CHANNEL, text="Test")
-                await m.delete()
-            except:
-                logging.error("Make sure user bot admin in FILES_CHANNEL, exiting now")
-                exit()
-            try:
-                m = await self.send_message(chat_id=FILES_CHANNEL, text="Test")
-            except:
-                logging.error("Make sure bot admin in FILES_CHANNEL, exiting now")
-                exit()
+        await super().start()
         if os.path.exists('restart.txt'):
             with open("restart.txt") as file:
                 chat_id, msg_id = map(int, file)
