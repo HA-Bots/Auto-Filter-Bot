@@ -363,7 +363,7 @@ Force Channels: {str(ids)[1:-1] if (ids:=settings['fsub']) else 'Not Set'}"""
     btn = [[
         InlineKeyboardButton(text="Close", callback_data="close_data")
     ]]
-    await message.reply_text(text, reply_markup=InlineKeyboardMarkup(btn))
+    await message.reply_text(text, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
 
 
 @Client.on_message(filters.command('set_welcome'))
