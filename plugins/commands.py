@@ -171,34 +171,16 @@ async def start(client, message):
 
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
-           
     """Send basic information of index channels"""
-    if isinstance(INDEX_CHANNELS, (int, str)):
-        channels = [INDEX_CHANNELS]
-    elif isinstance(INDEX_CHANNELS, list):
-        channels = INDEX_CHANNELS
-    else:
-        return await message.reply("Unexpected type of index channels")
+    if not (ids:=INDEX_CHANNELS):
+        return await message.reply("Not set INDEX_CHANNELS")
 
     text = '**Indexed Channels:**\n'
-    for channel in channels:
-        chat = await bot.get_chat(channel)
-        if chat.username:
-            text += '\n@' + chat.username
-        else:
-            text += '\n' + chat.title or chat.first_name
-
-    text += f'\n\n**Total:** {len(INDEX_CHANNELS)}'
-
-    if len(text) < 4096:
-        await message.reply(text)
-    else:
-        file = 'Indexed channels.txt'
-        with open(file, 'w') as f:
-            f.write(text)
-        await message.reply_document(file)
-        os.remove(file)
-
+    for id in ids:
+        chat = await bot.get_chat(id)
+        text += f'{chat.title}\n'
+    text += f'\n**Total:** {len(ids)}'
+    await message.reply(text)
 
 @Client.on_message(filters.command('logs') & filters.user(ADMINS))
 async def log_file(bot, message):
@@ -480,10 +462,12 @@ async def set_fsub(client, message):
     channels = "Channels:\n"
     for id in fsub_ids:
         try:
-            titles += (await client.get_chat(id)).title
-            titles += '\n'
+            chat = await client.get_chat(id)
         except Exception as e:
             return await message.reply_text(f"{id} is invalid!\nMake sure this bot admin in that channel.\n\nError - {e}")
+        if chat.type != enums.ChatType.CHANNEL:
+            return await message.reply_text(f"{id} is not channel.")
+        channels += f'{chat.title}\n'
     await save_group_settings(grp_id, 'fsub', fsub_ids)
     await message.reply_text(f"Successfully set force channels for {title} to\n\n{channels}")
 
