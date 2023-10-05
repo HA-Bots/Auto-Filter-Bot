@@ -11,7 +11,7 @@ from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, de
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_EXPIRE, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, save_group_settings, temp, get_readable_time, get_wish
-from database.connections_mdb import active_connection
+from database.connections_mdb import all_connections, delete_connections
 import re
 import json
 import base64
@@ -224,120 +224,33 @@ async def stats(bot, message):
     
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
-    userid = message.from_user.id if message.from_user else None
-    if not userid:
-        return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
     chat_type = message.chat.type
-
     if chat_type == enums.ChatType.PRIVATE:
-        grpid = await active_connection(str(userid))
-        if grpid is not None:
-            grp_id = grpid
+        btn = []
+        ids = await all_connections(message.from_user.id)
+        for id in ids:
             try:
-                chat = await client.get_chat(grpid)
-                title = chat.title
+                chat = await client.get_chat(id)
+                btn.append(
+                    [InlineKeyboardButton(text=chat.title, callback_data=f'settings#{chat.id}')]
+                )
             except:
-                await message.reply_text("Make sure i'm present in your group!", quote=True)
-                return
+                await delete_connections(id)
+        if btn:
+            await message.reply_text('Select the group whose settings you want to change.\n\n<i>If your group not showing here? Use this command in your group.</i>', reply_markup=InlineKeyboardMarkup(btn))
         else:
-            await message.reply_text("I'm not connected to any groups!", quote=True)
-            return
-
+            await message.reply_text("No groups found! Use this command group.")
+            
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         grp_id = message.chat.id
-        title = message.chat.title
 
-    else:
-        return
+        if not await is_check_admin(client, grp_id, userid):
+            return await message.reply_text('You not admin in this group.')
 
-    if not await is_check_admin(client, grp_id, userid):
-        return await message.reply_text('You not admin in this group.')
-
-    settings = await get_settings(grp_id)
-
-    if settings is not None:
-        buttons = [
-            [
-                InlineKeyboardButton(
-                    'Auto Filter',
-                    callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{grp_id}'
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["auto_filter"] else '❌ No',
-                    callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{grp_id}'
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    'File Secure',
-                    callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}'
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["file_secure"] else '❌ No',
-                    callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}'
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    'IMDb Poster',
-                    callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}'
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["imdb"] else '❌ No',
-                    callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}'
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    'Spelling Check',
-                    callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}'
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["spell_check"] else '❌ No',
-                    callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}'
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    'Auto Delete',
-                    callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'
-                ),
-                InlineKeyboardButton(
-                    f'{get_readable_time(DELETE_TIME)}' if settings["auto_delete"] else '❌ No',
-                    callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    'Welcome',
-                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["welcome"] else '❌ No',
-                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    'Shortlink',
-                    callback_data=f'setgs#shortlink#{settings["shortlink"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["shortlink"] else '❌ No',
-                    callback_data=f'setgs#shortlink#{settings["shortlink"]}#{grp_id}',
-                ),
-            ],
-            [
-                InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
-                InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button',
-                                    callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
-            ],
-            [
-                InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
-            ]
-        ]
-
-    if chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        async for member in client.get_chat_members(grp_id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
+            if not member.user.is_bot:
+                await add_connection(grp_id, member.user.id)
+        
         btn = [[
             InlineKeyboardButton("👤 Open Private Chat 👤", callback_data=f"opn_pm_setgs#{grp_id}")
         ],[
@@ -354,12 +267,6 @@ async def settings(client, message):
             await message.delete()
         except:
             pass
-    else:
-        await message.reply_text(
-            text=f"Change your settings for <b>'{title}'</b> as your wish. ⚙",
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=enums.ParseMode.HTML
-        )
 
 
 @Client.on_message(filters.command('set_template'))
