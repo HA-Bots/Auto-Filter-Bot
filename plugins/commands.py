@@ -11,7 +11,7 @@ from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, de
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_EXPIRE, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, save_group_settings, temp, get_readable_time, get_wish
-from database.connections_mdb import all_connections, delete_connections
+from database.connections_mdb import all_connections, delete_connections, add_connection
 import re
 import json
 import base64
