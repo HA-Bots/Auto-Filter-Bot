@@ -437,21 +437,14 @@ async def advantage_spoll_choker(bot, query):
 @Client.on_callback_query()
 async def cb_handler(client: Client, query: CallbackQuery):
     if query.data == "close_data":
-        try:
-            user = query.message.reply_to_message.from_user.id
-            if int(user) != 0 and query.from_user.id != int(user):
-                return await query.answer(f"Hello {query.from_user.first_name},\nThis Is Not For You!", show_alert=True)
-            await query.answer("Closed!")
-            await query.message.delete()
-            try:
-                await query.message.reply_to_message.delete()
-            except:
-                pass
-        except:
-            await query.answer("Closed!")
-            await query.message.delete()
+        user = query.message.reply_to_message.from_user.id
+        if int(user) != 0 and query.from_user.id != int(user):
+            return await query.answer(f"Hello {query.from_user.first_name},\nThis Is Not For You!", show_alert=True)
+        await query.answer("Closed!")
+        await query.message.delete()
+        await query.message.reply_to_message.delete()
 
-
+    
     if query.data.startswith("file"):
         ident, file_id = query.data.split("#")
         user = query.message.reply_to_message.from_user.id
