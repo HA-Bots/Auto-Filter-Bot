@@ -72,7 +72,6 @@
 • /invite_link - to generate invite link.
 • /logs - to check bot logs.
 • /index - to index bot accessible channels.
-• /private_index - to index private channels.
 ```
 
 ## Variables
@@ -89,8 +88,6 @@
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
-* `SESSION_STRING`: Add your user bot string session for index private channels.
-* `FILES_CHANNEL`: Add channel id and make your user bot and bot admin here for private index.
 * Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
 
 
