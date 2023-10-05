@@ -114,8 +114,7 @@ I can't find the <b>{}</b> in my database! 🥲
 /chats - to get all groups
 /invite_link - to generate invite link
 /logs - to check bot logs
-/index - to index bot accessible channels
-/private_index - to index private channels</b>"""
+/index - to index bot accessible channels</b>"""
     
     USER_COMMAND_TXT = """<b>Here is bot user commands 👇
 
