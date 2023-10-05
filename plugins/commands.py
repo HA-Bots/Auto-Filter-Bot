@@ -256,17 +256,11 @@ async def settings(client, message):
         ],[
             InlineKeyboardButton("👥 Open Here 👥", callback_data=f"opn_grp_setgs#{grp_id}")
         ]]
-        k = await message.reply_text(
+        await message.reply_text(
             text="Where do you want to open the settings menu? ⚙️",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.HTML
         )
-        await asyncio.sleep(300)
-        await k.delete()
-        try:
-            await message.delete()
-        except:
-            pass
 
 
 @Client.on_message(filters.command('set_template'))
