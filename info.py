@@ -51,7 +51,7 @@ if len(LOG_CHANNEL) == 0:
 else:
     LOG_CHANNEL = int(LOG_CHANNEL)
 FILES_CHANNEL = environ.get('FILES_CHANNEL', '')
-if len(LOG_CHANNEL) == 0:
+if len(FILES_CHANNEL) == 0:
     FILES_CHANNEL = None
 else:
     FILES_CHANNEL = int(FILES_CHANNEL)
