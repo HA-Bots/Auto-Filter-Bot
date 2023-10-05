@@ -124,7 +124,7 @@ I can't find the <b>{}</b> in my database! 🥲
 /set_template - to set custom imdb template
 /set_caption - to set custom bot files caption
 /set_shortlink - group admin can set custom shortlink
-/get_shortlink - to get your connected shortlink details
+/get_custom_settings - to get your group settings details
 /set_welcome - to set custom new joined users welcome message for group
 /set_tutorial - to set custom tutorial link in result page button
 /connect - to connect group
