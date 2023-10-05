@@ -34,7 +34,6 @@ async def save_file(media):
     # TODO: Find better way to get same file_id for same media to avoid duplicates
     file_id = unpack_new_file_id(media.file_id)
     file_name = re.sub(r"@\w+|(_|\-|\.|\+)", " ", str(media.file_name))
-    #this one work caption only so I just modify
     file_caption = re.sub(r"@\w+|(_|\-|\.|\+)", " ", str(media.caption))
     try:
         file = Media(
@@ -57,8 +56,6 @@ async def save_file(media):
             return 'suc'
 
 async def get_search_results(query, max_results=10, offset=0, filter=False, lang=None):
-    """For given query return (results, next_offset)"""
-
     query = query.strip()
     if not query:
         raw_pattern = '.'
@@ -126,7 +123,6 @@ async def get_file_details(query):
 def encode_file_id(s: bytes) -> str:
     r = b""
     n = 0
-
     for i in s + bytes([22]) + bytes([4]):
         if i == 0:
             n += 1
@@ -136,11 +132,9 @@ def encode_file_id(s: bytes) -> str:
                 n = 0
 
             r += bytes([i])
-
     return base64.urlsafe_b64encode(r).decode().rstrip("=")
 
 def unpack_new_file_id(new_file_id):
-    """Return file_id, file_ref"""
     decoded = FileId.decode(new_file_id)
     file_id = encode_file_id(
         pack(
