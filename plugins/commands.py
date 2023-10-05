@@ -333,25 +333,39 @@ async def save_shortlink(client, message):
     await save_group_settings(grp_id, 'api', api)
     await message.reply_text(f"Successfully changed shortlink for {title} to\n\nURL - {url}\nAPI - {api}")
     
-    
-@Client.on_message(filters.command('get_shortlink'))
-async def get_save_shortlink(client, message):
+
+@Client.on_message(filters.command('get_custom_settings'))
+async def get_custom_settings(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         return await message.reply_text("Use this command in group.")
-        
     grp_id = message.chat.id
     title = message.chat.title
-
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
-
+        
     settings = await get_settings(grp_id)
-    url = settings["url"]
-    api = settings["api"]
-    await message.reply_text(f"Shortlink for {title}\n\nURL - {url}\nAPI - {api}")
-    
-    
+    text = f"""Custom settings for: {title}
+
+Shortlink URL: {settings["url"]}
+Shortlink API: {settings["api"]}
+
+IMDb Template: {settings['template']}
+
+File Caption: {settings['caption']}
+
+Welcome Text: {settings['welcome_text']}
+
+Tutorial Link: {settings['tutorial']}
+
+Force Channels: {str(ids)[1:-1] if (ids:=settings['fsub']) else 'Not Set'}"""
+
+    btn = [[
+        InlineKeyboardButton(text="Close", callback_data="close_data")
+    ]]
+    await message.reply_text(text, reply_markup=InlineKeyboardMarkup(btn))
+
+
 @Client.on_message(filters.command('set_welcome'))
 async def save_welcome(client, message):
     chat_type = message.chat.type
@@ -463,7 +477,7 @@ async def set_fsub(client, message):
     except ValueError:
         return await message.reply_text('Make sure ids is integer.')
         
-    titles = "Channels:\n"
+    channels = "Channels:\n"
     for id in fsub_ids:
         try:
             titles += (await client.get_chat(id)).title
@@ -471,7 +485,7 @@ async def set_fsub(client, message):
         except Exception as e:
             return await message.reply_text(f"{id} is invalid!\nMake sure this bot admin in that channel.\n\nError - {e}")
     await save_group_settings(grp_id, 'fsub', fsub_ids)
-    await message.reply_text(f"Successfully set fsub for {title}\n\n{titles}")
+    await message.reply_text(f"Successfully set force channels for {title} to\n\n{channels}")
 
 
 @Client.on_message(filters.command('telegraph'))
