@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, ChatAdminRequired, UsernameInvalid, UsernameNotModified, UserIsBlocked
-from info import ADMINS, LOG_CHANNEL
+from info import ADMINS, LOG_CHANNEL, FILES_CHANNEL
 from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from utils import temp, get_readable_time, iter_messages
@@ -26,12 +26,13 @@ async def index_files(bot, query):
         await index_files_to_db(int(lst_msg_id), chat, msg, bot)
     elif ident == 'user':
         msg = query.message
+        await msg.reply("Your user bot account have chance to ban. Index with your own risk.")
         await msg.edit("Starting Indexing...")
         try:
             chat = int(chat)
         except:
             chat = chat
-        await index_files_to_db(int(lst_msg_id), chat, msg, temp.USER_BOT)
+        await private_index_files_to_db(int(lst_msg_id), chat, msg, temp.USER_BOT, bot)
     elif ident == 'cancel':
         temp.CANCEL = True
         await query.message.edit("Trying to cancel Indexing...")
@@ -129,7 +130,7 @@ async def set_skip_number(bot, message):
     temp.CURRENT = int(skip)
 
 
-async def index_files_to_db(lst_msg_id, chat, msg, client):
+async def index_files_to_db(lst_msg_id, chat, msg, bot):
     start_time = time.time()
     total_files = 0
     duplicate = 0
@@ -142,7 +143,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, client):
     
     async with lock:
         try:
-            async for message in iter_messages(client, chat, lst_msg_id, temp.CURRENT):
+            async for message in iter_messages(bot, chat, lst_msg_id, temp.CURRENT):
                 time_taken = get_readable_time(time.time()-start_time)
                 if temp.CANCEL:
                     await msg.edit(f"Successfully Cancelled!\nCompleted in {time_taken}\n\nSaved <code>{total_files}</code> files to Database!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>")
@@ -170,6 +171,67 @@ async def index_files_to_db(lst_msg_id, chat, msg, client):
                     continue
                 media.caption = message.caption
                 sts = await save_file(media)
+                if sts == 'suc':
+                    total_files += 1
+                elif sts == 'dup':
+                    duplicate += 1
+                elif sts == 'err':
+                    errors += 1
+        except Exception as e:
+            logger.exception(e)
+            await msg.reply(f'Index canceled due to Error: {e}')
+            temp.CURRENT = 0
+        else:
+            await msg.edit(f'Succesfully saved <code>{total_files}</code> to Database!\nCompleted in {time_taken}\n\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>')
+            temp.CURRENT = 0
+
+
+async def private_index_files_to_db(lst_msg_id, chat, msg, user_bot, bot):
+    start_time = time.time()
+    total_files = 0
+    duplicate = 0
+    errors = 0
+    deleted = 0
+    no_media = 0
+    unsupported = 0
+    temp.CANCEL = False
+    current = temp.CURRENT
+    
+    async with lock:
+        try:
+            async for message in iter_messages(user_bot, chat, lst_msg_id, temp.CURRENT):
+                time_taken = get_readable_time(time.time()-start_time)
+                if temp.CANCEL:
+                    await msg.edit(f"Successfully Cancelled!\nCompleted in {time_taken}\n\nSaved <code>{total_files}</code> files to Database!\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>")
+                    temp.CURRENT = 0
+                    return
+                current += 1
+                if current % 30 == 0:
+                    can = [[InlineKeyboardButton('CANCEL', callback_data=f'index#cancel#{chat}#{lst_msg_id}')]]
+                    reply = InlineKeyboardMarkup(can)
+                    await msg.edit_text(
+                        text=f"Total messages received: <code>{current}</code>\nTotal messages saved: <code>{total_files}</code>\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>",
+                        reply_markup=reply)
+                if message.empty:
+                    deleted += 1
+                    continue
+                elif not message.media:
+                    no_media += 1
+                    continue
+                elif message.media not in [enums.MessageMediaType.VIDEO, enums.MessageMediaType.DOCUMENT]:
+                    unsupported += 1
+                    continue
+                file = getattr(message, message.media.value, None)
+                if not file:
+                    unsupported += 1
+                    continue
+                await asyncio.sleep(1)
+                sent_msg = await user_bot.send_cached_media(chat_id=FILES_CHANNEL, file_id=file.file_id)
+                msg = await bot.get_messages(FILES_CHANNEL, sent_msg.id)
+                media = getattr(msg, msg.media.value)
+                media.caption = message.caption
+                sts = await save_file(media)
+                await sent_msg.delete() # If you don't need delete user bot sent file in FILES_CHANNEL remove this line
                 if sts == 'suc':
                     total_files += 1
                 elif sts == 'dup':
