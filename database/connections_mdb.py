@@ -13,7 +13,7 @@ async def add_connection(group_id, user_id):
     user = mycol.find_one({'id': user_id})
     if user:
         if group_id not in user["ids"]:
-            mycol.update_one({'ids': user_id}, {"$push": {"ids": group_id}})
+            mycol.update_one({'id': user_id}, {"$push": {"ids": group_id}})
     else:
         mycol.insert_one({'id': user_id, 'ids': [group_id]})
 
