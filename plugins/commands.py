@@ -275,7 +275,7 @@ async def settings(client, message):
             ]
             await message.reply_text(
                 text=f"Change your settings for <b>'{message.chat.title}'</b> as your wish. ⚙",
-                reply_markup=InlineKeyboardMarkup(btn),
+                reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=enums.ParseMode.HTML
             )
         else:
