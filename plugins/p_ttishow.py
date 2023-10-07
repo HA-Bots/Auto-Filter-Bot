@@ -44,6 +44,7 @@ async def restart_bot(bot, message):
 async def leave_a_chat(bot, message):
     if len(message.command) == 1:
         return await message.reply('Give me a chat ID')
+    r = message.text.split(None)
     if len(r) > 2:
         reason = message.text.split(None, 2)[2]
         chat = message.text.split(None, 2)[1]
