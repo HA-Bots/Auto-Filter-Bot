@@ -9,16 +9,16 @@ from info import ADMINS
 @Client.on_message(filters.command("eval") & filters.user(ADMINS))
 async def executor(client, message):
     try:
-        cmd = message.text.split(" ", 1)[1]
+        code = message.text.split(" ", 1)[1]
     except:
-        return await message.reply('Command Incomplete!')
+        return await message.reply('Command Incomplete!\nUsage: /eval your_python_code')
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = StringIO()
     redirected_error = sys.stderr = StringIO()
     stdout, stderr, exc = None, None, None
     try:
-        await aexec(cmd, client, message)
+        await aexec(code, client, message)
     except:
         exc = traceback.format_exc()
     stdout = redirected_output.getvalue()
