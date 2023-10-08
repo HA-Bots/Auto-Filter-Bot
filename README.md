@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="Auto Filter Bot">
+  <a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta" target="_blank">
+    <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="Auto Filter Bot">
+  </a>
 </p>
 <h1 align="center">
   <b>𝘼𝙪𝙩𝙤 𝙁𝙞𝙡𝙩𝙚𝙧 𝘽𝙤𝙩</b>
