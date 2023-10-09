@@ -117,7 +117,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                 if not media:
                     unsupported += 1
                     continue
-                elif not str(media.file_name).endswith(tuple(INDEX_EXTENSIONS)):
+                elif not (str(media.file_name).lower()).endswith(tuple(INDEX_EXTENSIONS)):
                     unsupported += 1
                     continue
                 media.caption = message.caption
