@@ -739,38 +739,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit_text("Something went wrong!")
             
 
-    elif query.data == "srt_delete":
-        await query.message.edit_text("Deleting...")
-        result = await Media.collection.delete_many({'mime_type': 'application/x-subrip'})
-        if result.deleted_count:
-            await query.message.edit_text(f"Successfully deleted srt files")
-        else:
-            await query.message.edit_text("Nothing to delete files")
 
-    elif query.data == "avi_delete":
-        await query.message.edit_text("Deleting...")
-        result = await Media.collection.delete_many({'mime_type': 'video/x-msvideo'})
-        if result.deleted_count:
-            await query.message.edit_text(f"Successfully deleted avi files")
-        else:
-            await query.message.edit_text("Nothing to delete files")
-            
-    elif query.data == "zip_delete":
-        await query.message.edit_text("Deleting...")
-        result = await Media.collection.delete_many({'mime_type': 'application/zip'})
-        if result.deleted_count:
-            await query.message.edit_text(f"Successfully deleted zip files")
-        else:
-            await query.message.edit_text("Nothing to delete files")
-            
-    elif query.data == "rar_delete":
-        await query.message.edit_text("Deleting...")
-        result = await Media.collection.delete_many({'mime_type': 'application/x-rar-compressed'})
-        if result.deleted_count:
-            await query.message.edit_text(f"Successfully deleted rar files")
-        else:
-            await query.message.edit_text("Nothing to delete files")
-            
     elif query.data == "delete_all":
         files = await Media.count_documents()
         await query.answer('Deleting...')
@@ -778,7 +747,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text(f"Successfully deleted {files} files")
         
     elif query.data.startswith("delete"):
-        _, query_ = query.data.split("_")
+        _, query_ = query.data.split("_", 1)
         deleted = 0
         await query.message.edit('Deleting...')
         total, files = await delete_files(query_)
