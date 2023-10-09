@@ -129,7 +129,8 @@ I can't find the <b>{}</b> in my database! 🥲
 /connect - to connect group
 /disconnect - to disconnect group
 /connections - to check how many your groups connected by bot
-/id - to check group or channel id</b>"""
+/id - to check group or channel id
+/openai - Find solution to any question with ChatGPT</b>"""
 
     SOURCE_TXT = """<b>ʙᴏᴛ ɢɪᴛʜᴜʙ ʀᴇᴘᴏsɪᴛᴏʀʏ -
 
