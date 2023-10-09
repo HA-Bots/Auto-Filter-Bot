@@ -41,7 +41,7 @@ async def answer(bot, query):
                                                   offset=offset)
 
     for file in files:
-        reply_markup = get_reply_markup(file.file_id)
+        reply_markup = get_reply_markup()
         f_caption=FILE_CAPTION.format(
             file_name=file.file_name,
             file_size=get_size(file.file_size),
@@ -80,7 +80,7 @@ async def answer(bot, query):
                            switch_pm_parameter="start")
 
 
-def get_reply_markup(file_id):
+def get_reply_markup():
     buttons = [[
         InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
