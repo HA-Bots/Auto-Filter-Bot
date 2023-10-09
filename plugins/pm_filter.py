@@ -752,7 +752,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit('Deleting...')
         total, files = await delete_files(query_)
         async for file in files:
-            await Media.collection.delete_one({'_id': file['_id']})
+            await Media.collection.delete_one({'_id': file.file_id})
             deleted += 1
         await query.message.edit(f'Deleted {deleted} files in your database in your query {query_}')
      
