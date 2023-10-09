@@ -54,7 +54,7 @@
 • /set_shortlink - group admin can set custom shortlink.
 • /get_custom_settings - to get your group settings details.
 • /set_welcome - to set custom new joined users welcome message for group.
-• /delete - to delete file type like SRT, AVI, ZIP, RAR.
+• /delete - to delete files using query.
 • /delete_all - to delete all indexed file.
 • /broadcast - to send message to all bot users.
 • /grp_broadcast - to send message to all groups.
@@ -84,6 +84,7 @@
 * `ADMINS`: ID of Admins. (Multiple admins can be used separated by space)
 * `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
 * `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
+* `DATABASE_NAME`: Add your database name as you like
 * `BIN_CHANNEL`: A channel to the stream and download feature, add channel id and make bot admin in channel.
 * `URL`: Add you deployed bot app link or vps IP address
 ### Optional Variables
