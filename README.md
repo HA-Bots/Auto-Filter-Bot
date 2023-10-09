@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta" target="_blank">
+  <a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta">
     <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="Auto Filter Bot">
   </a>
 </p>
@@ -7,8 +7,8 @@
   <b>𝘼𝙪𝙩𝙤 𝙁𝙞𝙡𝙩𝙚𝙧 𝘽𝙤𝙩</b>
 </h1>
 
-![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)
-</p>
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta)
+
 
 <a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/stargazers"><img src="https://img.shields.io/github/stars/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" alt="Stars" /></a>
 <a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/network/members"> <img src="https://img.shields.io/github/forks/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
