@@ -84,7 +84,7 @@
 * `ADMINS`: ID of Admins. (Multiple admins can be used separated by space)
 * `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
 * `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
-* `DATABASE_NAME`: Add your database name as you like
+* `SUPPORT_GROUP`: Add your support group id
 * `BIN_CHANNEL`: A channel to the stream and download feature, add channel id and make bot admin in channel.
 * `URL`: Add you deployed bot app link or vps IP address
 ### Optional Variables
