@@ -3,7 +3,7 @@ import asyncio
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, ChatAdminRequired, UsernameInvalid, UsernameNotModified, UserIsBlocked
-from info import ADMINS, LOG_CHANNEL
+from info import ADMINS, LOG_CHANNEL, INDEX_EXTENSIONS
 from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from utils import temp, get_readable_time, iter_messages
@@ -115,6 +115,9 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                     continue
                 media = getattr(message, message.media.value, None)
                 if not media:
+                    unsupported += 1
+                    continue
+                elif not str(media.file_name).endswith(tuple(INDEX_EXTENSIONS)):
                     unsupported += 1
                     continue
                 media.caption = message.caption
