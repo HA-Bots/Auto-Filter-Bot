@@ -100,7 +100,7 @@ I can't find the <b>{}</b> in my database! 🥲
 
 /index_channels - to check how many index channel id added
 /stats - to get bot status
-/delete - to delete file type like SRT, AVI, ZIP, RAR
+/delete - to delete files using query
 /delete_all - to delete all indexed file
 /broadcast - to send message to all bot users
 /grp_broadcast - to send message to all groups
