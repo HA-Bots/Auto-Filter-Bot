@@ -82,8 +82,6 @@ async def answer(bot, query):
 
 def get_reply_markup(file_id):
     buttons = [[
-        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
-    ],[
         InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
     ],[
