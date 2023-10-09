@@ -74,6 +74,7 @@
 • /invite_link - to generate invite link.
 • /logs - to check bot logs.
 • /index - to index bot accessible channels.
+• /openai - Find solution to any question with ChatGPT
 ```
 
 ## Variables
@@ -82,9 +83,10 @@
 * `API_ID`: Get this value from [telegram.org](https://my.telegram.org/apps)
 * `API_HASH`: Get this value from [telegram.org](https://my.telegram.org/apps)
 * `ADMINS`: ID of Admins. (Multiple admins can be used separated by space)
-* `DATABASE_URL`: [mongoDB](https://www.mongodb.com) URL. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
+* `DATABASE_URL`: MongoDB URL. Get this value from [MongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
 * `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
 * `SUPPORT_GROUP`: Add your support group id
+* `OPENAI_API`: OpenAI API. Get this value from [API keys](https://platform.openai.com/account/api-keys).
 * `BIN_CHANNEL`: A channel to the stream and download feature, add channel id and make bot admin in channel.
 * `URL`: Add you deployed bot app link or vps IP address
 ### Optional Variables
