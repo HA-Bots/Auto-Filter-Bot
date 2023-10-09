@@ -12,3 +12,4 @@ shortzy
 aiohttp
 aiofiles
 telegraph
+openai
