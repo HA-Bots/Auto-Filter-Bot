@@ -106,10 +106,10 @@ I can't find the <b>{}</b> in my database! 🥲
 /grp_broadcast - to send message to all groups
 /restart - to restart bot
 /leave - to leave your bot from particular group
-/enable - to enable group
-/disable - to disable group
-/ban - to ban a users from bot
-/unban - to unban a users from bot
+/unban_grp - to enable group
+/ban_grp - to disable group
+/ban_user - to ban a users from bot
+/unban_user - to unban a users from bot
 /users - to get all users details
 /chats - to get all groups
 /invite_link - to generate invite link
