@@ -65,10 +65,10 @@
 • /connections - to check how many your groups connected by bot.
 • /id - to check group or channel id.
 • /leave - to leave your bot from particular group.
-• /enable - to enable group.
-• /disable - to disable group.
-• /ban - to ban a users from bot.
-• /unban - to unban a users from bot.
+• /unban_grp - to enable group.
+• /ban_grp - to disable group.
+• /ban_user - to ban a users from bot.
+• /unban_user - to unban a users from bot.
 • /users - to get all users details.
 • /chats - to get all groups.
 • /invite_link - to generate invite link.
