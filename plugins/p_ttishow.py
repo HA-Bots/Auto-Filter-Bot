@@ -71,7 +71,7 @@ async def leave_a_chat(bot, message):
     except Exception as e:
         await message.reply(f'Error - {e}')
 
-@Client.on_message(filters.command('disable') & filters.user(ADMINS))
+@Client.on_message(filters.command('ban_grp') & filters.user(ADMINS))
 async def disable_chat(bot, message):
     if len(message.command) == 1:
         return await message.reply('Give me a chat ID')
@@ -108,7 +108,7 @@ async def disable_chat(bot, message):
         await message.reply(f"Error - {e}")
 
 
-@Client.on_message(filters.command('enable') & filters.user(ADMINS))
+@Client.on_message(filters.command('unban_grp') & filters.user(ADMINS))
 async def re_enable_chat(bot, message):
     if len(message.command) == 1:
         return await message.reply('Give me a chat ID')
@@ -142,7 +142,7 @@ async def gen_invite_link(bot, message):
         return await message.reply(f'Error {e}')
     await message.reply(f'Here is your invite link: {link.invite_link}')
 
-@Client.on_message(filters.command('ban') & filters.user(ADMINS))
+@Client.on_message(filters.command('ban_user') & filters.user(ADMINS))
 async def ban_a_user(bot, message):
     if len(message.command) == 1:
         return await message.reply('Give me a user ID or Username')
@@ -173,7 +173,7 @@ async def ban_a_user(bot, message):
 
 
     
-@Client.on_message(filters.command('unban') & filters.user(ADMINS))
+@Client.on_message(filters.command('unban_user') & filters.user(ADMINS))
 async def unban_a_user(bot, message):
     if len(message.command) == 1:
         return await message.reply('Give me a user ID or Username')
