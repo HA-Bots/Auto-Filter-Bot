@@ -49,7 +49,7 @@ async def mute_chat_user(client, message):
   except:
     return await message.reply_text("Can't find you given user in this group")
   try:
-    await app.restrict_chat_member(message.chat.id, user_id, ChatPermissions())
+    await client.restrict_chat_member(message.chat.id, user_id, ChatPermissions())
   except:
     return await message.reply_text("I don't have access to mute user")
   await message.reply_text(f'Successfully muted {user.mention} from {message.chat.title}')
@@ -75,7 +75,7 @@ async def unban_chat_user(client, message):
   except:
     return await message.reply_text("Can't find you given user in this group")
   try:
-    await app.unban_chat_member(message.chat.id, user_id)
+    await client.unban_chat_member(message.chat.id, user_id)
   except:
     return await message.reply_text(f"I don't have access to {message.command[0]} user")
   await message.reply_text(f'Successfully {message.command[0]} {user.mention} from {message.chat.title}')
