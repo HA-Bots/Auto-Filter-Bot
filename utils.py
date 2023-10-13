@@ -183,7 +183,7 @@ async def get_verify_status(user_id):
         temp.VERIFY[user_id] = verify
     return verify
 
-async def update_verify_status(user_id, verify_token="", is_verified=False, verified_time="", link=""):
+async def update_verify_status(user_id, verify_token="", is_verified=False, verified_time=0, link=""):
     current = await get_verify_status(user_id)
     current['verify_token'] = verify_token
     current['is_verified'] = is_verified
