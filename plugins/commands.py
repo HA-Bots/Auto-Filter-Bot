@@ -94,10 +94,14 @@ async def start(client, message):
         if verify_status['verify_token'] != token:
             return await message.reply("Your verify token is invalid.")
         await db.update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
-        btn = [[
-            InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
-        ]]
-        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+        if verify_status["link"] = "":
+            reply_markup = None
+        else:
+            btn = [[
+                InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
+            ]]
+            reply_markup = InlineKeyboardMarkup(btn)
+        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=True)
         return
     
     verify_status = await db.get_verify_status(message.from_user.id)
