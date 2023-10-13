@@ -22,7 +22,7 @@ class Database:
 
     default_verify = {
         'is_verified': False,
-        'verified_time': "",
+        'verified_time': 0,
         'verify_token': "",
         'link': ""
     }
