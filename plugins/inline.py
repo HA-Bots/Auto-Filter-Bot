@@ -3,8 +3,9 @@ from pyrogram import Client, emoji, filters
 from pyrogram.errors.exceptions.bad_request_400 import QueryIdInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultCachedDocument, InlineQuery
 from database.ia_filterdb import get_search_results
+from database.users_chats_db import db
 from utils import is_subscribed, get_size, temp
-from info import CACHE_TIME, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION
+from info import CACHE_TIME, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION, IS_VERIFY
 
 logger = logging.getLogger(__name__)
 cache_time = 0 if AUTH_CHANNEL else CACHE_TIME
@@ -25,6 +26,15 @@ async def answer(bot, query):
                            switch_pm_text='Subscribe my channel to use the bot!',
                            switch_pm_parameter="subscribe")
         return
+        
+    verify_status = await db.get_verify_status(query.from_user.id)
+    if IS_VERIFY and not verify_status['is_verified']:
+        await query.answer(results=[],
+                           cache_time=0,
+                           switch_pm_text='You not verified today!',
+                           switch_pm_parameter="inline_verify")
+        return
+        
     if not await inline_users(query):
         await query.answer(results=[],
                            cache_time=0,
