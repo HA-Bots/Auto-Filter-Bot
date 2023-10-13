@@ -101,9 +101,9 @@ async def start(client, message):
         return
     
     verify_status = await db.get_verify_status(message.from_user.id)
-    if IS_VERIFY and (not verify_status['is_verified'] or mc == 'inline_verify'):
+    if IS_VERIFY and not verify_status['is_verified']:
         token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-        await db.update_verify_status(message.from_user.id, verify_token=token, link=mc)
+        await db.update_verify_status(message.from_user.id, verify_token=token, link="" if mc == 'inline_verify' else mc)
         link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{token}')
         btn = [[
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
