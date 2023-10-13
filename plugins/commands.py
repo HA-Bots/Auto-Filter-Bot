@@ -10,7 +10,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
-from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, save_group_settings, temp, get_readable_time, get_wish
+from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish
 from database.connections_mdb import all_connections, delete_connections, add_connection
 import re
 import json
@@ -41,9 +41,9 @@ async def start(client, message):
         await db.add_user(message.from_user.id, message.from_user.first_name)
         await client.send_message(LOG_CHANNEL, script.NEW_USER_TXT.format(message.from_user.mention, message.from_user.id))
 
-    verify_status = await db.get_verify_status(message.from_user.id)
+    verify_status = await get_verify_status(message.from_user.id)
     if verify_status['is_verified'] and VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
-        await db.update_verify_status(message.from_user.id, is_verified=False)
+        await update_verify_status(message.from_user.id, is_verified=False)
     
     if (len(message.command) != 2) or (len(message.command) == 2 and message.command[1] == 'start'):
         buttons = [[
@@ -90,10 +90,10 @@ async def start(client, message):
 
     if mc.startswith('verify'):
         _, token = mc.split("_", 1)
-        verify_status = await db.get_verify_status(message.from_user.id)
+        verify_status = await get_verify_status(message.from_user.id)
         if verify_status['verify_token'] != token:
             return await message.reply("Your verify token is invalid.")
-        await db.update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
+        await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
         if verify_status["link"] == "":
             reply_markup = None
         else:
@@ -104,10 +104,10 @@ async def start(client, message):
         await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=True)
         return
     
-    verify_status = await db.get_verify_status(message.from_user.id)
+    verify_status = await get_verify_status(message.from_user.id)
     if IS_VERIFY and not verify_status['is_verified']:
         token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-        await db.update_verify_status(message.from_user.id, verify_token=token, link="" if mc == 'inline_verify' else mc)
+        await update_verify_status(message.from_user.id, verify_token=token, link="" if mc == 'inline_verify' else mc)
         link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{token}')
         btn = [[
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
