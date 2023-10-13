@@ -34,7 +34,6 @@ class temp(object):
     U_NAME = None
     B_NAME = None
     SETTINGS = {}
-    VERIFY = {}
     FILES = {}
     USERS_CANCEL = False
     GROUPS_CANCEL = False
@@ -177,10 +176,7 @@ async def is_check_admin(bot, chat_id, user_id):
 
 
 async def get_verify_status(user_id):
-    verify = temp.VERIFY.get(user_id)
-    if verify is None:
-        verify = await db.get_verify_status(user_id)
-        temp.VERIFY[user_id] = verify
+    verify = await db.get_verify_status(user_id)
     return verify
 
 async def update_verify_status(user_id, verify_token="", is_verified=False, verified_time=0, link=""):
@@ -189,7 +185,6 @@ async def update_verify_status(user_id, verify_token="", is_verified=False, veri
     current['is_verified'] = is_verified
     current['verified_time'] = verified_time
     current['link'] = link
-    temp.VERIFY[user_id] = current
     await db.update_verify_status(user_id, current)
     
     
