@@ -1,11 +1,11 @@
-import logging
+import logging, time
 from pyrogram import Client, emoji, filters
 from pyrogram.errors.exceptions.bad_request_400 import QueryIdInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultCachedDocument, InlineQuery
 from database.ia_filterdb import get_search_results
 from database.users_chats_db import db
-from utils import is_subscribed, get_size, temp
-from info import CACHE_TIME, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION, IS_VERIFY
+from utils import is_subscribed, get_size, temp, get_verify_status, update_verify_status
+from info import CACHE_TIME, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION, IS_VERIFY, VERIFY_EXPIRE
 
 logger = logging.getLogger(__name__)
 cache_time = 0 if AUTH_CHANNEL else CACHE_TIME
@@ -19,6 +19,10 @@ async def inline_users(query: InlineQuery):
 async def answer(bot, query):
     """Show search results for given inline query"""
 
+    verify_status = await get_verify_status(query.from_user.id)
+    if verify_status['is_verified'] and VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
+        await update_verify_status(query.from_user.id, is_verified=False)
+
     btn = await is_subscribed(bot, query)
     if btn:
         await query.answer(results=[],
@@ -26,8 +30,9 @@ async def answer(bot, query):
                            switch_pm_text='Subscribe my channel to use the bot!',
                            switch_pm_parameter="subscribe")
         return
-        
-    verify_status = await db.get_verify_status(query.from_user.id)
+
+    
+    verify_status = await get_verify_status(query.from_user.id)
     if IS_VERIFY and not verify_status['is_verified']:
         await query.answer(results=[],
                            cache_time=0,
