@@ -94,7 +94,7 @@ async def start(client, message):
         if verify_status['verify_token'] != token:
             return await message.reply("Your verify token is invalid.")
         await db.update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
-        if verify_status["link"] = "":
+        if verify_status["link"] == "":
             reply_markup = None
         else:
             btn = [[
