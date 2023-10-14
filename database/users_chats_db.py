@@ -141,7 +141,7 @@ class Database:
     async def get_settings(self, id):
         chat = await self.grp.find_one({'id':int(id)})
         if chat:
-            return chat.get('settings')
+            return chat.get('settings', self.default_setgs)
         return self.default_setgs
     
 
@@ -156,7 +156,7 @@ class Database:
     async def get_verify_status(self, user_id):
         user = await self.col.find_one({'id':int(user_id)})
         if user:
-            return user.get('verify_status')
+            return user.get('verify_status', self.default_verify)
         return self.default_verify
         
 
