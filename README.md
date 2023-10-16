@@ -9,16 +9,6 @@
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta)
 
-
-<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/stargazers"><img src="https://img.shields.io/github/stars/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" alt="Stars" /></a>
-<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/network/members"> <img src="https://img.shields.io/github/forks/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
-<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta"> <img src="https://img.shields.io/github/repo-size/HansakaAnuhas-TG/AutoFilterBot-Beta?color=skyblue&logo=github&logoColor=blue&style=for-the-badge" /></a>   
-<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/commits"> <img src="https://img.shields.io/github/last-commit/HansakaAnuhas-TG/AutoFilterBot-Beta?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
-<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta"> <img src="https://img.shields.io/github/contributors/HansakaAnuhas-TG/AutoFilterBot-Beta?color=skyblue&logo=github&logoColor=blue&style=for-the-badge" /></a>
-<a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE"> <img src="https://img.shields.io/badge/License- GPL 2.0 license -blueviolet?style=for-the-badge" alt="License" /> </a>
-<a href="https://www.python.org/"> <img src="https://img.shields.io/badge/Written%20in-Python-skyblue?style=for-the-badge&logo=python" alt="Python" /> </a>
-<a href="https://pypi.org/project/Pyrogram/"> <img src="https://img.shields.io/pypi/v/pyrogram?color=white&label=pyrogram&logo=python&logoColor=blue&style=for-the-badge" /></a>
-
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
 - [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
 - [x] 𝑂𝑛𝑙𝑖𝑛𝑒 𝑠𝑡𝑟𝑒𝑎𝑚 𝑎𝑛𝑑 𝑑𝑜𝑤𝑛𝑙𝑜𝑎𝑑
