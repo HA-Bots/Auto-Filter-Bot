@@ -520,3 +520,11 @@ async def telegraph_upload(bot, message):
     except:
         pass
     await text.edit_text(f"<b>❤️ ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴄᴏᴍᴘʟᴇᴛᴇᴅ 👇</b>\n\n<code>https://telegra.ph/{response[0]}</code></b>")
+
+
+@Client.on_message(filters.command('ping'))
+async def ping(client, message):
+    start_time = time.monotonic()
+    msg = await message.reply("👀")
+    end_time = time.monotonic()
+    await msg.edit(f'{(end_time - start_time) * 1000} ms')
