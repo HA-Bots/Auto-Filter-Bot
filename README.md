@@ -127,6 +127,6 @@ sudo docker run -d -p 8080:8080 --name AutoFilterBot-Beta autofilterbot-beta
  - If you find any bugs or errors, report it
 
 ## Disclaimer
-[![GNU Affero General Public License 2.0](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)    
-Licensed under [GNU AGPL v2.0](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE)
+[![GNU General Public License v3.0](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)  
+Licensed under [GNU AGPL v3.0](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE)
 Selling The Codes To Other People For Money Is *Strictly Prohibited*.
