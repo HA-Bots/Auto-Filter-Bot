@@ -527,4 +527,4 @@ async def ping(client, message):
     start_time = time.monotonic()
     msg = await message.reply("👀")
     end_time = time.monotonic()
-    await msg.edit(f'{(end_time - start_time) * 1000} ms')
+    await msg.edit(f'{round((end_time - start_time) * 1000)} ms')
