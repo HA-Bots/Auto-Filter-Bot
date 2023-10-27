@@ -1,8 +1,22 @@
 from pyrogram import Client, filters, enums
 from utils import is_check_admin
-from pyrogram.types import ChatPermissions
+from pyrogram.types import ChatPermissions, InlineKeyboardMarkup, InlineKeyboardButton
 
 
+@Client.on_message(filters.command('manage') & filters.group)
+async def members_management(client, message):
+  if not await is_check_admin(client, message.chat.id, message.from_user.id):
+    return await message.reply_text('You not admin in this group.')
+  btn = [[
+    InlineKeyboardButton('Unmute All', callback_data=f'unmute_all_members'),
+    InlineKeyboardButton('Unban All', callback_data=f'unban_all_members')
+  ],[
+    InlineKeyboardButton('Kick Muted Users', callback_data=f'kick_muted_members'),
+    InlineKeyboardButton('Kick Deleted Accounts', callback_data=f'kick_deleted_accounts_members')
+  ]]
+  await message.reply_text("Select one of function to manage members.", reply_markup=InlineKeyboardMarkup(btn))
+  
+  
 @Client.on_message(filters.command('ban') & filters.group)
 async def ban_chat_user(client, message):
   if not await is_check_admin(client, message.chat.id, message.from_user.id):
@@ -79,4 +93,5 @@ async def unban_chat_user(client, message):
   except:
     return await message.reply_text(f"I don't have access to {message.command[0]} user")
   await message.reply_text(f'Successfully {message.command[0]} {user.mention} from {message.chat.title}')
+
 
