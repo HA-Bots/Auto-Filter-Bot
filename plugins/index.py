@@ -34,7 +34,7 @@ async def send_for_index(bot, message):
     if lock.locked():
         return await message.reply('Wait until previous process complete.')
     i = await message.reply("Forward last message or send last message link.")
-    msg = bot.listen(user_id=message.from_user.id)
+    msg = await bot.listen(user_id=message.from_user.id)
     await i.delete()
     if msg.text and msg.text.startswith("https://t.me"):
         try:
@@ -62,7 +62,7 @@ async def send_for_index(bot, message):
         return await message.reply("I can index only channels.")
 
     s = await message.reply("Send skip message number.")
-    msg = bot.listen(user_id=message.from_user.id)
+    msg = await bot.listen(user_id=message.from_user.id)
     await s.delete()
     try:
         skip = int(msg.text)
