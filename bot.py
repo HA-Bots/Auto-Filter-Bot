@@ -8,6 +8,7 @@ logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logging.getLogger("cinemagoer").setLevel(logging.ERROR)
 
 from pyrogram import Client, __version__
+import pyromod
 from pyrogram.raw.all import layer
 from database.ia_filterdb import Media
 from aiohttp import web
