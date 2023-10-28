@@ -11,4 +11,4 @@ aiohttp
 aiofiles
 telegraph
 openai
-
+git+https://github.com/usernein/pyromod.git@release-3-0
