@@ -27,7 +27,6 @@ class temp(object):
     BANNED_USERS = []
     BANNED_CHATS = []
     ME = None
-    CURRENT=0
     CANCEL = False
     U_NAME = None
     B_NAME = None
