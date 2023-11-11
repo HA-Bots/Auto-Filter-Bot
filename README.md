@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta">
+  <a href="https://github.com/SL-Bots-TG/Auto-Filter-Bot">
     <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="Auto Filter Bot">
   </a>
 </p>
@@ -7,7 +7,7 @@
   <b>𝘼𝙪𝙩𝙤 𝙁𝙞𝙡𝙩𝙚𝙧 𝘽𝙤𝙩</b>
 </h1>
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒+𝑇𝑜+SL_Bots!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+ᕼᗩᘉSᗩᖽᐸᗩ!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)](https://github.com/SL-Bots-TG/Auto-Filter-Bot)
 
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
 - [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
@@ -83,7 +83,7 @@
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
-* Check [info.py](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/info.py) for more optional variables
+* Check [info.py](https://github.com/SL-Bots-TG/Auto-Filter-Bot/blob/main/info.py) for more optional variables
 
 
 ## Deploy
@@ -93,11 +93,11 @@
 ### Local Server (VPS)
 - Build the Docker Image:
 ```
-sudo docker build -t autofilterbot-beta .
+sudo docker build -t auto-filter-bot .
 ```
 - Run the Docker Container as Web App:
 ```
-sudo docker run -d -p 8080:8080 --name AutoFilterBot-Beta autofilterbot-beta
+sudo docker run -d -p 8080:8080 --name Auto-Filter-Bot auto-filter-bot
 ```
 
 ## Support
@@ -110,7 +110,7 @@ sudo docker run -d -p 8080:8080 --name AutoFilterBot-Beta autofilterbot-beta
 
 ## Thanks To
  - [Pyrogram](https://t.me/pyrogramchat) To the members who helped
- - [Contributors](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/graphs/contributors) For free helps
+ - [Contributors](https://github.com/SL-Bots-TG/Auto-Filter-Bot/graphs/contributors) For free helps
 
 ## Note
  - Importing this repo instead of forking is strictly prohibited, Kindly fork and edit as your wish (Must Give Credits for developer)
@@ -118,5 +118,5 @@ sudo docker run -d -p 8080:8080 --name AutoFilterBot-Beta autofilterbot-beta
 
 ## Disclaimer
 [![GNU General Public License v3.0](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)  
-Licensed under [GNU AGPL v3.0](https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta/blob/main/LICENSE)
+Licensed under [GNU AGPL v3.0](https://github.com/SL-Bots-TG/Auto-Filter-Bot/blob/main/LICENSE)
 Selling The Codes To Other People For Money Is *Strictly Prohibited*.
