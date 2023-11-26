@@ -10,5 +10,5 @@ shortzy
 aiohttp
 aiofiles
 telegraph
-openai
+openai==0.28
 pyromod==1.5
