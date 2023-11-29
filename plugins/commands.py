@@ -11,7 +11,6 @@ from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, de
 from database.users_chats_db import db
 from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish
-from database.connections_mdb import all_connections, delete_connections, add_connection
 import re
 import json
 import base64
@@ -214,20 +213,7 @@ async def stats(bot, message):
 async def settings(client, message):
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
-        btn = []
-        ids = await all_connections(message.from_user.id)
-        for id in ids:
-            try:
-                chat = await client.get_chat(id)
-                btn.append(
-                    [InlineKeyboardButton(text=chat.title, callback_data=f'pm_settings#{chat.id}')]
-                )
-            except:
-                await delete_connections(id)
-        if btn:
-            await message.reply_text('Select the group whose settings you want to change.\n\n<i>If your group not showing here? Use this command in your group.</i>', reply_markup=InlineKeyboardMarkup(btn))
-        else:
-            await message.reply_text("No groups found! Use this command group.")
+        return await message.reply_text("Use this command in group.")
             
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         grp_id = message.chat.id
@@ -235,11 +221,6 @@ async def settings(client, message):
         if not await is_check_admin(client, grp_id, message.from_user.id):
             return await message.reply_text('You not admin in this group.')
 
-        await delete_connections(grp_id)
-        async for member in client.get_chat_members(grp_id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
-            if not member.user.is_bot:
-                await add_connection(grp_id, member.user.id)
-                
         settings = await get_settings(grp_id)
         if settings is not None:
             buttons = [
