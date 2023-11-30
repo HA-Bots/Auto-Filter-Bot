@@ -365,7 +365,7 @@ Welcome Text: {settings['welcome_text']}
 
 Tutorial Link: {settings['tutorial']}
 
-Force Channels: {str(ids)[1:-1] if (ids:=settings['fsub']) else 'Not Set'}"""
+Force Channels: {str(settings['fsub'])[1:-1] if settings['fsub'] else 'Not Set'}"""
 
     btn = [[
         InlineKeyboardButton(text="Close", callback_data="close_data")
