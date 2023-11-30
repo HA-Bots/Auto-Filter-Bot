@@ -9,7 +9,7 @@ from pyrogram.errors import ChatAdminRequired, FloodWait, ButtonDataInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
+from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish
 import re
 import json
@@ -111,7 +111,7 @@ async def start(client, message):
         btn = [[
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
         ],[
-            InlineKeyboardButton('🗳 Tutorial 🗳', url=TUTORIAL)
+            InlineKeyboardButton('🗳 Tutorial 🗳', url=VERIFY_TUTORIAL)
         ]]
         await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
@@ -145,13 +145,26 @@ async def start(client, message):
                 reply_markup=InlineKeyboardMarkup(btn)
             )
         return
-        
-    _, grp_id, file_id = mc.split("_", 2)
+
+    try:
+        _, grp_id, file_id, type_ = mc.split("_", 3)
+    except ValueError:
+        _, grp_id, file_id = mc.split("_", 2)
+        type_ = ''
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
-    settings = await get_settings(int(grp_id))
     files = files_[0]
+    settings = await get_settings(int(grp_id))
+    if type_ != 'sl' and settings['shortlink']:
+        link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start={mc}_sl")
+        btn = [[
+            InlineKeyboardButton("♻️ Get File ♻️", url=link)
+        ],[
+            InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])
+        ]]
+        await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+        return
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
@@ -329,9 +342,7 @@ async def save_shortlink(client, message):
         return await message.reply_text("<b>Command Incomplete:-\n\ngive me a shortlink & api along with the command...\n\nEx:- <code>/shortlink mdisklink.link 5843c3cc645f5077b2200a2c77e0344879880b3e</code>")
     
     try:
-        shortzy = Shortzy(api_key=api, base_site=url)
-        link = f'https://t.me/{temp.U_NAME}'
-        await shortzy.convert(link)
+        await get_shortlink(url, api, f'https://t.me/{temp.U_NAME}')
     except:
         return await message.reply_text("Your shortlink API or URL invalid, Please Check again!")
     
