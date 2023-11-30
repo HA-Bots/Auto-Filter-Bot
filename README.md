@@ -76,13 +76,13 @@
 * `DATABASE_URL`: MongoDB URL. Get this value from [MongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/1G1XwEOnxxo)
 * `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
 * `SUPPORT_GROUP`: Add your support group id
-* `OPENAI_API`: OpenAI API. Get this value from [API keys](https://platform.openai.com/account/api-keys).
 * `BIN_CHANNEL`: A channel to the stream and download feature, add channel id and make bot admin in channel.
 * `URL`: Add you deployed bot app link or vps IP address
 ### Optional Variables
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
+* `OPENAI_API`: OpenAI API. Get this value from [API keys](https://platform.openai.com/account/api-keys).
 * Check [info.py](https://github.com/SL-Bots-TG/Auto-Filter-Bot/blob/main/info.py) for more optional variables
 
 
