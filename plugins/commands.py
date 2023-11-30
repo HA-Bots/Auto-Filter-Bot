@@ -197,13 +197,6 @@ async def channels_info(bot, message):
     text += f'\n**Total:** {len(ids)}'
     await message.reply(text)
 
-@Client.on_message(filters.command('logs') & filters.user(ADMINS))
-async def log_file(bot, message):
-    try:
-        await message.reply_document('Logs.txt')
-    except:
-        await message.reply('Not found logs!')
-
 
 @Client.on_message(filters.command('stats') & filters.user(ADMINS))
 async def stats(bot, message):
