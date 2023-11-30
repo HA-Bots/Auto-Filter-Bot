@@ -9,9 +9,8 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from utils import temp, get_readable_time, iter_messages
 import re, time
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-lock = asyncio.Lock()
 
+lock = asyncio.Lock()
 
 @Client.on_callback_query(filters.regex(r'^index'))
 async def index_files(bot, query):
