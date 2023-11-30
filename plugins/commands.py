@@ -186,7 +186,7 @@ async def start(client, message):
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
     """Send basic information of index channels"""
-    if not (ids:=INDEX_CHANNELS):
+    if not (ids := INDEX_CHANNELS):
         return await message.reply("Not set INDEX_CHANNELS")
 
     text = '**Indexed Channels:**\n'
