@@ -146,18 +146,14 @@ async def start(client, message):
             )
         return
 
-    try:
-        _, grp_id, file_id, type_ = mc.split("_", 3)
-    except ValueError:
-        _, grp_id, file_id = mc.split("_", 2)
-        type_ = ''
+    type_, grp_id, file_id = mc.split("_", 2)
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
     files = files_[0]
     settings = await get_settings(int(grp_id))
-    if type_ != 'sl' and settings['shortlink']:
-        link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start={mc}_sl")
+    if type_ != 'shortlink' and settings['shortlink']:
+        link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start=shortlink_{grp_id}_{file_id}")
         btn = [[
             InlineKeyboardButton("♻️ Get File ♻️", url=link)
         ],[
