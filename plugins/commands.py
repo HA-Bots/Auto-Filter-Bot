@@ -489,7 +489,8 @@ async def set_fsub(client, message):
 
 @Client.on_message(filters.command('telegraph'))
 async def telegraph_upload(bot, message):
-    if not (reply_to_message := message.reply_to_message):
+    reply_to_message = message.reply_to_message
+    if not reply_to_message:
         return await message.reply('Reply to any photo or video.')
     file = reply_to_message.photo or reply_to_message.video or None
     if file is None:
