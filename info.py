@@ -1,8 +1,6 @@
-import re, sys, logging
+import re, logging
 from os import environ
 from Script import script
-
-logging.basicConfig(level=logging.ERROR)
 
 def is_enabled(value, default):
     if value.lower() in ["true", "yes", "1", "enable", "y"]:
@@ -59,8 +57,7 @@ else:
     
 OPENAI_API = environ.get('OPENAI_API', '')
 if len(OPENAI_API) == 0:
-    logging.error('OPENAI_API is missing, exiting now')
-    exit()
+    logging.warning('OPENAI_API is empty')
 
 # MongoDB information
 DATABASE_URL = environ.get('DATABASE_URL', "")
@@ -86,6 +83,7 @@ PROTECT_CONTENT = is_enabled((environ.get('PROTECT_CONTENT', "False")), False)
 LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False"), False)
 LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
+MAX_BTN = int(environ.get('MAX_BTN', 10))
 
 # Other
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
