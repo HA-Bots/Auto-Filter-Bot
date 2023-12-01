@@ -546,9 +546,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
         
     elif query.data == "my_owner":
         buttons = [[
-            InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
-            InlineKeyboardButton('☎️ ᴄᴏɴᴛᴀᴄᴛ', url='https://t.me/Hansaka_Anuhas')
-        ]]
+            InlineKeyboardButton(text=f"☎️ ᴄᴏɴᴛᴀᴄᴛ - {(await client.get_users(admin)).first_name}", user_id=admin)
+        ]
+            for admin in ADMINS
+        ]
+        buttons.append(
+            [InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start')]
+        )
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.MY_OWNER_TXT,
