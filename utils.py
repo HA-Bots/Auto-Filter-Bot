@@ -5,8 +5,6 @@ from imdb import Cinemagoer
 import asyncio
 from pyrogram.types import Message, InlineKeyboardButton, ChatJoinRequest
 from pyrogram import enums
-from typing import Union
-import re
 import os
 import pytz
 import time
@@ -207,7 +205,6 @@ async def groups_broadcast_messages(chat_id, message):
         await db.delete_chat(chat_id)
         return "Error"
 
-
 async def get_settings(group_id):
     settings = temp.SETTINGS.get(group_id)
     if not settings:
@@ -220,7 +217,6 @@ async def save_group_settings(group_id, key, value):
     current.update({key: value})
     temp.SETTINGS.update({group_id: current})
     await db.update_settings(group_id, current)
-
 
 def get_size(size):
     """Get size in readable format"""
@@ -240,13 +236,11 @@ def list_to_str(k):
         return str(k[0])
     else:
         return ' '.join(f'{elem}, ' for elem in k)
-
     
 async def get_shortlink(url, api, link):
     shortzy = Shortzy(api_key=api, base_site=url)
     link = await shortzy.convert(link)
     return link
-
 
 def get_readable_time(seconds):
     periods = [('d', 86400), ('h', 3600), ('m', 60), ('s', 1)]
@@ -268,3 +262,23 @@ def get_wish():
     else:
         status = "ɢᴏᴏᴅ ᴇᴠᴇɴɪɴɢ 🌘"
     return status
+
+def get_media_from_message(message: "Message") -> Any:
+    media_types = (
+        "audio",
+        "document",
+        "photo",
+        "sticker",
+        "animation",
+        "video",
+        "voice",
+        "video_note",
+    )
+    for attr in media_types:
+        media = getattr(message, attr, None)
+        if media:
+            return media
+
+def get_hash(media_msg: Message) -> str:
+    media = get_media_from_message(media_msg)
+    return getattr(media, "file_unique_id", "")[:6]
