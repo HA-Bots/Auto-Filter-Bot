@@ -84,6 +84,7 @@ LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False")
 LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 MAX_BTN = int(environ.get('MAX_BTN', 10))
+LANGUAGES = ["hindi", "english", "telugu", "tamil", "kannada", "malayalam"]
 
 # Other
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
