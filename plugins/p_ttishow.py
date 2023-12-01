@@ -1,6 +1,6 @@
 import random, os, sys
 from pyrogram import Client, filters, enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ChatMemberUpdated
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
 from info import ADMINS, LOG_CHANNEL, PICS, SUPPORT_LINK, UPDATES_LINK
 from database.users_chats_db import db
@@ -9,19 +9,23 @@ from utils import get_size, temp, get_settings
 from Script import script
 from pyrogram.errors import ChatAdminRequired
 
-@Client.on_chat_member_updated(filters.group)
-async def welcome(bot, message: ChatMemberUpdated):
-    if message.new_chat_member and not message.old_chat_member:
-        if message.new_chat_member.user.id == temp.ME:
+@Client.on_message(filters.new_chat_members & filters.group)
+async def save_group(bot, message):
+    check = [u.id for u in message.new_chat_members]
+    if temp.ME in check:
+        if not await db.get_chat(message.chat.id):
+            total=await bot.get_chat_members_count(message.chat.id)
+            user = message.from_user.mention if message.from_user else "Dear" 
+            group_link = await message.chat.export_invite_link()
+            await bot.send_message(LOG_CHANNEL, script.NEW_GROUP_TXT.format(message.chat.title, message.chat.id, message.chat.username, group_link, total), disable_web_page_preview=True)  
+            await db.add_chat(message.chat.id, message.chat.title)
             buttons = [[
-                InlineKeyboardButton('Updates Channel', url=UPDATES_LINK),
-                InlineKeyboardButton('Support Group', url=SUPPORT_LINK)
+                InlineKeyboardButton('ᴜᴘᴅᴀᴛᴇ', url=UPDATES_LINK),
+                InlineKeyboardButton('ꜱᴜᴘᴘᴏʀᴛ', url=SUPPORT_LINK)
             ]]
             reply_markup=InlineKeyboardMarkup(buttons)
-            user = message.from_user.mention if message.from_user else "Dear"
             await bot.send_photo(chat_id=message.chat.id, photo=random.choice(PICS), caption=f"👋 Hello {user},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>", reply_markup=reply_markup)
             return
-            
         settings = await get_settings(message.chat.id)
         if settings["welcome"]:
             WELCOME = settings['welcome_text']
@@ -30,15 +34,13 @@ async def welcome(bot, message: ChatMemberUpdated):
                 title = message.chat.title
             )
             await bot.send_message(chat_id=message.chat.id, text=welcome_msg)
-
-
+           
 @Client.on_message(filters.command('restart') & filters.user(ADMINS))
 async def restart_bot(bot, message):
     msg = await message.reply("Restarting...")
     with open('restart.txt', 'w+') as file:
         file.write(f"{msg.chat.id}\n{msg.id}")
     os.execl(sys.executable, sys.executable, "bot.py")
-
 
 @Client.on_message(filters.command('leave') & filters.user(ADMINS))
 async def leave_a_chat(bot, message):
@@ -65,7 +67,6 @@ async def leave_a_chat(bot, message):
             text=f'Hello Friends,\nMy owner has told me to leave from group so i go! If you need add me again contact my support group.\nReason - <code>{reason}</code>',
             reply_markup=reply_markup,
         )
-
         await bot.leave_chat(chat)
         await message.reply(f"Left the chat `{chat}`")
     except Exception as e:
@@ -107,7 +108,6 @@ async def disable_chat(bot, message):
     except Exception as e:
         await message.reply(f"Error - {e}")
 
-
 @Client.on_message(filters.command('unban_grp') & filters.user(ADMINS))
 async def re_enable_chat(bot, message):
     if len(message.command) == 1:
@@ -125,7 +125,6 @@ async def re_enable_chat(bot, message):
     await db.re_enable_chat(int(chat_))
     temp.BANNED_CHATS.remove(int(chat_))
     await message.reply("Chat successfully re-enabled")
-
 
 @Client.on_message(filters.command('invite_link') & filters.user(ADMINS))
 async def gen_invite_link(bot, message):
@@ -170,9 +169,7 @@ async def ban_a_user(bot, message):
         await db.ban_user(k.id, reason)
         temp.BANNED_USERS.append(k.id)
         await message.reply(f"Successfully banned {k.mention}")
-
-
-    
+   
 @Client.on_message(filters.command('unban_user') & filters.user(ADMINS))
 async def unban_a_user(bot, message):
     if len(message.command) == 1:
@@ -197,8 +194,6 @@ async def unban_a_user(bot, message):
         await db.remove_ban(k.id)
         temp.BANNED_USERS.remove(k.id)
         await message.reply(f"Successfully unbanned {k.mention}")
-
-
     
 @Client.on_message(filters.command('users') & filters.user(ADMINS))
 async def list_users(bot, message):
