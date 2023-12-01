@@ -50,9 +50,6 @@
 • /grp_broadcast - to send message to all groups.
 • /restart - to restart bot.
 • /set_tutorial - to set custom tutorial link in result page button.
-• /connect - to connect group.
-• /disconnect - to disconnect group.
-• /connections - to check how many your groups connected by bot.
 • /id - to check group or channel id.
 • /leave - to leave your bot from particular group.
 • /unban_grp - to enable group.
@@ -62,7 +59,6 @@
 • /users - to get all users details.
 • /chats - to get all groups.
 • /invite_link - to generate invite link.
-• /logs - to check bot logs.
 • /index - to index bot accessible channels.
 • /openai - Find solution to any question with ChatGPT
 ```
