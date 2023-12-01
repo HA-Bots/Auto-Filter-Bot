@@ -127,9 +127,6 @@ I can't find the <b>{}</b> in my database! 🥲
 /get_custom_settings - to get your group settings details
 /set_welcome - to set custom new joined users welcome message for group
 /set_tutorial - to set custom tutorial link in result page button
-/connect - to connect group
-/disconnect - to disconnect group
-/connections - to check how many your groups connected by bot
 /id - to check group or channel id
 /openai - Find solution to any question with ChatGPT</b>"""
 
