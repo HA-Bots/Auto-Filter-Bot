@@ -11,7 +11,7 @@ from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, I
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings, get_hash
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -21,22 +21,21 @@ BUTTONS = {}
 CAP = {}
 
 @Client.on_callback_query(filters.regex(r"^stream"))
-async def stream_downloader(bot, query):
+async def aks_downloader(bot, query):
     file_id = query.data.split('#', 1)[1]
     msg = await bot.send_cached_media(
         chat_id=BIN_CHANNEL,
         file_id=file_id)
-    online = f"https://{URL}/watch/{msg.id}"
-    download = f"https://{URL}/download/{msg.id}"
+    online = f"https://{URL}/watch/{msg.id}?hash={get_hash(msg)}"
+    download = f"https://{URL}/{msg.id}?hash={get_hash(msg)}"
+    btn= [[
+        InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=online),
+        InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
+    ],[
+        InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
+    ]]
     await query.edit_message_reply_markup(
-        reply_markup=InlineKeyboardMarkup(
-            [[
-                InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=online),
-                InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
-            ],[
-                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-            ]]
-        )
+        reply_markup=InlineKeyboardMarkup(btn)
     )
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
@@ -805,7 +804,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await query.message.reply('Nothing to kick deleted accounts.')
 
-
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
@@ -839,11 +837,14 @@ async def auto_filter(client, msg, spoll=False):
         ]
     if settings['shortlink']:
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}'))]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}')),
+            InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#{req}#0")]
         )
     else:
         btn.insert(0,
-            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
+            [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
+            InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#{req}#0")
+            ]
         )
     
     if offset != "":
@@ -860,10 +861,6 @@ async def auto_filter(client, msg, spoll=False):
         btn.append(
             [InlineKeyboardButton(text="🚸 ɴᴏ ᴍᴏʀᴇ ᴘᴀɢᴇs 🚸", callback_data="buttons")]
         )
-    if settings["shortlink"]:
-        btn.insert(0,
-                [InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])]
-                )
     btn.append(
         [InlineKeyboardButton("🚫 ᴄʟᴏsᴇ 🚫", callback_data="close_data")]
     )
