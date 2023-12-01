@@ -68,7 +68,8 @@ async def leave_a_chat(bot, message):
             reply_markup=reply_markup,
         )
         await bot.leave_chat(chat)
-        await message.reply(f"Left the chat `{chat}`")
+        await db.delete_chat(chat)
+        await message.reply(f"<b>✅️ Successfully bot left from this group - `{chat}`</b>")
     except Exception as e:
         await message.reply(f'Error - {e}')
 
