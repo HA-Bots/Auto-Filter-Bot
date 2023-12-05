@@ -8,7 +8,6 @@ from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from utils import temp, get_readable_time, iter_messages
 import re, time
-logger = logging.getLogger(__name__)
 
 lock = asyncio.Lock()
 
@@ -54,7 +53,6 @@ async def send_for_index(bot, message):
     try:
         chat = await bot.get_chat(chat_id)
     except Exception as e:
-        logger.exception(e)
         return await message.reply(f'Errors - {e}')
 
     if chat.type != enums.ChatType.CHANNEL:
@@ -126,7 +124,6 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
                 elif sts == 'err':
                     errors += 1
         except Exception as e:
-            logger.exception(e)
             await msg.reply(f'Index canceled due to Error: {e}')
         else:
             await msg.edit(f'Succesfully saved <code>{total_files}</code> to Database!\nCompleted in {time_taken}\n\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>')
