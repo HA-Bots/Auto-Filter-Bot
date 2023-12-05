@@ -13,17 +13,17 @@ def is_enabled(value, default):
 # Bot information
 API_ID = environ.get('API_ID', '')
 if len(API_ID) == 0:
-    logging.error('API_ID is missing, exiting now')
+    print('API_ID is missing, exiting now')
     exit()
 else:
     API_ID = int(API_ID)
 API_HASH = environ.get('API_HASH', '')
 if len(API_HASH) == 0:
-    logging.error('API_HASH is missing, exiting now')
+    print('API_HASH is missing, exiting now')
     exit()
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
-    logging.error('BOT_TOKEN is missing, exiting now')
+    print('BOT_TOKEN is missing, exiting now')
     exit()
 PORT = int(environ.get('PORT', '8080'))
 
@@ -33,7 +33,7 @@ PICS = (environ.get('PICS', 'https://telegra.ph/file/58fef5cb458d5b29b0186.jpg h
 # Bot Admins
 ADMINS = environ.get('ADMINS', '')
 if len(ADMINS) == 0:
-    logging.error('ADMINS is missing, exiting now')
+    print('ADMINS is missing, exiting now')
     exit()
 else:
     ADMINS = [int(admins) for admins in ADMINS.split()]
@@ -43,26 +43,26 @@ INDEX_CHANNELS = [int(index_channels) if index_channels.startswith("-") else ind
 AUTH_CHANNEL = [int(auth_channels) for auth_channels in environ.get('AUTH_CHANNEL', '').split()]
 LOG_CHANNEL = environ.get('LOG_CHANNEL', '')
 if len(LOG_CHANNEL) == 0:
-    logging.error('LOG_CHANNEL is missing, exiting now')
+    print('LOG_CHANNEL is missing, exiting now')
     exit()
 else:
     LOG_CHANNEL = int(LOG_CHANNEL)
     
 SUPPORT_GROUP = environ.get('SUPPORT_GROUP', '')
 if len(SUPPORT_GROUP) == 0:
-    logging.error('SUPPORT_GROUP is missing, exiting now')
+    print('SUPPORT_GROUP is missing, exiting now')
     exit()
 else:
     SUPPORT_GROUP = int(SUPPORT_GROUP)
     
 OPENAI_API = environ.get('OPENAI_API', '')
 if len(OPENAI_API) == 0:
-    logging.warning('OPENAI_API is empty')
+    print('OPENAI_API is empty')
 
 # MongoDB information
 DATABASE_URL = environ.get('DATABASE_URL', "")
 if len(DATABASE_URL) == 0:
-    logging.error('DATABASE_URL is missing, exiting now')
+    print('DATABASE_URL is missing, exiting now')
     exit()
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
@@ -101,13 +101,13 @@ INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTE
 # stream features vars
 BIN_CHANNEL = environ.get("BIN_CHANNEL", "")
 if len(BIN_CHANNEL) == 0:
-    logging.error('BIN_CHANNEL is missing, exiting now')
+    print('BIN_CHANNEL is missing, exiting now')
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
 URL = environ.get("URL", "")
 if len(URL) == 0:
-    logging.error('URL is missing, exiting now')
+    print('URL is missing, exiting now')
     exit()
 else:
     if URL.startswith('https://'):
@@ -116,5 +116,5 @@ else:
     elif '.' in URL:
         URL = f'http://{URL}:{PORT}/'
     else:
-        logging.error('URL is not valid, exiting now')
+        print('URL is not valid, exiting now')
         exit()
