@@ -29,26 +29,8 @@ class TGCustomYield:
 
     @staticmethod
     async def generate_file_properties(msg: Message):
-        error_message = "This message doesn't contain any downloadable media"
-        available_media = ("audio", "document", "photo", "sticker", "animation", "video", "voice", "video_note")
-
-        if isinstance(msg, Message):
-            for kind in available_media:
-                media = getattr(msg, kind, None)
-
-                if media is not None:
-                    break
-            else:
-                raise ValueError(error_message)
-        else:
-            media = msg
-
-        if isinstance(media, str):
-            file_id_str = media
-        else:
-            file_id_str = media.file_id
-
-        file_id_obj = FileId.decode(file_id_str)
+        media = getattr(msg, msg.media.value, None)
+        file_id_obj = FileId.decode(media.file_id)
 
         # The below lines are added to avoid a break in routes.py
         setattr(file_id_obj, "file_size", getattr(media, "file_size", 0))
