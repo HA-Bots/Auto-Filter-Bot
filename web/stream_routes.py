@@ -7,7 +7,7 @@ from info import BIN_CHANNEL
 from utils import temp
 from aiohttp import web
 from web.utils.custom_dl import TGCustomYield, chunk_size, offset_fix
-from web.utils.render_template import render_page
+from web.utils.render_template import media_watch
 from urllib.parse import quote_plus
 
 routes = web.RouteTableDef()
@@ -53,26 +53,23 @@ async def root_route_handler(request):
 
 
 @routes.get("/watch/{message_id}")
-async def stream_handler(request):
+async def watch_handler(request):
     try:
         message_id = int(request.match_info['message_id'])
-        return web.Response(text=await render_page(message_id), content_type='text/html')
-    except ValueError as e:
-        logging.error(e)
-        raise web.HTTPNotFound
-        
+        return web.Response(text=await media_watch(message_id), content_type='text/html')
+    except:
+        return web.Response(text="<h1>Something went wrong</h1>", content_type='text/html')
+
 @routes.get("/download/{message_id}")
-@routes.get("/{message_id}")
-async def old_stream_handler(request):
+async def download_handler(request):
     try:
         message_id = int(request.match_info['message_id'])
-        return await media_streamer(request, message_id)
-    except ValueError as e:
-        logging.error(e)
-        raise web.HTTPNotFound
+        return await media_download(request, message_id)
+    except:
+        return web.Response(text="<h1>Something went wrong</h1>", content_type='text/html')
         
 
-async def media_streamer(request, message_id: int):
+async def media_download(request, message_id: int):
     range_header = request.headers.get('Range', 0)
     media_msg = await temp.BOT.get_messages(BIN_CHANNEL, message_id)
     file_properties = await TGCustomYield().generate_file_properties(media_msg)
