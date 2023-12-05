@@ -23,8 +23,8 @@ CAP = {}
 async def aks_downloader(bot, query):
     file_id = query.data.split('#', 1)[1]
     msg = await bot.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
-    watch = f"{URL}/watch/{msg.id}"
-    download = f"{URL}/download/{msg.id}"
+    watch = f"{URL}watch/{msg.id}"
+    download = f"{URL}download/{msg.id}"
     btn= [[
         InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
         InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
