@@ -22,6 +22,7 @@ async def welcome(bot, message):
             user = message.from_user.mention if message.from_user else "Dear"
             await bot.send_photo(chat_id=message.chat.id, photo=random.choice(PICS), caption=f"👋 Hello {user},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>", reply_markup=reply_markup)
             return
+        print(message)
         settings = await get_settings(message.chat.id)
         if settings["welcome"]:
             WELCOME = settings['welcome_text']
