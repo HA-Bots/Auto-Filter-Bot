@@ -9,9 +9,6 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from marshmallow.exceptions import ValidationError
 from info import DATABASE_URL, DATABASE_NAME, COLLECTION_NAME
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 
 client = AsyncIOMotorClient(DATABASE_URL)
 db = client[DATABASE_NAME]
