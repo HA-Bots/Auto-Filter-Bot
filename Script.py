@@ -20,13 +20,11 @@ class script(object):
 ✨ Storage: <code>{}</code> / <code>{}</code>
 🚀 Uptime: <code>{}</code>"""
 
-    NEW_GROUP_TXT = """#New_Group_Robo
-
-Group name - {}
-Id - <code>{}</code>
-Group username - @{}
-Group link - {}
-Total members - <code>{}</code>"""
+    NEW_GROUP_TXT = """#NewGroup
+Title - {}
+ID - <code>{}</code>
+Username - {}
+Total - <code>{}</code>"""
 
     NEW_USER_TXT = """#NewUser
 ★ Name: {}
