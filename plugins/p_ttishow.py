@@ -9,21 +9,17 @@ from utils import get_size, temp, get_settings
 from Script import script
 from pyrogram.errors import ChatAdminRequired
 
-@Client.on_message(filters.new_chat_members & filters.group)
-async def save_group(bot, message):
-    check = [u.id for u in message.new_chat_members]
-    if temp.ME in check:
-        if not await db.get_chat(message.chat.id):
-            total=await bot.get_chat_members_count(message.chat.id)
-            user = message.from_user.mention if message.from_user else "Dear" 
-            group_link = await message.chat.export_invite_link()
-            await bot.send_message(LOG_CHANNEL, script.NEW_GROUP_TXT.format(message.chat.title, message.chat.id, message.chat.username, group_link, total), disable_web_page_preview=True)  
-            await db.add_chat(message.chat.id, message.chat.title)
+
+@Client.on_chat_member_updated(filters.group)
+async def welcome(bot, message):
+    if message.new_chat_member and not message.old_chat_member:
+        if message.new_chat_member.user.id == temp.ME:
             buttons = [[
                 InlineKeyboardButton('ᴜᴘᴅᴀᴛᴇ', url=UPDATES_LINK),
                 InlineKeyboardButton('ꜱᴜᴘᴘᴏʀᴛ', url=SUPPORT_LINK)
             ]]
             reply_markup=InlineKeyboardMarkup(buttons)
+            user = message.from_user.mention if message.from_user else "Dear"
             await bot.send_photo(chat_id=message.chat.id, photo=random.choice(PICS), caption=f"👋 Hello {user},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>", reply_markup=reply_markup)
             return
         settings = await get_settings(message.chat.id)
@@ -34,7 +30,8 @@ async def save_group(bot, message):
                 title = message.chat.title
             )
             await bot.send_message(chat_id=message.chat.id, text=welcome_msg)
-           
+
+
 @Client.on_message(filters.command('restart') & filters.user(ADMINS))
 async def restart_bot(bot, message):
     msg = await message.reply("Restarting...")
@@ -68,7 +65,6 @@ async def leave_a_chat(bot, message):
             reply_markup=reply_markup,
         )
         await bot.leave_chat(chat)
-        await db.delete_chat(chat)
         await message.reply(f"<b>✅️ Successfully bot left from this group - `{chat}`</b>")
     except Exception as e:
         await message.reply(f'Error - {e}')
