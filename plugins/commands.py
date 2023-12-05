@@ -17,13 +17,14 @@ import base64
 import sys
 from shortzy import Shortzy
 from telegraph import upload_file
+
 logger = logging.getLogger(__name__)
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not await db.get_chat(message.chat.id):
-            total=await client.get_chat_members_count(message.chat.id)
+            total = await client.get_chat_members_count(message.chat.id)
             group_link = await message.chat.export_invite_link()
             await client.send_message(LOG_CHANNEL, script.NEW_GROUP_TXT.format(message.chat.title, message.chat.id, message.chat.username, group_link, total))       
             await db.add_chat(message.chat.id, message.chat.title)
@@ -169,8 +170,8 @@ async def start(client, message):
     btn = [[
         InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
     ],[
-        InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
-        InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
+        InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+        InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
     ],[
         InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
     ]]
@@ -196,7 +197,6 @@ async def channels_info(bot, message):
     text += f'\n**Total:** {len(ids)}'
     await message.reply(text)
 
-
 @Client.on_message(filters.command('stats') & filters.user(ADMINS))
 async def stats(bot, message):
     msg = await message.reply('Please Wait...')
@@ -208,60 +208,46 @@ async def stats(bot, message):
     uptime = get_readable_time(time.time() - temp.START_TIME)
     size = get_size(size)
     free = get_size(free)
-    await msg.edit(script.STATUS_TXT.format(files, users, chats, size, free, uptime))
-    
+    await msg.edit(script.STATUS_TXT.format(files, users, chats, size, free, uptime))    
     
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
-        return await message.reply_text("Use this command in group.")
-            
+        return await message.reply_text("Use this command in group.")            
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         grp_id = message.chat.id
-
         if not await is_check_admin(client, grp_id, message.from_user.id):
             return await message.reply_text('You not admin in this group.')
-
         settings = await get_settings(grp_id)
         if settings is not None:
-            buttons = [
-                [
-                    InlineKeyboardButton('Auto Filter', callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{grp_id}'),
-                    InlineKeyboardButton('✅ Yes' if settings["auto_filter"] else '❌ No', callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{grp_id}')
-                ],
-                [
-                    InlineKeyboardButton('File Secure', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}'),
-                    InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}')
-                ],
-                [
-                    InlineKeyboardButton('IMDb Poster', callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}'),
-                    InlineKeyboardButton('✅ Yes' if settings["imdb"] else '❌ No', callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}')
-                ],
-                [
-                    InlineKeyboardButton('Spelling Check', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}'),
-                    InlineKeyboardButton('✅ Yes' if settings["spell_check"] else '❌ No', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}')
-                ],
-                [
-                    InlineKeyboardButton('Auto Delete', callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'),
-                    InlineKeyboardButton(f'{get_readable_time(DELETE_TIME)}' if settings["auto_delete"] else '❌ No', callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}')
-                ],
-                [
-                    InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',),
-                    InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No', callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}'),
-                ],
-                [
-                    InlineKeyboardButton('Shortlink', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{grp_id}'),
-                    InlineKeyboardButton('✅ Yes' if settings["shortlink"] else '❌ No', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{grp_id}'),
-                ],
-                [
-                    InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
-                    InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
-                ],
-                [
+            buttons = [[
+                InlineKeyboardButton('Auto Filter', callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{grp_id}'),
+                InlineKeyboardButton('✅ Yes' if settings["auto_filter"] else '❌ No', callback_data=f'setgs#auto_filter#{settings["auto_filter"]}#{grp_id}')
+            ],[
+                InlineKeyboardButton('File Secure', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}'),
+                InlineKeyboardButton('✅ Yes' if settings["file_secure"] else '❌ No', callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}')
+            ],[
+                InlineKeyboardButton('IMDb Poster', callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}'),
+                InlineKeyboardButton('✅ Yes' if settings["imdb"] else '❌ No', callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}')
+            ],[
+                InlineKeyboardButton('Spelling Check', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}'),
+                InlineKeyboardButton('✅ Yes' if settings["spell_check"] else '❌ No', callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}')
+            ],[
+                InlineKeyboardButton('Auto Delete', callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}'),
+                InlineKeyboardButton(f'{get_readable_time(DELETE_TIME)}' if settings["auto_delete"] else '❌ No', callback_data=f'setgs#auto_delete#{settings["auto_delete"]}#{grp_id}')
+            ],[
+                InlineKeyboardButton('Welcome', callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',),
+                InlineKeyboardButton('✅ Yes' if settings["welcome"] else '❌ No', callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}'),
+            ],[
+                InlineKeyboardButton('Shortlink', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{grp_id}'),
+                InlineKeyboardButton('✅ Yes' if settings["shortlink"] else '❌ No', callback_data=f'setgs#shortlink#{settings["shortlink"]}#{grp_id}'),
+            ],[
+                InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
+                InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
+            ],[
                     InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
-                ]
-            ]
+            ]]
             await message.reply_text(
                 text=f"Change your settings for <b>'{message.chat.title}'</b> as your wish. ⚙",
                 reply_markup=InlineKeyboardMarkup(buttons),
@@ -270,76 +256,59 @@ async def settings(client, message):
         else:
             await message.reply_text('Something went wrong!')
 
-
 @Client.on_message(filters.command('set_template'))
 async def save_template(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("Use this command in group.")
-        
+        return await message.reply_text("Use this command in group.")      
     grp_id = message.chat.id
     title = message.chat.title
-
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
-
     try:
         template = message.text.split(" ", 1)[1]
     except:
-        return await message.reply_text("Command Incomplete!")
-    
+        return await message.reply_text("Command Incomplete!")   
     await save_group_settings(grp_id, 'template', template)
-    await message.reply_text(f"Successfully changed template for {title} to\n\n{template}")
-    
+    await message.reply_text(f"Successfully changed template for {title} to\n\n{template}")  
     
 @Client.on_message(filters.command('set_caption'))
 async def save_caption(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("Use this command in group.")
-        
+        return await message.reply_text("Use this command in group.")      
     grp_id = message.chat.id
     title = message.chat.title
-
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
-
     try:
         caption = message.text.split(" ", 1)[1]
     except:
-        return await message.reply_text("Command Incomplete!")
-    
+        return await message.reply_text("Command Incomplete!") 
     await save_group_settings(grp_id, 'caption', caption)
     await message.reply_text(f"Successfully changed caption for {title} to\n\n{caption}")
-    
-    
+        
 @Client.on_message(filters.command('set_shortlink'))
 async def save_shortlink(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("Use this command in group.")
-        
+        return await message.reply_text("Use this command in group.")    
     grp_id = message.chat.id
     title = message.chat.title
-
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
-
     try:
         _, url, api = message.text.split(" ", 2)
     except:
-        return await message.reply_text("<b>Command Incomplete:-\n\ngive me a shortlink & api along with the command...\n\nEx:- <code>/shortlink mdisklink.link 5843c3cc645f5077b2200a2c77e0344879880b3e</code>")
-    
+        return await message.reply_text("<b>Command Incomplete:-\n\ngive me a shortlink & api along with the command...\n\nEx:- <code>/shortlink mdisklink.link 5843c3cc645f5077b2200a2c77e0344879880b3e</code>")   
     try:
         await get_shortlink(url, api, f'https://t.me/{temp.U_NAME}')
     except:
-        return await message.reply_text("Your shortlink API or URL invalid, Please Check again!")
-    
+        return await message.reply_text("Your shortlink API or URL invalid, Please Check again!")   
     await save_group_settings(grp_id, 'url', url)
     await save_group_settings(grp_id, 'api', api)
     await message.reply_text(f"Successfully changed shortlink for {title} to\n\nURL - {url}\nAPI - {api}")
     
-
 @Client.on_message(filters.command('get_custom_settings'))
 async def get_custom_settings(client, message):
     chat_type = message.chat.type
@@ -348,8 +317,7 @@ async def get_custom_settings(client, message):
     grp_id = message.chat.id
     title = message.chat.title
     if not await is_check_admin(client, grp_id, message.from_user.id):
-        return await message.reply_text('You not admin in this group.')
-        
+        return await message.reply_text('You not admin in this group...')    
     settings = await get_settings(grp_id)
     text = f"""Custom settings for: {title}
 
@@ -371,28 +339,22 @@ Force Channels: {str(settings['fsub'])[1:-1] if settings['fsub'] else 'Not Set'}
     ]]
     await message.reply_text(text, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
 
-
 @Client.on_message(filters.command('set_welcome'))
 async def save_welcome(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("Use this command in group.")
-        
+        return await message.reply_text("Use this command in group.")      
     grp_id = message.chat.id
     title = message.chat.title
-
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
-
     try:
         welcome = message.text.split(" ", 1)[1]
     except:
-        return await message.reply_text("Command Incomplete!")
-    
+        return await message.reply_text("Command Incomplete!")    
     await save_group_settings(grp_id, 'welcome_text', welcome)
     await message.reply_text(f"Successfully changed welcome for {title} to\n\n{welcome}")
-    
-    
+        
 @Client.on_message(filters.command('delete') & filters.user(ADMINS))
 async def delete_file(bot, message):
     try:
@@ -409,8 +371,7 @@ async def delete_file(bot, message):
         InlineKeyboardButton("CLOSE", callback_data="close_data")
     ]]
     await msg.edit(f"Total {total} files found in your query {query}.\n\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
-
-    
+ 
 @Client.on_message(filters.command('delete_all') & filters.user(ADMINS))
 async def delete_all_index(bot, message):
     btn = [[
@@ -423,49 +384,38 @@ async def delete_all_index(bot, message):
         return await message.reply_text('Not have files to delete')
     await message.reply_text(f'Total {files} files have.\nDo you want to delete all?', reply_markup=InlineKeyboardMarkup(btn))
 
-
-
 @Client.on_message(filters.command('set_tutorial'))
-async def save_tutorial(client, message):
+async def set_tutorial(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("Use this command in group.")
-        
+        return await message.reply_text("Use this command in group.")       
     grp_id = message.chat.id
     title = message.chat.title
-
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
-
     try:
         tutorial = message.text.split(" ", 1)[1]
     except:
-        return await message.reply_text("Command Incomplete!")
-    
+        return await message.reply_text("Command Incomplete!")   
     await save_group_settings(grp_id, 'tutorial', tutorial)
     await message.reply_text(f"Successfully changed tutorial for {title} to\n\n{tutorial}")
-
 
 @Client.on_message(filters.command('set_fsub'))
 async def set_fsub(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("Use this command in group.")
-        
+        return await message.reply_text("Use this command in group.")      
     grp_id = message.chat.id
     title = message.chat.title
-
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
-
     try:
         ids = message.text.split(" ", 1)[1]
         fsub_ids = list(map(int, ids.split()))
     except IndexError:
         return await message.reply_text("Command Incomplete!\n\nCan multiple channel add separate by spaces. Like: /set_fsub id1 id2 id3")
     except ValueError:
-        return await message.reply_text('Make sure ids is integer.')
-        
+        return await message.reply_text('Make sure ids is integer.')        
     channels = "Channels:\n"
     for id in fsub_ids:
         try:
@@ -478,9 +428,8 @@ async def set_fsub(client, message):
     await save_group_settings(grp_id, 'fsub', fsub_ids)
     await message.reply_text(f"Successfully set force channels for {title} to\n\n{channels}")
 
-
 @Client.on_message(filters.command('telegraph'))
-async def telegraph_upload(bot, message):
+async def telegraph(bot, message):
     reply_to_message = message.reply_to_message
     if not reply_to_message:
         return await message.reply('Reply to any photo or video.')
@@ -502,7 +451,6 @@ async def telegraph_upload(bot, message):
     except:
         pass
     await text.edit_text(f"<b>❤️ ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴄᴏᴍᴘʟᴇᴛᴇᴅ 👇</b>\n\n<code>https://telegra.ph/{response[0]}</code></b>")
-
 
 @Client.on_message(filters.command('ping'))
 async def ping(client, message):
