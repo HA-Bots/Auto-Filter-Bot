@@ -11,7 +11,7 @@ from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, I
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings, get_hash
+from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -23,13 +23,11 @@ CAP = {}
 @Client.on_callback_query(filters.regex(r"^stream"))
 async def aks_downloader(bot, query):
     file_id = query.data.split('#', 1)[1]
-    msg = await bot.send_cached_media(
-        chat_id=BIN_CHANNEL,
-        file_id=file_id)
-    online = f"https://{URL}/watch/{msg.id}?hash={get_hash(msg)}"
-    download = f"https://{URL}/{msg.id}?hash={get_hash(msg)}"
+    msg = await bot.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
+    watch = f"{URL}/watch/{msg.id}"
+    download = f"{URL}/download/{msg.id}"
     btn= [[
-        InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=online),
+        InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
         InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
     ],[
         InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
