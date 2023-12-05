@@ -15,7 +15,6 @@ from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortli
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
-logger = logging.getLogger(__name__)
 
 BUTTONS = {}
 CAP = {}
@@ -897,7 +896,6 @@ async def auto_filter(client, msg, spoll=False):
             else:
                 await message.reply_photo(photo=poster, caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn))
         except Exception as e:
-            logger.exception(e)
             if settings["auto_delete"]:
                 k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
                 await asyncio.sleep(DELETE_TIME)
