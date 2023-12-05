@@ -18,7 +18,6 @@ import sys
 from shortzy import Shortzy
 from telegraph import upload_file
 
-logger = logging.getLogger(__name__)
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
