@@ -21,9 +21,7 @@ class Bot(Client):
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=BOT_TOKEN,
-            workers=50,
-            plugins={"root": "plugins"},
-            sleep_threshold=5,
+            plugins={"root": "plugins"}
         )
 
     async def start(self):
@@ -50,23 +48,23 @@ class Bot(Client):
         app = web.AppRunner(await web_server())
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
-        logging.info(f"\n\nBot [{username}] Started!\n\n")
+        print(f"\nBot [{username}] Started!\n")
         try:
             await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
         except:
-            logging.error("Make sure bot admin in LOG_CHANNEL, exiting now")
+            print("Make sure bot admin in LOG_CHANNEL, exiting now")
             exit()
         try:
             m = await self.send_message(chat_id=BIN_CHANNEL, text="Test")
             await m.delete()
         except:
-            logging.error("Make sure bot admin in BIN_CHANNEL, exiting now")
+            print("Make sure bot admin in BIN_CHANNEL, exiting now")
             exit()
 
 
     async def stop(self, *args):
         await super().stop()
-        logging.info("Bot stopped! Bye...")
+        print("Bot Stopped! Bye...")
 
 
 app = Bot()
