@@ -7,7 +7,6 @@ from database.users_chats_db import db
 from utils import is_subscribed, get_size, temp, get_verify_status, update_verify_status
 from info import CACHE_TIME, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION, IS_VERIFY, VERIFY_EXPIRE
 
-logger = logging.getLogger(__name__)
 cache_time = 0 if AUTH_CHANNEL else CACHE_TIME
 
 async def inline_users(query: InlineQuery):
