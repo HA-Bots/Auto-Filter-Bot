@@ -135,7 +135,7 @@ async def gen_invite_link(bot, message):
     try:
         link = await bot.create_chat_invite_link(chat)
     except Exception as e:
-        return await message.reply(f'Error {e}')
+        return await message.reply(f'Error - {e}')
     await message.reply(f'Here is your invite link: {link.invite_link}')
 
 @Client.on_message(filters.command('ban_user') & filters.user(ADMINS))
@@ -198,16 +198,20 @@ async def list_users(bot, message):
     users = await db.get_all_users()
     out = "Users saved in database are:\n\n"
     async for user in users:
-        out += f"**Name:** {user['name']}\n**ID:** `{user['id']}`\n"
+        out += f"**Name:** {user['name']}\n**ID:** `{user['id']}`"
         if user['ban_status']['is_banned']:
-            out += '(Banned User)'
-        out += '\n'
+            out += ' (Banned User)'
+        if user['verify_status']['is_verified']:
+            out += ' (Verified User)'
+        out += '\n\n'
     try:
         await raju.edit_text(out)
     except MessageTooLong:
         with open('users.txt', 'w+') as outfile:
             outfile.write(out)
         await message.reply_document('users.txt', caption="List of users")
+        await raju.delete()
+        os.remove('users.txt')
 
 @Client.on_message(filters.command('chats') & filters.user(ADMINS))
 async def list_chats(bot, message):
@@ -215,13 +219,15 @@ async def list_chats(bot, message):
     chats = await db.get_all_chats()
     out = "Chats saved in database are:\n\n"
     async for chat in chats:
-        out += f"**Title:** {chat['title']}\n**ID:** `{chat['id']}`\n"
+        out += f"**Title:** {chat['title']}\n**ID:** `{chat['id']}`"
         if chat['chat_status']['is_disabled']:
-            out += '(Disabled Chat)'
-        out += '\n'
+            out += ' (Disabled Chat)'
+        out += '\n\n'
     try:
         await raju.edit_text(out)
     except MessageTooLong:
         with open('chats.txt', 'w+') as outfile:
             outfile.write(out)
         await message.reply_document('chats.txt', caption="List of chats")
+        await raju.delete()
+        os.remove('chats.txt')
