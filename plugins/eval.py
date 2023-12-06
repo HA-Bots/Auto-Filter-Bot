@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.errors import MessageTooLong
-import sys
+import sys, os
 import re
 import traceback
 from io import StringIO
@@ -41,6 +41,7 @@ async def executor(client, message):
         with open('eval.txt', 'w+') as outfile:
             outfile.write(final_output)
         await message.reply_document('eval.txt')
+        os.remove('eval.txt')
 
 
 async def aexec(code, client, message):
