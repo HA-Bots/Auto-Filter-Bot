@@ -39,16 +39,16 @@ async def save_file(media):
             caption=file_caption
         )
     except ValidationError:
-        print('Error occurred while saving file in database')
+        print(f'Saving Error - {file_name}')
         return 'err'
     else:
         try:
             await file.commit()
         except DuplicateKeyError:      
-            print(f'{file_name} is already saved in database')
+            print(f'Already Saved - {file_name}')
             return 'dup'
         else:
-            print(f'{file_name} is saved to database')
+            print(f'Saved - {file_name}')
             return 'suc'
 
 async def get_search_results(query, max_results=10, offset=0, filter=False, lang=None):
