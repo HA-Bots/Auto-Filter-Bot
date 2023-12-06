@@ -1,6 +1,6 @@
 import logging
 from pyrogram import Client, __version__
-import pyromod.listen
+import pyromod
 from pyrogram.raw.all import layer
 from database.ia_filterdb import Media
 from aiohttp import web
