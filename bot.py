@@ -1,23 +1,25 @@
-import logging
-from pyrogram import Client, __version__
-import pyromod
-from pyrogram.raw.all import layer
-from database.ia_filterdb import Media
-from aiohttp import web
-from database.users_chats_db import db
-from web import web_server
-from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
-from utils import temp
-from typing import Union, Optional, AsyncGenerator
-from pyrogram import types
-import time, os
+import logging, os, time
+import pyromod.listen
+
 from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid
+from pyrogram import Client, __version__
+from pyrogram.raw.all import layer
+from pyrogram import types
+
+from database.ia_filterdb import Media
+from database.users_chats_db import db
+from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, BIN_CHANNEL, PORT
+from typing import Union, Optional, AsyncGenerator
+from utils import temp
+
+from aiohttp import web
+from web import web_server
 
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
-            name='Auto_Filter_Bot',
+            name='Auto-Filter-Bot',
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=BOT_TOKEN,
@@ -67,5 +69,5 @@ class Bot(Client):
         print("Bot Stopped! Bye...")
 
 
-app = Bot()
-app.run()
+
+Bot().run()
