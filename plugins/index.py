@@ -6,7 +6,7 @@ from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, ChatAdmin
 from info import ADMINS, LOG_CHANNEL, INDEX_EXTENSIONS
 from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from utils import temp, get_readable_time, iter_messages
+from utils import temp, get_readable_time
 import re, time
 
 lock = asyncio.Lock()
@@ -87,7 +87,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
     
     async with lock:
         try:
-            async for message in iter_messages(bot, chat, lst_msg_id, skip):
+            async for message in bot.iter_messages(chat, lst_msg_id, skip):
                 time_taken = get_readable_time(time.time()-start_time)
                 if temp.CANCEL:
                     temp.CANCEL = False
