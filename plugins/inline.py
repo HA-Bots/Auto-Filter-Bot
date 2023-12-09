@@ -50,9 +50,7 @@ async def answer(bot, query):
     results = []
     string = query.query
     offset = int(query.offset or 0)
-    files, next_offset, total = await get_search_results(string,
-                                                  max_results=10,
-                                                  offset=offset)
+    files, next_offset, total = await get_search_results(string, offset=offset)
 
     for file in files:
         reply_markup = get_reply_markup()
@@ -72,21 +70,17 @@ async def answer(bot, query):
     if results:
         switch_pm_text = f"{emoji.FILE_FOLDER} Results - {total}"
         if string:
-            switch_pm_text += f" for {string}"
-        try:
-            await query.answer(results=results,
-                           is_personal = True,
-                           cache_time=cache_time,
-                           switch_pm_text=switch_pm_text,
-                           switch_pm_parameter="start",
-                           next_offset=str(next_offset))
-        except Exception as e:
-            logging.exception(str(e))
+            switch_pm_text += f' For: {string}'
+        await query.answer(results=results,
+                        is_personal = True,
+                        cache_time=cache_time,
+                        switch_pm_text=switch_pm_text,
+                        switch_pm_parameter="start",
+                        next_offset=str(next_offset))
     else:
-        switch_pm_text = f'{emoji.CROSS_MARK} No results'
+        switch_pm_text = f'{emoji.CROSS_MARK} No Results'
         if string:
-            switch_pm_text += f' for "{string}"'
-
+            switch_pm_text += f' For: {string}'
         await query.answer(results=[],
                            is_personal = True,
                            cache_time=cache_time,
