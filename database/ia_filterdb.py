@@ -7,7 +7,7 @@ from pymongo.errors import DuplicateKeyError
 from umongo import Instance, Document, fields
 from motor.motor_asyncio import AsyncIOMotorClient
 from marshmallow.exceptions import ValidationError
-from info import DATABASE_URL, DATABASE_NAME, COLLECTION_NAME
+from info import DATABASE_URL, DATABASE_NAME, COLLECTION_NAME, MAX_BTN
 
 client = AsyncIOMotorClient(DATABASE_URL)
 db = client[DATABASE_NAME]
@@ -51,7 +51,7 @@ async def save_file(media):
             print(f'Saved - {file_name}')
             return 'suc'
 
-async def get_search_results(query, max_results=10, offset=0, filter=False, lang=None):
+async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
     query = query.strip()
     if not query:
         raw_pattern = '.'
