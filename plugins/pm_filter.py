@@ -7,7 +7,7 @@ from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidD
 from Script import script
 from datetime import datetime, timedelta
 import pyrogram
-from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, DELETE_TIME, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES
+from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, DELETE_TIME, FILMS_LINK, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
@@ -40,10 +40,10 @@ async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
     if settings["auto_filter"]:
         if message.chat.id == SUPPORT_GROUP:
-            files, offset, total = await get_search_results(message.text, offset=0, filter=True)
+            files, offset, total = await get_search_results(message.text)
             if files:
                 btn = [[
-                    InlineKeyboardButton("Here", url='https://t.me/SL_Films_World')
+                    InlineKeyboardButton("Here", url=FILMS_LINK)
                 ]]
                 await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
             return
@@ -147,10 +147,10 @@ async def give_filter(client, message):
 
 @Client.on_message(filters.private & filters.text)
 async def pm_search(client, message):
-    files, n_offset, total = await get_search_results(message.text, filter=True)
+    files, n_offset, total = await get_search_results(message.text)
     if int(total) != 0:
         btn = [[
-            InlineKeyboardButton("Here", url='https://t.me/SL_Films_World')
+            InlineKeyboardButton("Here", url=FILMS_LINK)
         ]]
         await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
 
@@ -169,7 +169,7 @@ async def next_page(bot, query):
         await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
         return
 
-    files, n_offset, total = await get_search_results(search, offset=offset, filter=True)
+    files, n_offset, total = await get_search_results(search, offset=offset)
     try:
         n_offset = int(n_offset)
     except:
@@ -184,8 +184,8 @@ async def next_page(bot, query):
 
     if settings['links']:
         btn = []
-        for file in files:
-            files_link += f"""<b>\n\n‼️ <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+        for file_num, file in enumerate(files, start=offset+1):
+            files_link += f"""<b>\n\n{file_num}. <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
     else:
         btn = [[
             InlineKeyboardButton(text=f"📂 {get_size(file.file_size)} {file.file_name}", callback_data=f'file#{file.file_id}')
@@ -260,7 +260,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
         return 
 
-    files, l_offset, total_results = await get_search_results(search, filter=True, lang=lang)
+    files, l_offset, total_results = await get_search_results(search, lang=lang)
     if not files:
         await query.answer(f"sᴏʀʀʏ '{lang.title()}' ʟᴀɴɢᴜᴀɢᴇ ꜰɪʟᴇs ɴᴏᴛ ꜰᴏᴜɴᴅ 😕", show_alert=1)
         return
@@ -271,8 +271,8 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
 
     if settings['links']:
         btn = []
-        for file in files:
-            files_link += f"""<b>\n\n‼️ <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+        for file_num, file in enumerate(files, start=1):
+            files_link += f"""<b>\n\n{file_num}. <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
     else:
         btn = [[
             InlineKeyboardButton(text=f"📂 {get_size(file.file_size)} {file.file_name}", callback_data=f'file#{file.file_id}')
@@ -319,7 +319,7 @@ async def lang_next_page(bot, query):
         await query.answer(f"Hello {query.from_user.first_name},\nSend New Request Again!", show_alert=True)
         return 
 
-    files, n_offset, total = await get_search_results(search, filter=True, offset=l_offset, lang=lang)
+    files, n_offset, total = await get_search_results(search, offset=l_offset, lang=lang)
     if not files:
         return
     temp.FILES[key] = files
@@ -332,8 +332,8 @@ async def lang_next_page(bot, query):
 
     if settings['links']:
         btn = []
-        for file in files:
-            files_link += f"""<b>\n\n‼️ <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+        for file_num, file in enumerate(files, start=l_offset+1):
+            files_link += f"""<b>\n\n{file_num}. <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
     else:
         btn = [[
             InlineKeyboardButton(text=f"✨ {get_size(file.file_size)} ⚡️ {file.file_name}", callback_data=f'file#{file.file_id}')
@@ -384,7 +384,7 @@ async def advantage_spoll_choker(bot, query):
     movie = await get_poster(id, id=True)
     search = movie.get('title')
     await query.answer('Check In My Database...')
-    files, offset, total_results = await get_search_results(search, offset=0, filter=True)
+    files, offset, total_results = await get_search_results(search)
     if files:
         k = (search, files, offset, total_results)
         await auto_filter(bot, query, k)
@@ -780,7 +780,7 @@ async def auto_filter(client, msg, spoll=False):
         message = msg
         settings = await get_settings(message.chat.id)
         search = message.text
-        files, offset, total_results = await get_search_results(search, offset=0, filter=True)
+        files, offset, total_results = await get_search_results(search)
         if not files:
             if settings["spell_check"]:
                 await advantage_spell_chok(msg)
@@ -798,8 +798,8 @@ async def auto_filter(client, msg, spoll=False):
 
     if settings['links']:
         btn = []
-        for file in files:
-            files_link += f"""<b>\n\n‼️ <a href=https://t.me/{temp.U_NAME}?start=file_{message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
+        for file_num, file in enumerate(files, start=1):
+            files_link += f"""<b>\n\n{file_num}. <a href=https://t.me/{temp.U_NAME}?start=file_{message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {file.file_name}</a></b>"""
     else:
         btn = [[
             InlineKeyboardButton(text=f"📂 {get_size(file.file_size)} {file.file_name}", callback_data=f'file#{file.file_id}')
