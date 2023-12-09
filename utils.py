@@ -7,7 +7,7 @@ from pyrogram.types import Message, InlineKeyboardButton, ChatJoinRequest
 from pyrogram import enums
 import os
 import pytz
-import time
+import time, re
 from datetime import datetime
 from typing import List, Any, Union, Optional, AsyncGenerator
 from database.users_chats_db import db
@@ -41,7 +41,7 @@ async def is_subscribed(bot, query, channel=AUTH_CHANNEL):
                 [InlineKeyboardButton(f'Join {chat.title}', url=chat.invite_link)]
             )
         except Exception as e:
-            logger.exception(e)
+            pass
     return btn
 
 async def get_poster(query, bulk=False, id=False, file=None):
