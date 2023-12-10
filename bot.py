@@ -1,10 +1,8 @@
 import pyromod
 from pyrogram import Client, __version__
 from database.ia_filterdb import Media
-from aiohttp import web
 from database.users_chats_db import db
-from web import web_server
-from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
+from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
@@ -43,20 +41,11 @@ class Bot(Client):
         temp.U_NAME = me.username
         temp.B_NAME = me.first_name
         username = '@' + me.username
-        app = web.AppRunner(await web_server())
-        await app.setup()
-        await web.TCPSite(app, "0.0.0.0", PORT).start()
         print(f"\nPyrogram [{__version__}] Bot [{username}] Started With Python [{platform.python_version()}]\n")
         try:
             await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
         except:
             print("Error - Make sure bot admin in LOG_CHANNEL, exiting now")
-            exit()
-        try:
-            m = await self.send_message(chat_id=BIN_CHANNEL, text="Test")
-            await m.delete()
-        except:
-            print("Error - Make sure bot admin in BIN_CHANNEL, exiting now")
             exit()
 
 
