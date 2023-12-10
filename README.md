@@ -77,23 +77,21 @@
 ### Optional Variables
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
+* `LANGUAGES`: Language of your bot search (Multiple languages can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
 * `OPENAI_API`: OpenAI API. Get this value from [API keys](https://platform.openai.com/account/api-keys).
 * Check [info.py](https://github.com/SL-Bots-TG/Auto-Filter-Bot/blob/main/info.py) for more optional variables
 
 
 ## Deploy
-### Static Server
-* [![Watch](https://img.shields.io/static/v1?label=Watch&message=This&color=critical)](https://telegram.dog/aks_bots/6)
-
-### Local Server (VPS)
+### VPS
 - Build the Docker Image:
 ```
 sudo docker build -t auto-filter-bot .
 ```
 - Run the Docker Container as Web App:
 ```
-sudo docker run -d -p 8080:8080 --name Auto-Filter-Bot auto-filter-bot
+sudo docker run -d -p 80:80 --name Auto-Filter-Bot auto-filter-bot
 ```
 
 ## Support
