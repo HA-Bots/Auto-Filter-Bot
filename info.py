@@ -10,6 +10,10 @@ def is_enabled(value, default):
     else:
         return default
 
+def is_valid_ip(ip):
+    ip_pattern = r'\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b'
+    return re.match(ip_pattern, ip) is not None
+
 # Bot information
 API_ID = environ.get('API_ID', '')
 if len(API_ID) == 0:
@@ -111,11 +115,11 @@ if len(URL) == 0:
     print('Error - URL is missing, exiting now')
     exit()
 else:
-    if URL.startswith('https://'):
+    if URL.startswith(('https://', 'http://')):
         if not URL.endswith("/"):
             URL += '/'
-    elif '.' in URL:
-        URL = f'http://{URL}:{PORT}/'
+    elif is_valid_ip(URL):
+        URL = f'http://{URL}/'
     else:
         print('Error - URL is not valid, exiting now')
         exit()
