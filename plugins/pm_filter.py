@@ -19,21 +19,6 @@ import logging
 BUTTONS = {}
 CAP = {}
 
-@Client.on_callback_query(filters.regex(r"^stream"))
-async def aks_downloader(bot, query):
-    file_id = query.data.split('#', 1)[1]
-    msg = await bot.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
-    watch = f"{URL}watch/{msg.id}"
-    download = f"{URL}download/{msg.id}"
-    btn= [[
-        InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
-        InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
-    ],[
-        InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
-    ]]
-    await query.edit_message_reply_markup(
-        reply_markup=InlineKeyboardMarkup(btn)
-    )
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
