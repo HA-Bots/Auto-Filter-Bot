@@ -15,7 +15,7 @@ from shortzy import Shortzy
 
 imdb = Cinemagoer() 
 
-# temp db for banned 
+# temp db
 class temp(object):
     START_TIME = 0
     BANNED_USERS = []
