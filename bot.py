@@ -46,7 +46,7 @@ class Bot(Client):
         app = web.AppRunner(await web_server())
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
-        print(f"\nPyrogram [{__version__}] Bot [{username}] Started With Python [{platform.python_version()}]\n")
+        print(f"\nPyrogram [v{__version__}] Bot [{username}] Started With Python [v{platform.python_version()}]\n")
         try:
             await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
         except:
