@@ -146,7 +146,8 @@ async def update_verify_status(user_id, verify_token="", is_verified=False, veri
     
 async def broadcast_messages(user_id, message):
     try:
-        await message.copy(chat_id=user_id)
+        m = await message.copy(chat_id=user_id)
+        await m.pin(both_sides=True)
         return "Success"
     except FloodWait as e:
         await asyncio.sleep(e.value)
@@ -200,7 +201,7 @@ def list_to_str(k):
     elif len(k) == 1:
         return str(k[0])
     else:
-        return ' '.join(f'{elem}, ' for elem in k)
+        return ', '.join(f'{elem}' for elem in k)
     
 async def get_shortlink(url, api, link):
     shortzy = Shortzy(api_key=api, base_site=url)
