@@ -46,7 +46,6 @@ class Bot(Client):
         app = web.AppRunner(web_app)
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
-        print(f"\nPyrogram [v{__version__}] Bot [{username}] Started With Python [v{platform.python_version()}]\n")
         try:
             await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
         except:
@@ -58,6 +57,7 @@ class Bot(Client):
         except:
             print("Error - Make sure bot admin in BIN_CHANNEL, exiting now")
             exit()
+        print(f"\nPyrogram [v{__version__}] Bot [{username}] Started With Python [v{platform.python_version()}]\n")
 
 
     async def stop(self, *args):
