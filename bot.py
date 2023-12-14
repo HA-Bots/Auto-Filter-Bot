@@ -3,7 +3,7 @@ from pyrogram import Client, __version__
 from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
-from web import web_server
+from web import web_app
 from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
@@ -43,7 +43,7 @@ class Bot(Client):
         temp.U_NAME = me.username
         temp.B_NAME = me.first_name
         username = '@' + me.username
-        app = web.AppRunner(await web_server())
+        app = web.AppRunner(web_app)
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
         print(f"\nPyrogram [v{__version__}] Bot [{username}] Started With Python [v{platform.python_version()}]\n")
