@@ -1,4 +1,4 @@
-import motor.motor_asyncio
+from motor.motor_asyncio import AsyncIOMotorClient
 from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
 
 class Database:
@@ -28,7 +28,7 @@ class Database:
     }
     
     def __init__(self):
-        self._client = motor.motor_asyncio.AsyncIOMotorClient(DATABASE_URL)
+        self._client = AsyncIOMotorClient(DATABASE_URL)
         self.db = self._client[DATABASE_NAME]
         self.col = self.db.Users
         self.grp = self.db.Groups
