@@ -1,7 +1,8 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
 
-
+client = AsyncIOMotorClient(DATABASE_URL)
+mydb = client[DATABASE_NAME]
 
 class Database:
     default_setgs = {
