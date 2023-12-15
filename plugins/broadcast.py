@@ -19,7 +19,7 @@ async def broadcast_cancel(bot, query):
         temp.GROUPS_CANCEL = True
         await query.message.edit("Trying to cancel groups broadcasting...")
                
-@Client.on_message(filters.command("broadcast", "/pinbroadcast") & filters.user(ADMINS) & filters.reply)
+@Client.on_message(filters.command("broadcast") & filters.user(ADMINS) & filters.reply)
 async def users_broadcast(bot, message):
     if lock.locked():
         return await message.reply('Currently broadcast processing, Wait for complete.')
