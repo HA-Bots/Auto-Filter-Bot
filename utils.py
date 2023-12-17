@@ -149,10 +149,11 @@ async def update_verify_status(user_id, verify_token="", is_verified=False, veri
     await db.update_verify_status(user_id, current)
     
     
-async def broadcast_messages(user_id, message):
+async def broadcast_messages(user_id, message, pin):
     try:
         m = await message.copy(chat_id=user_id)
-        await m.pin(both_sides=True)
+        if pin:
+            await m.pin(both_sides=True)
         return "Success"
     except FloodWait as e:
         await asyncio.sleep(e.value)
@@ -161,13 +162,14 @@ async def broadcast_messages(user_id, message):
         await db.delete_user(int(user_id))
         return "Error"
 
-async def groups_broadcast_messages(chat_id, message):
+async def groups_broadcast_messages(chat_id, message, pin):
     try:
         k = await message.copy(chat_id=chat_id)
-        try:
-            await k.pin()
-        except:
-            pass
+        if pin:
+            try:
+                await k.pin()
+            except:
+                pass
         return "Success"
     except FloodWait as e:
         await asyncio.sleep(e.value)
