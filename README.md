@@ -48,6 +48,8 @@
 • /delete_all - to delete all indexed file.
 • /broadcast - to send message to all bot users.
 • /grp_broadcast - to send message to all groups.
+• /pin_broadcast - to send message as pin to all bot users.
+• /pin_grp_broadcast - to send message as pin to all groups.
 • /restart - to restart bot.
 • /set_tutorial - to set custom tutorial link in result page button.
 • /id - to check group or channel id.
