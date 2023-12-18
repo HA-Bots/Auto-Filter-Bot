@@ -137,5 +137,4 @@ I can't find the <b>{}</b> in my database! 🥲
 
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/SL-Bots-TG/Auto-Filter-Bot>ʜᴇʀᴇ</a>
 
-ᴅᴇᴠʟᴏᴘᴇʀ -
-<a href=https://t.me/SL_Bots_Updates>SL_Bots</a>"""
+ᴅᴇᴠʟᴏᴘᴇʀ - <a href=https://t.me/SL_Bots_Updates>SL_Bots</a>"""
