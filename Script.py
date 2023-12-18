@@ -138,4 +138,4 @@ I can't find the <b>{}</b> in my database! 🥲
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta>ʜᴇʀᴇ</a>
 
 ᴅᴇᴠʟᴏᴘᴇʀ -
-<a href=https://t.me/SL_Bots_Updates>SL_Bots</a>
+<a href=https://t.me/SL_Bots_Updates>SL_Bots</a>"""
