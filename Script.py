@@ -16,8 +16,8 @@ class script(object):
     STATUS_TXT = """🗂 Total Files: <code>{}</code>
 👤 Total Users: <code>{}</code>
 👥 Total Chats: <code>{}</code>
-✨ Storage: <code>{}</code> / <code>{}</code>
-🚀 Uptime: <code>{}</code>"""
+✨ Used Storage: <code>{}</code>
+🚀 Bot Uptime: <code>{}</code>"""
 
     NEW_GROUP_TXT = """#NewGroup
 Title - {}
