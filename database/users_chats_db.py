@@ -170,7 +170,7 @@ class Database:
 
 
     async def get_db_size(self):
-        return (await self.db.command("dbstats"))['dataSize']
+        return (await mydb.command("dbstats"))['dataSize']
         
 
 db = Database(DATABASE_URL, DATABASE_NAME)

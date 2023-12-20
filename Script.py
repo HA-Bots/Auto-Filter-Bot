@@ -1,5 +1,4 @@
 class script(object):
-    
     START_TXT = """<b>ʜᴇʏ {}, <i>{}</i>
     
 ɪ ᴀᴍ ᴘᴏᴡᴇʀғᴜʟ ᴀᴜᴛᴏ ғɪʟᴛᴇʀ ᴡɪᴛʜ ʟɪɴᴋ sʜᴏʀᴛᴇɴᴇʀ ʙᴏᴛ. ʏᴏᴜ ᴄᴀɴ ᴜꜱᴇ ᴀꜱ ᴀᴜᴛᴏ ғɪʟᴛᴇʀ ᴡɪᴛʜ ʟɪɴᴋ sʜᴏʀᴛᴇɴᴇʀ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ... ɪᴛ'ꜱ ᴇᴀꜱʏ ᴛᴏ ᴜꜱᴇ ᴊᴜsᴛ ᴀᴅᴅ ᴍᴇ ᴀꜱ ᴀᴅᴍɪɴ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ɪ ᴡɪʟʟ ᴘʀᴏᴠɪᴅᴇ ᴛʜᴇʀᴇ ᴍᴏᴠɪᴇꜱ ᴡɪᴛʜ ʏᴏᴜʀ ʟɪɴᴋ ꜱʜᴏʀᴛᴇɴᴇʀ... ♻️</b>"""
@@ -17,8 +16,9 @@ class script(object):
     STATUS_TXT = """🗂 Total Files: <code>{}</code>
 👤 Total Users: <code>{}</code>
 👥 Total Chats: <code>{}</code>
-✨ Storage: <code>{}</code> / <code>{}</code>
-🚀 Uptime: <code>{}</code>"""
+✨ Used Storage: <code>{}</code>
+🗳 Free Storage: <code>{}</code>
+🚀 Bot Uptime: <code>{}</code>"""
 
     NEW_GROUP_TXT = """#NewGroup
 Title - {}
@@ -106,6 +106,8 @@ I can't find the <b>{}</b> in my database! 🥲
 /delete_all - to delete all indexed file
 /broadcast - to send message to all bot users
 /grp_broadcast - to send message to all groups
+/pin_broadcast - to send message as pin to all bot users.
+/pin_grp_broadcast - to send message as pin to all groups.
 /restart - to restart bot
 /leave - to leave your bot from particular group
 /unban_grp - to enable group
@@ -134,8 +136,6 @@ I can't find the <b>{}</b> in my database! 🥲
 
 - ᴛʜɪꜱ ʙᴏᴛ ɪꜱ ᴀɴ ᴏᴘᴇɴ ꜱᴏᴜʀᴄᴇ ᴘʀᴏᴊᴇᴄᴛ.
 
-- ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/HansakaAnuhas-TG/AutoFilterBot-Beta>ʜᴇʀᴇ</a>
+- ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/SL-Bots-TG/Auto-Filter-Bot>ʜᴇʀᴇ</a>
 
-ᴅᴇᴠʟᴏᴘᴇʀ -
-<a href=https://telegram.me/Hansaka_Anuhas>ʜᴀɴsᴀᴋᴀ</a>
-<a href=https://telegram.me/Technicalaks123>ᴀᴋs</a></b>"""
+ᴅᴇᴠʟᴏᴘᴇʀ - <a href=https://t.me/SL_Bots_Updates>SL_Bots</a>"""

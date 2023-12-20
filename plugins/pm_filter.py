@@ -502,15 +502,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
         files = await Media.count_documents()
         users = await db.total_users_count()
         chats = await db.total_chat_count()
-        size = await db.get_db_size()
-        free = 536870912 - size
+        u_size = get_size(await db.get_db_size())
+        f_size = get_size(536870912 - await db.get_db_size())
         uptime = get_readable_time(time.time() - temp.START_TIME)
-        size = get_size(size)
-        free = get_size(free)
         buttons = [[
             InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='my_about')
         ]]
-        await query.message.edit_text(script.STATUS_TXT.format(files, users, chats, size, free, uptime), reply_markup=InlineKeyboardMarkup(buttons)
+        await query.message.edit_text(script.STATUS_TXT.format(files, users, chats, u_size, f_size, uptime), reply_markup=InlineKeyboardMarkup(buttons)
         )
         
     elif query.data == "my_owner":
