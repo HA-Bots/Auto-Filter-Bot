@@ -9,10 +9,8 @@ from info import CACHE_TIME, AUTH_CHANNEL, SUPPORT_LINK, UPDATES_LINK, FILE_CAPT
 
 cache_time = 0 if AUTH_CHANNEL else CACHE_TIME
 
-async def inline_users(query: InlineQuery):
-    if query.from_user and query.from_user.id not in temp.BANNED_USERS:
-        return True
-    return False
+def is_banned(query: InlineQuery):
+    return query.from_user and query.from_user.id in temp.BANNED_USERS
 
 @Client.on_inline_query()
 async def answer(bot, query):
@@ -39,10 +37,10 @@ async def answer(bot, query):
                            switch_pm_parameter="inline_verify")
         return
         
-    if not await inline_users(query):
+    if is_banned(query):
         await query.answer(results=[],
                            cache_time=0,
-                           switch_pm_text="You're not auth user :(",
+                           switch_pm_text="You're banned user :(",
                            switch_pm_parameter="start")
         return
 
