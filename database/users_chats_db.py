@@ -173,4 +173,4 @@ class Database:
         return (await mydb.command("dbstats"))['dataSize']
         
 
-db = Database(DATABASE_URL, DATABASE_NAME)
+db = Database()
