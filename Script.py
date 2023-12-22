@@ -9,7 +9,7 @@ class script(object):
 ★ Library: <a href=https://pyrogram.org>Pyrogram</a>"""
 
     MY_OWNER_TXT = """★ Name: ZEN
-★ Username: @zenupdatess
+★ Username: @zenupdatess"""
 
     STATUS_TXT = """🗂 Total Files: <code>{}</code>
 👤 Total Users: <code>{}</code>
@@ -132,6 +132,6 @@ I can't find the <b>{}</b> in my database! 🥲
 
     SOURCE_TXT = """<b>ʙᴏᴛ ɢɪᴛʜᴜʙ ʀᴇᴘᴏsɪᴛᴏʀʏ -
 
-- ᴛʜɪꜱ ʙᴏᴛ ɪꜱ ᴀɴ PAID ꜱᴏᴜʀᴄᴇ ᴘʀᴏᴊᴇᴄᴛ.
+ᴛʜɪꜱ ʙᴏᴛ ɪꜱ ᴀɴ PAID ꜱᴏᴜʀᴄᴇ ᴘʀᴏᴊᴇᴄᴛ.
 
 ᴅᴇᴠʟᴏᴘᴇʀ - <a href=https://t.me/zenupdatess>ZLM</a>"""
