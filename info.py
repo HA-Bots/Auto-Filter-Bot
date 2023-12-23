@@ -81,7 +81,7 @@ UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/SL_Bots_Updates')
 FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/dhirajbhawani2')
 
 # Bot settings
-AUTO_FILTER = is_enabled((environ.get('AUTO_FILTER', "True")), True)
+AUTO_FILTER = is_enabled((environ.get('AUTO_FILTER', "False")), False)
 IMDB = is_enabled((environ.get('IMDB', "False")), False)
 SPELL_CHECK = is_enabled(environ.get("SPELL_CHECK", "True"), True)
 SHORTLINK = is_enabled((environ.get('SHORTLINK', "True")), True)
