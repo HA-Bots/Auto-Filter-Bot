@@ -38,7 +38,11 @@ async def aks_downloader(bot, query):
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
+    userid = message.from_user.id if message.from_user else None
     if settings["auto_filter"]:
+        if not userid:
+            await message.reply("I'm not working for anonymous admin!")
+            return
         if message.chat.id == SUPPORT_GROUP:
             files, offset, total = await get_search_results(message.text)
             if files:
@@ -88,52 +92,6 @@ async def give_filter(client, message):
             await message.reply_text("Request sent!")
             return
             
-        userid = message.from_user.id if message.from_user else None
-        if not userid:
-            search = message.text
-            k = await message.reply(f"You'r anonymous admin! Sorry you can't get '{search}' from here.\nYou can get '{search}' from bot inline search.")
-            await asyncio.sleep(30)
-            await k.delete()
-            try:
-                await message.delete()
-            except:
-                pass
-            return
-
-        verify_status = await get_verify_status(message.from_user.id)
-        if verify_status['is_verified'] and VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
-            await update_verify_status(message.from_user.id, is_verified=False)
-
-        verify_status = await get_verify_status(message.from_user.id)
-        btn = await is_subscribed(client, message, settings['fsub']) # This func is for custom fsub channels
-        if btn:
-            btn.append(
-                [InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")]
-            )
-            reply_markup = InlineKeyboardMarkup(btn)
-            k = await message.reply_photo(
-                photo=random.choice(PICS),
-                caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and request again. 😇",
-                reply_markup=reply_markup,
-                parse_mode=enums.ParseMode.HTML
-            )
-            await asyncio.sleep(300)
-            await k.delete()
-            try:
-                await message.delete()
-            except:
-                pass
-        elif IS_VERIFY and not verify_status['is_verified']:
-            btn = [[
-                InlineKeyboardButton("🛠 Click To Verify 🛠", url=f'https://t.me/{temp.U_NAME}?start=inline_verify')
-            ]]
-            k = await message.reply(f"You not verified today!. 🤦‍♂️", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
-            await asyncio.sleep(300)
-            await k.delete()
-            try:
-                await message.delete()
-            except:
-                pass
         else:
             await auto_filter(client, message)
     else:
@@ -421,39 +379,20 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file_id}")
 
-    elif query.data.startswith("pm_checksub"):
-        ident, mc = query.data.split("#")
-        btn = await is_subscribed(client, query)
+    elif query.data.startswith("checksub"):
+        ident, mc, grp_id = query.data.split("#")
+        settings = await get_settings(int(grp_id))
+        btn = await is_subscribed(client, query, settings['fsub'])
         if btn:
-            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and request again.", show_alert=True)
+            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", show_alert=True)
             btn.append(
-                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"pm_checksub#{mc}")]
+                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}#{grp_id}")]
             )
             await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
             return
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
         await query.message.delete()
    
-    elif query.data == "grp_checksub":
-        user = query.message.reply_to_message.from_user.id
-        if int(user) != 0 and query.from_user.id != int(user):
-            return await query.answer(f"Hello {query.from_user.first_name},\nThis Is Not For You!", show_alert=True)
-        settings = await get_settings(query.message.chat.id)
-        btn = await is_subscribed(client, query, settings['fsub']) # This func is for custom fsub channels
-        if btn:
-            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and request again.", show_alert=True)
-            btn.append(
-                [InlineKeyboardButton("🔁 Request Again 🔁", callback_data="grp_checksub")]
-            )
-            await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
-            return
-        await query.answer(f"Hello {query.from_user.first_name},\nGood, Can You Request Now!", show_alert=True)
-        await query.message.delete()
-        try:
-            await query.message.reply_to_message.delete()
-        except:
-            pass
-
     elif query.data == "buttons":
         await query.answer("⚠️")
 
