@@ -107,7 +107,7 @@ async def start(client, message):
         btn = await is_subscribed(client, message, settings['fsub'])
         if btn:
             btn.append(
-                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
+                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}#{grp_id}")]
             )
             reply_markup = InlineKeyboardMarkup(btn)
             await message.reply_photo(
@@ -151,7 +151,7 @@ async def start(client, message):
     btn = await is_subscribed(client, message, settings['fsub'])
     if btn:
         btn.append(
-            [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
+            [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}#{grp_id}")]
         )
         reply_markup = InlineKeyboardMarkup(btn)
         await message.reply_photo(
