@@ -67,24 +67,7 @@ async def start(client, message):
         )
         return
 
-    btn = await is_subscribed(client, message) # This func is for AUTH_CHANNEL
     mc = message.command[1]
-    if btn:
-        if mc != 'subscribe':
-            try:
-                btn.append(
-                    [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"pm_checksub#{mc}")]
-                )
-            except ButtonDataInvalid:
-                btn.append(
-                    [InlineKeyboardButton("🔁 Try Again 🔁", url=f"https://t.me/{temp.U_NAME}?start={mc}")]
-                )
-        await message.reply_photo(
-            photo=random.choice(PICS),
-            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and request again. 😇",
-            reply_markup=InlineKeyboardMarkup(btn)
-        )
-        return
 
     if mc.startswith('verify'):
         _, token = mc.split("_", 1)
@@ -121,6 +104,20 @@ async def start(client, message):
         if not files:
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
+        btn = await is_subscribed(client, message, settings['fsub'])
+        if btn:
+            btn.append(
+                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
+            )
+            reply_markup = InlineKeyboardMarkup(btn)
+            await message.reply_photo(
+                photo=random.choice(PICS),
+                caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and try again. 😇",
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML
+            )
+            return
+            
         for file in files:
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
@@ -151,6 +148,20 @@ async def start(client, message):
         return await message.reply('No Such File Exist!')
     files = files_[0]
     settings = await get_settings(int(grp_id))
+    btn = await is_subscribed(client, message, settings['fsub'])
+    if btn:
+        btn.append(
+            [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
+        )
+        reply_markup = InlineKeyboardMarkup(btn)
+        await message.reply_photo(
+            photo=random.choice(PICS),
+            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and try again. 😇",
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+        return 
+        
     if type_ != 'shortlink' and settings['shortlink']:
         link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start=shortlink_{grp_id}_{file_id}")
         btn = [[
