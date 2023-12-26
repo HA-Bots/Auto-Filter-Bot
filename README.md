@@ -1,3 +1,5 @@
+[![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/z5xv.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
+
 <p align="center">
   <a href="https://github.com/SL-Bots-TG/Auto-Filter-Bot">
     <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="Auto Filter Bot">
