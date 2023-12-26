@@ -13,30 +13,9 @@ def is_banned(query: InlineQuery):
     return query.from_user and query.from_user.id in temp.BANNED_USERS
 
 @Client.on_inline_query()
-async def answer(bot, query):
+async def inline_search(bot, query):
     """Show search results for given inline query"""
 
-    verify_status = await get_verify_status(query.from_user.id)
-    if verify_status['is_verified'] and VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
-        await update_verify_status(query.from_user.id, is_verified=False)
-
-    btn = await is_subscribed(bot, query)
-    if btn:
-        await query.answer(results=[],
-                           cache_time=0,
-                           switch_pm_text='Subscribe my channel to use the bot!',
-                           switch_pm_parameter="subscribe")
-        return
-
-    
-    verify_status = await get_verify_status(query.from_user.id)
-    if IS_VERIFY and not verify_status['is_verified']:
-        await query.answer(results=[],
-                           cache_time=0,
-                           switch_pm_text='You not verified today!',
-                           switch_pm_parameter="inline_verify")
-        return
-        
     if is_banned(query):
         await query.answer(results=[],
                            cache_time=0,
