@@ -31,7 +31,7 @@ class temp(object):
     GROUPS_CANCEL = False
     BOT = None
 
-async def is_subscribed(bot, query, channel=AUTH_CHANNEL):
+async def is_subscribed(bot, query, channel):
     btn = []
     for id in channel:
         chat = await bot.get_chat(id)
