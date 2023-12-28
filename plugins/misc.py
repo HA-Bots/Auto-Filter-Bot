@@ -2,6 +2,7 @@ import os
 from speedtest import Speedtest, ConfigRetrievalError
 from pyrogram import Client, filters, enums
 from utils import get_size
+from datetime import datetime
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant, MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 import logging
 
@@ -36,14 +37,14 @@ async def speedtest(client, message):
     photo = result['share']
     text = f'''
 ➲ <b>SPEEDTEST INFO</b>
-┠ <b>Upload:</b> <code>{get_size(result['upload'] / 8)}/s</code>
-┠ <b>Download:</b>  <code>{get_size(result['download'] / 8)}/s</code>
+┠ <b>Upload:</b> <code>{get_size(result['upload'])}/s</code>
+┠ <b>Download:</b>  <code>{get_size(result['download'])}/s</code>
 ┠ <b>Ping:</b> <code>{result['ping']} ms</code>
-┠ <b>Time:</b> <code>{result['timestamp']}</code>
+┠ <b>Time:</b> <code>{datetime.strptime(result['timestamp'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y-%m-%d %H:%M:%S")}</code>
 ┠ <b>Data Sent:</b> <code>{get_size(int(result['bytes_sent']))}</code>
 ┖ <b>Data Received:</b> <code>{get_size(int(result['bytes_received']))}</code>
 
-➲ <b>SPEEDTEST SERVER<</b>
+➲ <b>SPEEDTEST SERVER</b>
 ┠ <b>Name:</b> <code>{result['server']['name']}</code>
 ┠ <b>Country:</b> <code>{result['server']['country']}, {result['server']['cc']}</code>
 ┠ <b>Sponsor:</b> <code>{result['server']['sponsor']}</code>
@@ -61,3 +62,4 @@ async def speedtest(client, message):
 '''
     await message.reply_photo(photo=photo, caption=text)
     await msg.delete()
+    os.remove(photo)
