@@ -12,3 +12,4 @@ aiofiles
 telegraph
 openai
 pyromod
+speedtest-cli
