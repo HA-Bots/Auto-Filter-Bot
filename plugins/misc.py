@@ -1,4 +1,5 @@
 import os
+from info import ADMINS
 from speedtest import Speedtest, ConfigRetrievalError
 from pyrogram import Client, filters, enums
 from utils import get_size
@@ -20,7 +21,7 @@ async def showid(client, message):
         await message.reply_text(f'★ Channel ID: <code>{message.chat.id}</code>')
 
 
-@Client.on_message(filters.command('speedtest'))
+@Client.on_message(filters.command('speedtest') & filters.user(ADMINS))
 async def speedtest(client, message):
     #from - https://github.com/weebzone/WZML-X/blob/master/bot/modules/speedtest.py
     msg = await message.reply_text("Initiating Speedtest...")
