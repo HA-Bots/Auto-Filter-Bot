@@ -485,3 +485,15 @@ async def ping(client, message):
     msg = await message.reply("👀")
     end_time = time.monotonic()
     await msg.edit(f'{round((end_time - start_time) * 1000)} ms')
+
+@Client.on_message(filters.command('stream') & filters.user(ADMINS)):
+async def stream_torf(client, message):
+    botid = client.me.id
+    msg = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ....")
+    vp = await generate_stream_info(botid)
+    if vp == True:
+        await update_stream_info(botid, False)
+        await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oᴅғ")
+    else:
+        await update_stream_info(botid, True)
+        await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oɴ")
