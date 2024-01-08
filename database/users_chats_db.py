@@ -33,6 +33,7 @@ class Database:
     def __init__(self):
         self.col = mydb.Users
         self.grp = mydb.Groups
+        self.me = mydb.Me
 
 
     def new_user(self, id, name):
@@ -171,6 +172,14 @@ class Database:
 
     async def get_db_size(self):
         return (await mydb.command("dbstats"))['dataSize']
+
+
+    async def get_stream_info(self, botid):
+        user = await self.me.find_one({'id':int(user_id)})
+        if user:
+            return user.get('stream_torf', True)
+        else:
+            return STREAM_TORF
         
 
 db = Database()
