@@ -21,6 +21,7 @@ from telegraph import upload_file
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
+    botid = client.me.id
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not await db.get_chat(message.chat.id):
             total = await client.get_chat_members_count(message.chat.id)
@@ -164,14 +165,22 @@ async def start(client, message):
         file_size = get_size(files.file_size),
         file_caption=files.caption
     )
-    btn = [[
-        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
-    ],[
-        InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
-        InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
-    ],[
-        InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-    ]]
+    if await db.get_stream_info(botid):
+        btn = [[
+            InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
+        ],[
+            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+        ],[
+            InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+        ]]
+    else:
+        btn = [[
+            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+        ],[
+            InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+        ]]
     await client.send_cached_media(
         chat_id=message.from_user.id,
         file_id=file_id,
