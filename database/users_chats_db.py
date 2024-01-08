@@ -175,11 +175,19 @@ class Database:
 
 
     async def get_stream_info(self, botid):
-        user = await self.me.find_one({'id':int(user_id)})
+        user = await self.me.find_one({'id':int(botidid)})
         if user:
             return user.get('stream_torf', True)
         else:
             return STREAM_TORF
+
+
+    async def update_stream_info(self, botid, value):
+        user = await self.me.find_one({'id':int(botid)})
+        if user:
+            await self.me.update_one({'id': int(botid)}, {'$set': {'stream_torf': value}})
+        else:
+            await self.me.insert_one({'id': int(botid)}, {'$set': {'stream_torf': value}})
         
 
 db = Database()
