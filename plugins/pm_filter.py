@@ -43,7 +43,7 @@ async def give_filter(client, message):
     btn = await is_subscribed(client, message, settings['fsub'])
     if btn:
         btn.append(
-            [InlineKeyboardButton("Unmute Me 🔕", callback_data=f"unmuteme#chatid")]
+            [InlineKeyboardButton("Unmute Me 🔕", callback_data=f"unmuteme#{chatid}")]
         )
         reply_markup = InlineKeyboardMarkup(btn)
         try:
@@ -408,6 +408,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
         await query.message.delete()
+
+    elif query.data.startswith("unmuteme"):
+        ident, chatid = query.data.split("#")
+        settings = await get_settings(int(chatid)
+        btn = await is_subscribed(client, query, settings['fsub'])
+        if btn:
+           await query.answer("Kindly Join Given Channel To Get Unmute", show_alert=True)
+           else:
+               await client.restrict_chat_member(chatid, query.from_user.id, ChatPermissions(can_send_messages=False))
    
     elif query.data == "buttons":
         await query.answer("⚠️")
