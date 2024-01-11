@@ -20,7 +20,8 @@ class Database:
         'shortlink': SHORTLINK,
         'tutorial': TUTORIAL,
         'links': LINK_MODE,
-        'fsub': AUTH_CHANNEL
+        'fsub': AUTH_CHANNEL,
+        'stream': IS_STREAM,
     }
 
     default_verify = {
