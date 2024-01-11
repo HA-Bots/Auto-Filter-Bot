@@ -20,7 +20,8 @@ class Database:
         'shortlink': SHORTLINK,
         'tutorial': TUTORIAL,
         'links': LINK_MODE,
-        'fsub': AUTH_CHANNEL
+        'fsub': AUTH_CHANNEL,
+        'is_stream': IS_STREAM
     }
 
     default_verify = {
@@ -33,7 +34,6 @@ class Database:
     def __init__(self):
         self.col = mydb.Users
         self.grp = mydb.Groups
-        self.me = mydb.Me
 
     def new_user(self, id, name):
         return dict(
@@ -158,19 +158,5 @@ class Database:
 
     async def get_db_size(self):
         return (await mydb.command("dbstats"))['dataSize']
-
-    async def get_stream_info(self, bot_id):
-        user = await self.me.find_one({'id':int(bot_id)})
-        if user:
-            return user.get('is_stream', True)
-        else:
-            return IS_STREAM
-
-    async def update_stream_info(self, bot_id, value):
-        user = await self.me.find_one({'id':int(bot_id)})
-        if user:
-            await self.me.update_one({'id': int(bot_id)}, {'$set': {'is_stream': value}})
-        else:
-            await self.me.insert_one({'id': int(bot_id), 'is_stream': value})
 
 db = Database()
