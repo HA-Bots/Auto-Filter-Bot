@@ -18,7 +18,6 @@ import sys
 from shortzy import Shortzy
 from telegraph import upload_file
 
-
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     botid = client.me.id
@@ -127,14 +126,22 @@ async def start(client, message):
                 file_size = get_size(file.file_size),
                 file_caption=file.caption
             )   
-            btn = [[
-                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
-            ],[
-                InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
-                InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
-            ],[
-                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-            ]]
+            if settings['is_stream']:
+                btn = [[
+                    InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
+                ],[
+                    InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                    InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+                ],[
+                    InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+                ]]
+            else:
+                btn = [[
+                    InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                    InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+                ],[
+                    InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+                ]]
             await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
@@ -165,7 +172,7 @@ async def start(client, message):
         file_size = get_size(files.file_size),
         file_caption=files.caption
     )
-    if await db.get_stream_info(botid):
+    if settings['is_stream']:
         btn = [[
             InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
         ],[
@@ -251,6 +258,9 @@ async def settings(client, message):
         ],[
             InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
             InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
+        ],[
+            InlineKeyboardButton('Stream', callback_data=f'setgs#is_stream#{settings["is_stream"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ On' if settings["is_stream"] else '❌ Off', callback_data=f'setgs#is_stream#{settings["is_stream"]}#{str(grp_id)}')
         ],[
             InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
         ]]
@@ -485,25 +495,3 @@ async def ping(client, message):
     msg = await message.reply("👀")
     end_time = time.monotonic()
     await msg.edit(f'{round((end_time - start_time) * 1000)} ms')
-
-@Client.on_message(filters.command('stream'))
-async def is_stream(client, message):
-    if len(message.command) == 1:
-        await message.reply_text("Please send me `True` or `False` with the command.")
-        return    
-    if message.from_user.id not in ADMINS:
-        await message.delete()
-        return    
-    bot = client.me.id
-    msg = await message.reply_text("<b>💥 ᴘʀᴏᴄᴇꜱꜱɪɴɢ...</b>")   
-    if message.command[1].lower() not in ['true', 'false']:
-        await msg.edit_text("<b>❌ Invalid input. Please send either `True` or `False`.</b>")
-        return   
-    value = True if message.command[1].lower() == 'true' else False
-    settings = await db.get_stream_info(bot)  
-    if settings == value:
-        await msg.edit_text(f"<b>❌ Stream setting is already {'on' if settings else 'off'}.</b>")
-    else:
-        await db.update_stream_info(bot, value)
-        await msg.edit_text(f"<b>✅ Stream settings changed to {'on' if settings else 'off'}.</b>")
-
