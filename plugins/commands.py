@@ -486,14 +486,17 @@ async def ping(client, message):
     end_time = time.monotonic()
     await msg.edit(f'{round((end_time - start_time) * 1000)} ms')
 
-@Client.on_message(filters.command('stream') & filters.user(ADMINS)):
-async def stream_torf(client, message):
-    botid = client.me.id
-    msg = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ....")
-    vp = await generate_stream_info(botid)
-    if vp == True:
-        await update_stream_info(botid, False)
-        await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oᴅғ")
+@Client.on_message(filters.command('stream')):
+async def is_stream(client, message):
+    if message.from_user.id not in ADMINS:
+        await message.delete()
+        return
+    bot = client.me.id
+    msg = await message.reply_text("<b>💥 ᴘʀᴏᴄᴇꜱꜱɪɴɢ...</b>")
+    settings = await db.generate_stream_info(bot)
+    if settings == True:
+        await db.update_stream_info(bot, False)
+        await msg.edit_text("<b>❌ ꜱᴛʀᴇᴀᴍɪɴɢ ғᴇᴀᴛᴜʀᴇꜱ ᴛᴜʀɴᴇᴅ ᴏғғ.</b>")
     else:
-        await update_stream_info(botid, True)
-        await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oɴ")
+        await db.update_stream_info(bot, True)
+        await msg.edit_text("<b>✅ ꜱᴛʀᴇᴀᴍɪɴɢ ғᴇᴀᴛᴜʀᴇꜱ ᴛᴜʀɴᴇᴅ ᴏɴ.</b>")
