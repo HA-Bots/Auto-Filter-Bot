@@ -112,7 +112,7 @@ SPELL_CHECK = is_enabled("SPELL_CHECK", True)
 SHORTLINK = is_enabled('SHORTLINK', False)
 
 # for stream
-STREAMTORF = is_enabled('STREAMTORF', True)
+IS_STREAM = is_enabled('IS_STREAM', True)
 BIN_CHANNEL = environ.get("BIN_CHANNEL", "")
 if len(BIN_CHANNEL) == 0:
     print('Error - BIN_CHANNEL is missing, exiting now')
