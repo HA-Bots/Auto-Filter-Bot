@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/SL-Bots-TG/Auto-Filter-Bot">
+  <a href="https://github.com/HA-Bots/Auto-Filter-Bot">
     <img src="https://graph.org/file/a66dbf46acf369e26d48a.jpg" alt="Auto Filter Bot">
   </a>
 </p>
@@ -7,7 +7,7 @@
   <b>𝘼𝙪𝙩𝙤 𝙁𝙞𝙡𝙩𝙚𝙧 𝘽𝙤𝙩</b>
 </h1>
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+SL_Bots!;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)](https://github.com/SL-Bots-TG/Auto-Filter-Bot)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=𝑊𝑒𝑙𝑐𝑜𝑚𝑒!;𝐶𝑟𝑒𝑎𝑡𝑒𝑑+𝑏𝑦+@HA_Bots;𝐴+𝑠𝑖𝑚𝑝𝑙𝑒+𝑎𝑛𝑑+𝑝𝑜𝑤𝑒𝑟𝑓𝑢𝑙+𝐵𝑜𝑡!;𝐼𝑛𝑑𝑒𝑥𝑒𝑠+𝐹𝑖𝑙𝑒𝑠+𝑎𝑏𝑜𝑣𝑒+4𝐺𝐵)](https://github.com/HA-Bots/Auto-Filter-Bot)
 
 ## 𝐹𝑒𝑎𝑡𝑢𝑟𝑒𝑠
 - [x] 𝐼𝑀𝐷𝐵 𝑇𝑒𝑚𝑝𝑙𝑎𝑡𝑒 𝑆𝑒𝑡
@@ -31,7 +31,6 @@
 - [x] 𝐴𝑢𝑡𝑜 𝐷𝑒𝑙𝑒𝑡𝑒
 - [x] 𝐴𝑛𝑑 𝑀𝑜𝑟𝑒...
 
-* [![ExampleBot](https://img.shields.io/static/v1?label=Example&message=Bot&color=critical)](https://t.me/SL_Bots_Test_Bot)
 
 ## 𝐶𝑜𝑚𝑚𝑎𝑛𝑑𝑠
 ```
@@ -82,7 +81,7 @@
 * `LANGUAGES`: Language of your bot search (Multiple languages can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
 * `OPENAI_API`: OpenAI API. Get this value from [API keys](https://platform.openai.com/account/api-keys).
-* Check [info.py](https://github.com/SL-Bots-TG/Auto-Filter-Bot/blob/main/info.py) for more optional variables
+* Check [info.py](https://github.com/HA-Bots/Auto-Filter-Bot/blob/main/info.py) for more optional variables
 
 
 ## Deploy
@@ -97,8 +96,8 @@ sudo docker run -d -p 80:80 --name Auto-Filter-Bot auto-filter-bot
 ```
 
 ## Support
-* [![Support](https://img.shields.io/static/v1?label=Support&message=Group&color=critical)](https://t.me/SL_Bots_Support)
-* [![Updates](https://img.shields.io/static/v1?label=Updates&message=Channel&color=critical)](https://t.me/SL_Bots_Updates)
+* [![Support](https://img.shields.io/static/v1?label=Support&message=Group&color=critical)](https://t.me/HA_Bots_Support)
+* [![Updates](https://img.shields.io/static/v1?label=Updates&message=Channel&color=critical)](https://t.me/HA_Bots)
 
 ## Credits 
 * [![EvaMaria](https://img.shields.io/static/v1?label=EvaMaria&message=Developers&color=critical)](https://t.me/TeamEvamaria)
@@ -106,7 +105,7 @@ sudo docker run -d -p 80:80 --name Auto-Filter-Bot auto-filter-bot
 
 ## Thanks To
  - [Pyrogram](https://t.me/pyrogramchat) To the members who helped
- - [Contributors](https://github.com/SL-Bots-TG/Auto-Filter-Bot/graphs/contributors) For free helps
+ - [Contributors](https://github.com/HA-Bots/Auto-Filter-Bot/graphs/contributors) For free helps
 
 ## Note
  - Importing this repo instead of forking is strictly prohibited, Kindly fork and edit as your wish (Must Give Credits for developer)
@@ -114,5 +113,5 @@ sudo docker run -d -p 80:80 --name Auto-Filter-Bot auto-filter-bot
 
 ## Disclaimer
 [![GNU General Public License v3.0](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)  
-Licensed under [GNU AGPL v3.0](https://github.com/SL-Bots-TG/Auto-Filter-Bot/blob/main/LICENSE)
+Licensed under [GNU AGPL v3.0](https://github.com/HA-Bots/Auto-Filter-Bot/blob/main/LICENSE)
 Selling The Codes To Other People For Money Is *Strictly Prohibited*.
