@@ -38,7 +38,23 @@ async def aks_downloader(bot, query):
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
+    chatid = message.chat.id
     userid = message.from_user.id if message.from_user else None
+    btn = await is_subscribed(client, message, settings['fsub'])
+    if btn:
+        btn.append(
+            [InlineKeyboardButton("Unmute Me 🔕", callback_data=f"unmuteme#chatid")]
+        )
+        reply_markup = InlineKeyboardMarkup(btn)
+        try:
+            await client.restrict_chat_member(chatid, message.from_user.id, ChatPermissions(can_send_messages=False))
+            await message.reply_photo(
+                photo=random.choice(PICS),
+                caption=f"👋 Hello {message.from_user.mention},\n\nPlease join and try again. 😇",
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML
+            )
+        return
     if settings["auto_filter"]:
         if not userid:
             await message.reply("I'm not working for anonymous admin!")
