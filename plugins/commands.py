@@ -488,15 +488,22 @@ async def ping(client, message):
 
 @Client.on_message(filters.command('stream'))
 async def is_stream(client, message):
+    if len(message.command) == 1:
+        await message.reply_text("Please send me `True` or `False` with the command.")
+        return    
     if message.from_user.id not in ADMINS:
         await message.delete()
-        return
+        return    
     bot = client.me.id
-    msg = await message.reply_text("<b>💥 ᴘʀᴏᴄᴇꜱꜱɪɴɢ...</b>")
-    settings = await db.generate_stream_info(bot)
-    if settings == True:
-        await db.update_stream_info(bot, False)
-        await msg.edit_text("<b>❌ ꜱᴛʀᴇᴀᴍɪɴɢ ғᴇᴀᴛᴜʀᴇꜱ ᴛᴜʀɴᴇᴅ ᴏғғ.</b>")
+    msg = await message.reply_text("<b>💥 ᴘʀᴏᴄᴇꜱꜱɪɴɢ...</b>")   
+    if message.command[1].lower() not in ['true', 'false']:
+        await msg.edit_text("<b>❌ Invalid input. Please send either `True` or `False`.</b>")
+        return   
+    value = True if message.command[1].lower() == 'true' else False
+    settings = await db.get_stream_info(bot)  
+    if settings == value:
+        await msg.edit_text(f"<b>❌ Stream setting is already {'on' if settings else 'off'}.</b>")
     else:
-        await db.update_stream_info(bot, True)
-        await msg.edit_text("<b>✅ ꜱᴛʀᴇᴀᴍɪɴɢ ғᴇᴀᴛᴜʀᴇꜱ ᴛᴜʀɴᴇᴅ ᴏɴ.</b>")
+        await db.update_stream_info(bot, value)
+        await msg.edit_text(f"<b>✅ Stream settings changed to {'on' if settings else 'off'}.</b>")
+
