@@ -486,7 +486,7 @@ async def ping(client, message):
     end_time = time.monotonic()
     await msg.edit(f'{round((end_time - start_time) * 1000)} ms')
 
-@Client.on_message(filters.command('stream')):
+@Client.on_message(filters.command('stream'))
 async def is_stream(client, message):
     if message.from_user.id not in ADMINS:
         await message.delete()
