@@ -126,15 +126,24 @@ async def start(client, message):
                 file_name = file.file_name,
                 file_size = get_size(file.file_size),
                 file_caption=file.caption
-            )   
-            btn = [[
-                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
-            ],[
-                InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
-                InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
-            ],[
-                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-            ]]
+            )
+            stream = settings['streamtorf']
+            if stream:
+                btn = [[
+                    InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+                ],[
+                    InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
+                    InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
+                ],[
+                    InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+                ]]
+            else:
+                btn = [[
+                    InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
+                    InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
+                ],[
+                    InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+                ]]
             await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
@@ -165,7 +174,8 @@ async def start(client, message):
         file_size = get_size(files.file_size),
         file_caption=files.caption
     )
-    if await db.get_stream_info(botid):
+    stream = settings['streamtorf']
+    if stream:
         btn = [[
             InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
         ],[
@@ -251,6 +261,9 @@ async def settings(client, message):
         ],[
             InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
             InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
+        ],[
+            InlineKeyboardButton('Stream', callback_data=f'setgs#links#{settings["stream"]}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ Yes' if settings["stream"] else '❌ No', callback_data=f'setgs#shortlink#{settings["stream"]}#{grp_id}')
         ],[
             InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
         ]]
@@ -349,6 +362,8 @@ File Caption: {settings['caption']}
 Welcome Text: {settings['welcome_text']}
 
 Tutorial Link: {settings['tutorial']}
+
+Stream: {settings['stream']}
 
 Force Channels: {str(settings['fsub'])[1:-1] if settings['fsub'] else 'Not Set'}"""
 
@@ -486,24 +501,39 @@ async def ping(client, message):
     end_time = time.monotonic()
     await msg.edit(f'{round((end_time - start_time) * 1000)} ms')
 
-@Client.on_message(filters.command('stream'))
-async def is_stream(client, message):
-    if len(message.command) == 1:
-        await message.reply_text("Please send me `True` or `False` with the command.")
-        return    
-    if message.from_user.id not in ADMINS:
-        await message.delete()
-        return    
-    bot = client.me.id
-    msg = await message.reply_text("<b>💥 ᴘʀᴏᴄᴇꜱꜱɪɴɢ...</b>")   
-    if message.command[1].lower() not in ['true', 'false']:
-        await msg.edit_text("<b>❌ Invalid input. Please send either `True` or `False`.</b>")
-        return   
-    value = True if message.command[1].lower() == 'true' else False
-    settings = await db.get_stream_info(bot)  
-    if settings == value:
-        await msg.edit_text(f"<b>❌ Stream setting is already {'on' if settings else 'off'}.</b>")
+@Client.on_message(filters.command('stream')):
+async def stream_torf(client, message):
+    botid = client.me.id
+    if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        channelid = await client.ask("Nᴏᴡ Sᴇɴᴅ Mᴇ Cʜᴀɴɴᴇʟ Iᴅ./n/nFᴏʀᴍᴀᴛ :- -100xxxxxxxxxx")
+        try:
+            await client.get_chat(channelid.text)
+            msg = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ....")
+            settings = await get_settings(channelid.text)
+            setvalue = settings['stream']
+            if setvalue == True:
+                await save_group_settings(channelid.text, 'stream', 'False')
+                await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oᴅғ")
+            else:
+                await save_group_settings(channelid.text, 'stream', 'True')
+                await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oɴ")
     else:
-        await db.update_stream_info(bot, value)
-        await msg.edit_text(f"<b>✅ Stream settings changed to {'on' if settings else 'off'}.</b>")
-
+        try:
+            streamtorf = message.text.split(" ", 1)[1]
+            if streamtorf.lower() in ["true", "yes", "1", "enable", "y"]:
+                stream = True
+            else:
+                stream = False
+        except:
+            return await message.reply_text("Command Incomplete!")
+        msg = await message.reply_text("ᴘʀᴏᴄᴇssɪɴɢ....")
+        settings = await get_settings(message.chat.id)
+        torf = settings['stream']
+        if stream == True and torf == False:
+            await save_group_settings(message.chat.id, 'stream', 'False')
+            await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oᴅғ")
+        elif stream == False and torf == True:
+            await save_group_settings(message.chat.id, 'stream', 'True')
+            await msg.edit_text("Sᴛʀᴇᴀᴍ Sᴜᴄᴄᴇssғᴜʟʟʏ Tᴜɴᴇᴅ Oɴ")
+        else:
+            await msg.edit_text("Sᴏᴍᴇᴛʜɪɴɢ Wᴇɴᴅ Wʀᴏɴɢ")
