@@ -171,6 +171,6 @@ class Database:
         if user:
             await self.me.update_one({'id': int(bot_id)}, {'$set': {'is_stream': value}})
         else:
-            await self.me.insert_one({'id': int(bot_id)}, {'$set': {'is_stream': value}})
-        
+            await self.me.insert_one({'id': int(bot_id), 'is_stream': value})
+
 db = Database()
