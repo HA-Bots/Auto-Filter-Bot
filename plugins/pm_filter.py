@@ -413,12 +413,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data.startswith("unmuteme"):
         ident, chatid = query.data.split("#")
-        settings = await get_settings(int(chatid)
+        settings = await get_settings(int(chatid))
         btn = await is_subscribed(client, query, settings['fsub'])
         if btn:
            await query.answer("Kindly Join Given Channel To Get Unmute", show_alert=True)
-           else:
-               await client.restrict_chat_member(chatid, query.from_user.id, ChatPermissions(can_send_messages=False))
+        else:
+            await client.restrict_chat_member(chatid, query.from_user.id, ChatPermissions(can_send_messages=False))
    
     elif query.data == "buttons":
         await query.answer("⚠️")
