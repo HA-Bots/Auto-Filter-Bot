@@ -157,7 +157,7 @@ async def broadcast_messages(user_id, message, pin):
         return "Success"
     except FloodWait as e:
         await asyncio.sleep(e.value)
-        return await broadcast_messages(user_id, message)
+        return await broadcast_messages(user_id, message, pin)
     except Exception as e:
         await db.delete_user(int(user_id))
         return "Error"
@@ -173,7 +173,7 @@ async def groups_broadcast_messages(chat_id, message, pin):
         return "Success"
     except FloodWait as e:
         await asyncio.sleep(e.value)
-        return await groups_broadcast_messages(chat_id, message)
+        return await groups_broadcast_messages(chat_id, message, pin)
     except Exception as e:
         await db.delete_chat(chat_id)
         return "Error"
