@@ -54,7 +54,9 @@ async def give_filter(client, message):
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML
             )
-        return
+            return
+        except Exception as e:
+            print(e)
     if settings["auto_filter"]:
         if not userid:
             await message.reply("I'm not working for anonymous admin!")
