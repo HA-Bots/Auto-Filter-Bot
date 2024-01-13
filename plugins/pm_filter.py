@@ -7,7 +7,7 @@ from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidD
 from Script import script
 from datetime import datetime, timedelta
 import pyrogram
-from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, DELETE_TIME, FILMS_LINK, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES
+from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, IS_STREAM, DELETE_TIME, FILMS_LINK, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
@@ -606,8 +606,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
                 InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
             ],[
-                InlineKeyboardButton('Stream', callback_data=f'setgs#is_stream#{settings["is_stream"]}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ On' if settings["is_stream"] else '❌ Off', callback_data=f'setgs#is_stream#{settings["is_stream"]}#{str(grp_id)}')
+                InlineKeyboardButton('Stream', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}'),
+                InlineKeyboardButton('✅ On' if settings.get("is_stream", IS_STREAM) else '❌ Off', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}')
             ],[
                 InlineKeyboardButton('❌ Close ❌', callback_data='close_data')
             ]]
