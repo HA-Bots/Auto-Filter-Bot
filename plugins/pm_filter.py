@@ -1,3 +1,5 @@
+import requests
+import imdb
 import random
 import asyncio
 import re, time
@@ -735,6 +737,13 @@ async def auto_filter(client, msg, spoll=False):
         message = msg
         settings = await get_settings(message.chat.id)
         search = message.text
+        try:
+            ia = imdb.IMDb()
+            movie = ia.search_movie(search)
+            movie_id = "tt" + movie[0].movieID
+            api_key = "9b8a4248"
+            release_date = await get_movie_release_date(movie_id, api_key)
+            
         files, offset, total_results = await get_search_results(search)
         if not files:
             if settings["spell_check"]:
