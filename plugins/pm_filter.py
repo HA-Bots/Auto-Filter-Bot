@@ -13,7 +13,7 @@ from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, IS_STREAM, DELETE_TIME, FILM
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
-from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings
+from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings, get_movie_release_date
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
@@ -743,7 +743,13 @@ async def auto_filter(client, msg, spoll=False):
             movie_id = "tt" + movie[0].movieID
             api_key = "9b8a4248"
             release_date = await get_movie_release_date(movie_id, api_key)
-            
+            today = datetime.today().date()
+            date_to_compare = datetime.strptime(released_date, '%d %b %Y').date()
+            if today < date_to_compare:
+                await message.reply_text(f"Your Query {query} has not released yet. It will relased on {date_to_compare} and after that indexed too.")
+                return
+        except:
+            pass
         files, offset, total_results = await get_search_results(search)
         if not files:
             if settings["spell_check"]:
