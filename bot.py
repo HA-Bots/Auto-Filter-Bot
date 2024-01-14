@@ -1,4 +1,3 @@
-import pyromod
 from pyrogram import Client, __version__
 from database.ia_filterdb import Media
 from aiohttp import web
