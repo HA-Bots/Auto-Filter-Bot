@@ -110,7 +110,7 @@ sudo docker run -d -p 80:80 --name Auto-Filter-Bot auto-filter-bot
 
 ## Note
  - Importing this repo instead of forking is strictly prohibited, Kindly fork and edit as your wish. Must Give Credits for [developer(s)](https://t.me/HA_Bots)
- - If you find any bugs or errors, report it
+ - If you find any bugs or errors, [report](https://t.me/HA_Bots_Support) it
 
 ## Disclaimer
 [![GNU General Public License v3.0](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)  
