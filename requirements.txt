@@ -1,4 +1,4 @@
-pyrogram
+pyrofork
 tgcrypto
 motor
 marshmallow
@@ -11,5 +11,4 @@ aiohttp
 aiofiles
 telegraph
 openai
-pyromod
 speedtest-cli
