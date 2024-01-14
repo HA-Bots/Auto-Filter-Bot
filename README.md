@@ -104,11 +104,12 @@ sudo docker run -d -p 80:80 --name Auto-Filter-Bot auto-filter-bot
 * [![ᕼᗩᘉSᗩᖽᐸᗩ](https://img.shields.io/static/v1?label=ᕼᗩᘉSᗩᖽᐸᗩ&message=TG&color=critical)](https://t.me/Hansaka_Anuhas)
 
 ## Thanks To
- - [Pyrogram](https://t.me/pyrogramchat) To the members who helped
+ - [Pyrogram](https://t.me/pyrogram) and [PyroFork](https://t.me/PyroFork) For Telegram MTProto API Framework
  - [Contributors](https://github.com/HA-Bots/Auto-Filter-Bot/graphs/contributors) For free helps
+ - And to everyone who helped
 
 ## Note
- - Importing this repo instead of forking is strictly prohibited, Kindly fork and edit as your wish (Must Give Credits for developer)
+ - Importing this repo instead of forking is strictly prohibited, Kindly fork and edit as your wish. Must Give Credits for [developer(s)](https://t.me/HA_Bots)
  - If you find any bugs or errors, report it
 
 ## Disclaimer
