@@ -418,7 +418,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if btn:
            await query.answer("Kindly Join Given Channel To Get Unmute", show_alert=True)
         else:
-            await client.restrict_chat_member(chatid, query.from_user.id, ChatPermissions(can_send_messages=True))
+            await client.unban_chat_member(query.message.chat.id, user_id)
+            await query.answer("Unmuted Successfully !", show_alert=True)
    
     elif query.data == "buttons":
         await query.answer("⚠️")
