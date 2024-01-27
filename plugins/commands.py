@@ -9,7 +9,7 @@ from pyrogram.errors import ChatAdminRequired, FloodWait, ButtonDataInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT, IS_STREAM
+from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT, IS_STREAM, IS_FSUB
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish
 import re
 import json
@@ -259,6 +259,9 @@ async def settings(client, message):
             InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
             InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
         ],[
+            InlineKeyboardButton('Fsub', callback_data=f'setgs#is_fsub#{settings.get("is_fsub", IS_FSUB)}#{str(grp_id)}'),
+            InlineKeyboardButton('✅ On' if settings.get("is_fsub", IS_FSUB) else '❌ Off', callback_data=f'setgs#is_fsub#{settings.get("is_fsub", IS_FSUB)}#{str(grp_id)}')
+        ],[
             InlineKeyboardButton('Stream', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}'),
             InlineKeyboardButton('✅ On' if settings.get("is_stream", IS_STREAM) else '❌ Off', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}')
         ],[
@@ -448,8 +451,11 @@ async def set_fsub(client, message):
         return await message.reply_text('You not admin in this group.')
     vp = message.text.split(" ", 1)[1]
     if vp.lower() in ["Off", "off", "False", "false", "Turn Off", "turn off"]:
-        await save_group_settings(grp_id, 'fsub', False)
+        await save_group_settings(grp_id, 'is_fsub', False)
         return await message.reply_text("Successfully Turned Off !")
+    elif vp.lower() in ["On", "on", "True", "true", "Turn On", "turn on"]:
+        await save_group_settings(grp_id, 'is_fsub', True)
+        return await message.reply_text("Successfully Turned On !")
     try:
         ids = message.text.split(" ", 1)[1]
         fsub_ids = list(map(int, ids.split()))
