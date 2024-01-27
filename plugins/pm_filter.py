@@ -40,7 +40,7 @@ async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
     chatid = message.chat.id
     userid = message.from_user.id if message.from_user else None
-    btn = await is_subscribed(client, message, settings['fsub'])
+    btn = await is_subscribed(client, message, settings['fsub']) if settings.get('is_fsub', IS_FSUB) else None
     if btn:
         btn.append(
             [InlineKeyboardButton("Unmute Me 🔕", callback_data=f"unmuteme#{chatid}")]
