@@ -446,6 +446,10 @@ async def set_fsub(client, message):
     title = message.chat.title
     if not await is_check_admin(client, grp_id, message.from_user.id):
         return await message.reply_text('You not admin in this group.')
+    vp = message.text.split(" ", 1)[1]
+    if vp.lower() in ["Off", "off", "False", "false", "Turn Off", "turn off"]:
+        await save_group_settings(grp_id, 'fsub', False)
+        return await message.reply_text("Successfully Turned Off !")
     try:
         ids = message.text.split(" ", 1)[1]
         fsub_ids = list(map(int, ids.split()))
