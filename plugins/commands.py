@@ -99,19 +99,20 @@ async def start(client, message):
         return
 
     settings = await get_settings(int(mc.split("_", 2)[1]))
-    btn = await is_subscribed(client, message, settings['fsub'])
-    if btn:
-        btn.append(
-            [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
-        )
-        reply_markup = InlineKeyboardMarkup(btn)
-        await message.reply_photo(
-            photo=random.choice(PICS),
-            caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and try again. 😇",
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-        return 
+    if settings.get('is_fsub', IS_FSUB):
+        btn = await is_subscribed(client, message, settings['fsub'])
+        if btn:
+            btn.append(
+                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
+            )
+            reply_markup = InlineKeyboardMarkup(btn)
+            await message.reply_photo(
+                photo=random.choice(PICS),
+                caption=f"👋 Hello {message.from_user.mention},\n\nPlease join my 'Updates Channel' and try again. 😇",
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML
+            )
+            return 
         
     if mc.startswith('all'):
         _, grp_id, key = mc.split("_", 2)
