@@ -235,3 +235,14 @@ def get_wish():
     else:
         status = "ɢᴏᴏᴅ ᴇᴠᴇɴɪɴɢ 🌘"
     return status
+
+def get_movie_release_date(movie_id, api_key):
+    url = f"http://www.omdbapi.com/?i={movie_id}&apikey={api_key}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        release_date = data.get("Released")
+        if release_date:
+            return release_date
+
+    return None
