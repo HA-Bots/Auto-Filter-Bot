@@ -205,7 +205,9 @@ class Database:
         await self.users.update_one({"id": user_id}, {"$set": user_data}, upsert=True)
 
     async def all_premium_users(self):
-        count = await self.users.count_documents({})
+        count = await self.users.count_documents({
+        "expiry_time": {"$gt": datetime.datetime.now()}
+        })
         return count
 
 db = Database()
