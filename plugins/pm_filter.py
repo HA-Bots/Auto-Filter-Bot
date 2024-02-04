@@ -62,7 +62,7 @@ async def give_filter(client, message):
                     print(e)
             else:
                 pass
-        else:
+        except:
             pass
     else:
         pass
