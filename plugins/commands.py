@@ -205,13 +205,16 @@ async def start(client, message):
         reply_markup=InlineKeyboardMarkup(btn)
     )
 
-@Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
+@Client.on_message(filters.command('index_channels'))
 async def channels_info(bot, message):
     """Send basic information of index channels"""
+    user_id = message.from_user.id
+    if user_id not in ADMINS:
+        await message.delete()
+        return
     ids = INDEX_CHANNELS
     if not ids:
         return await message.reply("Not set INDEX_CHANNELS")
-
     text = '**Indexed Channels:**\n\n'
     for id in ids:
         chat = await bot.get_chat(id)
@@ -219,8 +222,12 @@ async def channels_info(bot, message):
     text += f'\n**Total:** {len(ids)}'
     await message.reply(text)
 
-@Client.on_message(filters.command('stats') & filters.user(ADMINS))
+@Client.on_message(filters.command('stats'))
 async def stats(bot, message):
+    user_id = message.from_user.id
+    if user_id not in ADMINS:
+        await message.delete()
+        return
     msg = await message.reply('Please Wait...')
     files = await Media.count_documents()
     users = await db.total_users_count()
@@ -398,8 +405,12 @@ async def save_welcome(client, message):
     await save_group_settings(grp_id, 'welcome_text', welcome)
     await message.reply_text(f"Successfully changed welcome for {title} to\n\n{welcome}")
         
-@Client.on_message(filters.command('delete') & filters.user(ADMINS))
+@Client.on_message(filters.command('delete'))
 async def delete_file(bot, message):
+    user_id = message.from_user.id
+    if user_id not in ADMINS:
+        await message.delete()
+        return
     try:
         query = message.text.split(" ", 1)[1]
     except:
@@ -415,8 +426,12 @@ async def delete_file(bot, message):
     ]]
     await msg.edit(f"Total {total} files found in your query {query}.\n\nDo you want to delete?", reply_markup=InlineKeyboardMarkup(btn))
  
-@Client.on_message(filters.command('delete_all') & filters.user(ADMINS))
+@Client.on_message(filters.command('delete_all'))
 async def delete_all_index(bot, message):
+    user_id = message.from_user.id
+    if user_id not in ADMINS:
+        await message.delete()
+        return
     btn = [[
         InlineKeyboardButton(text="YES", callback_data="delete_all")
     ],[
@@ -517,7 +532,9 @@ async def ping(client, message):
     
 @Client.on_message(filters.command("add_premium"))
 async def give_premium_cmd_handler(client, message):
-    if message.from_user.id not in ADMINS:
+    user_id = message.from_user.id
+    if user_id not in ADMINS:
+        await message.delete()
         return
     if len(message.command) == 3:
         user_id = int(message.command[1])  # Convert the user_id to integer
@@ -527,8 +544,7 @@ async def give_premium_cmd_handler(client, message):
             expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
             user_data = {"id": user_id, "expiry_time": expiry_time} 
             await db.update_user(user_data)  # Use the update_user method to update or insert user data
-            await message.reply_text("Premium access added to the user.")
-            
+            await message.reply_text("Premium access added to the user.")            
             await client.send_message(
                 chat_id=user_id,
                 text=f"<b>ᴘʀᴇᴍɪᴜᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ ꜰᴏʀ {time} ᴇɴᴊᴏʏ 😀\n</b>",                
@@ -540,7 +556,9 @@ async def give_premium_cmd_handler(client, message):
         
 @Client.on_message(filters.command("remove_premium"))
 async def remove_premium_cmd_handler(client, message):
-    if message.from_user.id not in ADMINS:
+    user_id = message.from_user.id
+    if user_id not in ADMINS:
+        await message.delete()
         return
     if len(message.command) == 2:
         user_id = int(message.command[1])  # Convert the user_id to integer
