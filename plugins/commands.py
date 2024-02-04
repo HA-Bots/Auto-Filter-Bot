@@ -580,7 +580,7 @@ async def remove_premium_cmd_handler(client, message):
     else:
         await message.reply_text("Usage: /remove_premium user_id")
         
-@Client.on_message(filters.command("plans"))
+@Client.on_message(filters.command("plan"))
 async def plans_cmd_handler(client, message):                
     btn = [            
         [InlineKeyboardButton("ꜱᴇɴᴅ ᴘᴀʏᴍᴇɴᴛ ʀᴇᴄᴇɪᴘᴛ 🧾", url="t.me/Rk_botowner")],
@@ -593,7 +593,7 @@ async def plans_cmd_handler(client, message):
         reply_markup=reply_markup
     )
         
-@Client.on_message(filters.command("my_plan"))
+@Client.on_message(filters.command("myplan"))
 async def check_plans_cmd(client, message):
     user_id  = message.from_user.id
     if await db.has_premium_access(user_id):         
