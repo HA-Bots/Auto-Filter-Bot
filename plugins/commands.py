@@ -232,10 +232,11 @@ async def stats(bot, message):
     files = await Media.count_documents()
     users = await db.total_users_count()
     chats = await db.total_chat_count()
+    premium = await db.all_premium_users()
     u_size = get_size(await db.get_db_size())
-    f_size = get_size(536870912 - await db.get_db_size())
+    f_size = get_size(536870912)
     uptime = get_readable_time(time.time() - temp.START_TIME)
-    await msg.edit(script.STATUS_TXT.format(files, users, chats, u_size, f_size, uptime))    
+    await msg.edit(script.STATUS_TXT.format(files, users, chats, premium, u_size, f_size, uptime))    
     
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
