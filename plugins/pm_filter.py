@@ -392,7 +392,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data.startswith("stream"):
         file_id = query.data.split('#', 1)[1]
-        msg = await bot.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
+        msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
         watch = f"{URL}watch/{msg.id}"
         download = f"{URL}download/{msg.id}"
         btn=[[
