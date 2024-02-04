@@ -19,22 +19,6 @@ import logging
 BUTTONS = {}
 CAP = {}
 
-@Client.on_callback_query(filters.regex(r"^stream"))
-async def aks_downloader(bot, query):
-    file_id = query.data.split('#', 1)[1]
-    msg = await bot.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
-    watch = f"{URL}watch/{msg.id}"
-    download = f"{URL}download/{msg.id}"
-    btn= [[
-        InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
-        InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
-    ],[
-        InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
-    ]]
-    await query.edit_message_reply_markup(
-        reply_markup=InlineKeyboardMarkup(btn)
-    )
-
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
@@ -405,7 +389,23 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if int(user) != 0 and query.from_user.id != int(user):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file_id}")
-        
+
+    elif query.data.startswith("stream"):
+        file_id = query.data.split('#', 1)[1]
+        msg = await bot.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
+        watch = f"{URL}watch/{msg.id}"
+        download = f"{URL}download/{msg.id}"
+        btn=[[
+            InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
+            InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
+        ],[
+            InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
+        ]]
+        reply_markup=InlineKeyboardMarkup(btn)
+        await query.edit_message_reply_markup(
+            reply_markup=reply_markup
+        )
+    
     elif query.data == "get_trail":
         user_id = query.from_user.id
         free_trial_status = await db.get_free_trial_status(user_id)
