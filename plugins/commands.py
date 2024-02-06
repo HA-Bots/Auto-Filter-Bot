@@ -176,9 +176,9 @@ async def start(client, message):
         pass
         
     if not await db.has_premium_access(message.from_user.id):
-        protect_content = False
-    else:
         protect_content = True
+    else:
+        protect_content = False
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
