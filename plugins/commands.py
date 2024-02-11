@@ -68,6 +68,19 @@ async def start(client, message):
         )
         return
 
+    if len(message.command) == 2 and message.command[1] == "plans":
+        btn = [            
+            [InlineKeyboardButton("ꜱᴇɴᴅ ᴘᴀʏᴍᴇɴᴛ ʀᴇᴄᴇɪᴘᴛ 🧾", url=OWNER_USERNAME)],
+            [InlineKeyboardButton("⚠️ ᴄʟᴏsᴇ / ᴅᴇʟᴇᴛᴇ ⚠️", callback_data="close_data")]
+        ]
+        reply_markup = InlineKeyboardMarkup(btn)
+        await message.reply_photo(
+            photo=PAYMENT_QR,
+            caption="**Pʀᴇᴍɪᴜᴍ Fᴇᴀᴛᴜʀᴇs 🎁\n\n☆ No Need To Verify\n☆ Ad Free Experience\n☆ Unlimited Movie And Series",
+            reply_markup=reply_markup
+        )
+        return
+
     mc = message.command[1]
 
     if mc.startswith('verify'):
