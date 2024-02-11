@@ -118,9 +118,6 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
                     continue
                 media.caption = message.caption
                 file_name = re.sub(r"@\w+|(_|\-|\.|\+)", " ", str(media.file_name))
-                if ['predvd', 'camrip', 'Predvdrip', 'HDCam', 'HD-Cam', 'S-print', 'HDTS', 'HD-TS'] in file_name:
-                    badfiles += 1
-                    continue
                 sts = await save_file(media)
                 if sts == 'suc':
                     total_files += 1
