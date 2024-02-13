@@ -50,6 +50,18 @@ async def give_filter(client, message):
             pass
     else:
         pass
+    if temp.SPAM.get(message.from_user.id) and temp.SPAM.get(message.from_user.id) != 0:
+        if not await db.has_premium_access(message.from_user.id):
+            try:
+                vp = int(temp.SPAM.get(message.from_user.id))
+                value = (vp + 5)
+            except:
+                vp = 0
+                value = (vp + 5)
+            temp.SPAM.update({message.from_user.id: value})
+            return await message.reply_text(script.SPAM_TXT.format()
+    except:
+        pass
     if settings["auto_filter"]:
         if not userid:
             await message.reply("I'm not working for anonymous admin!")
@@ -105,6 +117,13 @@ async def give_filter(client, message):
             
         else:
             await auto_filter(client, message)
+            try:
+                vp = int(temp.SPAM.get(message.from_user.id))
+                value = (vp + 30)
+            except:
+                vp = 0
+                value = (vp + 30)
+            temp.SPAM.update({message.from_user.id: value})
     else:
         k = await message.reply_text('Auto Filter Off! ❌')
         await asyncio.sleep(5)
