@@ -105,6 +105,6 @@ try:
 except FloodWait as vp:
     time = get_readable_time(vp.value)
     print(f"Flood Wait Occured, Sleeping For {time}")
-    await asyncio.sleep(vp.value)
+    asyncio.sleep(vp.value)
     print("Now Ready For Deploying !")
     app.run()
