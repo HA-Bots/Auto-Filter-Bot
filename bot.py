@@ -8,7 +8,8 @@ from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 import time, os, platform
-from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid
+from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid, FloodWait
+import asyncio
 
 
 class Bot(Client):
@@ -99,4 +100,11 @@ class Bot(Client):
                 current += 1
 
 app = Bot()
-app.run()
+try:
+    app.run()
+except FloodWait as vp:
+    time = get_readable_time(vp.value)
+    print(f"Flood Wait Occured, Sleeping For {time}")
+    asyncio.sleep(vp.value)
+    print("Now Ready For Deploying !")
+    app.run()
