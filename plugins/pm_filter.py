@@ -59,8 +59,8 @@ async def give_filter(client, message):
                 vp = 0
                 value = (vp + 5)
             temp.SPAM.update({message.from_user.id: value})
-            return await message.reply_text(script.SPAM_TXT.format()
-    except:
+            return await message.reply_text(script.SPAM_TXT.format(message.from_user.mention))
+    else:
         pass
     if settings["auto_filter"]:
         if not userid:
