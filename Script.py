@@ -139,3 +139,5 @@ I can't find the <b>{}</b> in my database! 🥲
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/HA-Bots/Auto-Filter-Bot>ʜᴇʀᴇ</a>
 
 - ᴅᴇᴠʟᴏᴘᴇʀ - @HA_Bots"""
+
+   SPAM_TXT = """{} Don't Spam, Wait For {}"""
