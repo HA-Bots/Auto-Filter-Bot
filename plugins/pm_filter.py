@@ -59,7 +59,11 @@ async def give_filter(client, message):
                 vp = 0
                 value = (vp + 5)
             temp.SPAM.update({message.from_user.id: value})
-            return await message.reply_text(script.SPAM_TXT.format(message.from_user.mention))
+            time = get_readable_time(value)
+            link = f"https://t.me/{temp.U_NAME}?start=plans"
+            return await message.reply_text(script.SPAM_TXT.format(message.from_user.mention, time, link))
+        else:
+            pass
     else:
         pass
     if settings["auto_filter"]:
@@ -797,6 +801,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.reply('Nothing to kick deleted accounts.')
 
 async def auto_filter(client, msg, spoll=False):
+    if not await db.has_premium_access(message.from_user.id):
+        try:
+            vp = int(temp.SPAM.get(message.from_user.id))
+            value = (vp + 30)
+        except:
+            vp = 0
+            value = (vp + 30)
+        temp.SPAM.update({message.from_user.id: value})
     if not spoll:
         message = msg
         settings = await get_settings(message.chat.id)
