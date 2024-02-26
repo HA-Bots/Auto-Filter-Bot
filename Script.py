@@ -140,7 +140,7 @@ I can't find the <b>{}</b> in my database! 🥲
 
 - ᴅᴇᴠʟᴏᴘᴇʀ - @HA_Bots"""
 
-   SPAM_TXT = """{} Don't Spam, Wait For {}
+    SPAM_TXT = """{} Don't Spam, Wait For {}
 
 Else, You Can Buy Our Subscriptions.
 <a href={}>Click Here</a> To Learn More"""
