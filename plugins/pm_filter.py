@@ -53,17 +53,17 @@ async def give_filter(client, message):
     if message.from_user.id in temp.SPAM and temp.SPAM[message.from_user.id] != 0:
         if not await db.has_premium_access(message.from_user.id):
             try:
-                vp = int(temp.SPAM.get(message.from_user.id))
+                vp = int(temp.SPAM[message.from_user.id])
                 value = (vp + 5)
             except:
                 vp = 0
                 value = (vp + 5)
-            temp.SPAM.update({message.from_user.id: value})
+            temp.SPAM.append({message.from_user.id: value})
             time = get_readable_time(value)
             link = f"https://t.me/{temp.U_NAME}?start=plans"
             await message.reply_text(script.SPAM_TXT.format(message.from_user.mention, time, link))
             await asyncio.sleep(value)
-            temp.SPAM.update({message.from_user.id: 0})
+            temp.SPAM.append({message.from_user.id: 0})
             return 
         else:
             pass
@@ -806,12 +806,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
 async def auto_filter(client, msg, spoll=False):
     if not await db.has_premium_access(msg.from_user.id):
         try:
-            vp = int(temp.SPAM.get(msg.from_user.id))
+            vp = int(temp.SPAM[msg.from_user.id])
             value = (vp + 30)
         except:
             vp = 0
             value = (vp + 30)
-        temp.SPAM.update({msg.from_user.id: value})
+        temp.SPAM.append({msg.from_user.id: value})
     if not spoll:
         message = msg
         settings = await get_settings(message.chat.id)
