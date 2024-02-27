@@ -50,7 +50,7 @@ async def give_filter(client, message):
             pass
     else:
         pass
-    if temp.SPAM.get(message.from_user.id) and temp.SPAM.get(message.from_user.id) != 0:
+    if message.from_user.id in temp.SPAM and temp.SPAM[message.from_user.id] != 0:
         if not await db.has_premium_access(message.from_user.id):
             try:
                 vp = int(temp.SPAM.get(message.from_user.id))
@@ -61,7 +61,9 @@ async def give_filter(client, message):
             temp.SPAM.update({message.from_user.id: value})
             time = get_readable_time(value)
             link = f"https://t.me/{temp.U_NAME}?start=plans"
-            return await message.reply_text(script.SPAM_TXT.format(message.from_user.mention, time, link))
+            await message.reply_text(script.SPAM_TXT.format(message.from_user.mention, time, link))
+            await asyncio.sleep(value)
+            return 
         else:
             pass
     else:
@@ -961,6 +963,8 @@ async def auto_filter(client, msg, spoll=False):
                 pass
         else:
             await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+    await asyncio.sleep(30)
+    temp.SPAM.update({message.from_user.id: 0})
 
 async def advantage_spell_chok(message):
     search = message.text
