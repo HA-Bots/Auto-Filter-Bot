@@ -63,6 +63,7 @@ async def give_filter(client, message):
             link = f"https://t.me/{temp.U_NAME}?start=plans"
             await message.reply_text(script.SPAM_TXT.format(message.from_user.mention, time, link))
             await asyncio.sleep(value)
+            temp.SPAM.update({message.from_user.id: 0})
             return 
         else:
             pass
