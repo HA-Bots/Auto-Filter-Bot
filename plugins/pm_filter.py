@@ -58,7 +58,7 @@ async def give_filter(client, message):
             except:
                 vp = 0
                 value = (vp + 5)
-            temp.SPAM.append({message.from_user.id: value})
+            temp.SPAM[message.from_user.id] = value
             time = get_readable_time(value)
             link = f"https://t.me/{temp.U_NAME}?start=plans"
             await message.reply_text(script.SPAM_TXT.format(message.from_user.mention, time, link))
@@ -804,7 +804,7 @@ async def auto_filter(client, msg, spoll=False):
         except:
             vp = 0
             value = (vp + 30)
-        temp.SPAM.append({msg.from_user.id: value})
+        temp.SPAM[msg.from_user.id] = value
     if not spoll:
         message = msg
         settings = await get_settings(message.chat.id)
