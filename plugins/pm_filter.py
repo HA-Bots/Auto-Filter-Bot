@@ -124,13 +124,6 @@ async def give_filter(client, message):
             
         else:
             await auto_filter(client, message)
-            try:
-                vp = int(temp.SPAM.get(message.from_user.id))
-                value = (vp + 30)
-            except:
-                vp = 0
-                value = (vp + 30)
-            temp.SPAM.update({message.from_user.id: value})
     else:
         k = await message.reply_text('Auto Filter Off! ❌')
         await asyncio.sleep(5)
