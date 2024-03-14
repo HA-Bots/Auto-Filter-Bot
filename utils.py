@@ -30,7 +30,7 @@ class temp(object):
     USERS_CANCEL = False
     GROUPS_CANCEL = False
     BOT = None
-    SPAM = []
+
 async def is_subscribed(bot, query, channel):
     btn = []
     for id in channel:
