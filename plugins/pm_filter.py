@@ -793,6 +793,10 @@ async def auto_filter(client, msg, spoll=False):
         search, files, offset, total_results = spoll
     if spoll:
         await msg.message.delete()
+    try:
+        await message.react(emoji="🔍")
+    except:
+        pass
     req = message.from_user.id if message.from_user else 0
     key = f"{message.chat.id}-{message.id}"
     temp.FILES[key] = files
