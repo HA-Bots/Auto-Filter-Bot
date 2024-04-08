@@ -935,7 +935,6 @@ async def auto_filter(client, msg, spoll=False):
         else:
             await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
     await asyncio.sleep(30)
-    temp.SPAM.update({msg.from_user.id: 0})
 
 async def advantage_spell_chok(message):
     search = message.text
