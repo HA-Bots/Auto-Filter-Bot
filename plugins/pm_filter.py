@@ -161,7 +161,7 @@ async def next_page(bot, query):
         ]
             for file in files
         ]
-    if settings['shortlink']:
+    if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
             InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans"),
@@ -250,7 +250,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         ]
             for file in files
         ]
-    if settings['shortlink']:
+    if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
             InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
@@ -313,7 +313,7 @@ async def lang_next_page(bot, query):
         ]
             for file in files
         ]
-    if settings['shortlink']:
+    if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
             InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
@@ -815,7 +815,7 @@ async def auto_filter(client, msg, spoll=False):
         ]
     
     if offset != "":
-        if settings['shortlink']:
+        if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
             btn.insert(0,
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}')),
                 InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans"),
@@ -833,7 +833,7 @@ async def auto_filter(client, msg, spoll=False):
              InlineKeyboardButton(text="ɴᴇxᴛ »", callback_data=f"next_{req}_{key}_{offset}")]
         )
     else:
-        if settings['shortlink']:
+        if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
             btn.insert(0,
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}')),
                 InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
