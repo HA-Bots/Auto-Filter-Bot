@@ -828,6 +828,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data.startswith("getmultifile"):
         _, key, grp_id = query.data.split("_")
         files = temp.FILES.get(key)
+        settings = await get_settings(int(grp_id))
         if not files:
             return await message.reply('No Such All Files Exist!')
         for file in files:
