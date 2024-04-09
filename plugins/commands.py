@@ -170,14 +170,11 @@ async def start(client, message):
                 protect_content=settings['file_secure'],
                 reply_markup=InlineKeyboardMarkup(btn)
             )
-            file_ids.append(msg.id)
-            fileids += f"{file.file_id}#"
-        files_ids = fileids[:-1]
         time = get_readable_time(int(pm_delete_time))
         vp = await message.reply(f"Nᴏᴛᴇ: Tʜɪs ғɪʟᴇs ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇs ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
         await asyncio.sleep(int(pm_delete_time))
         btns = [[
-            InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇs ᴀɢᴀɪɴ', callback_data=f"getmultifile_{files_ids}_{grp_id}")
+            InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇs ᴀɢᴀɪɴ', callback_data=f"getmultifile_{key}_{grp_id}")
         ]]
         await client.delete_messages(
             chat_id=message.chat.id,
