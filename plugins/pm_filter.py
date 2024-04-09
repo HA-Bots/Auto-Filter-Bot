@@ -826,10 +826,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await vp.reply("Tʜᴇ ғɪʟᴇ ʜᴀs ʙᴇᴇɴ ɢᴏɴᴇ ! Cʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪᴛ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(btns))
 
     elif query.data.startswith("getmultifile"):
-        _, files_id, grp_id = query.data.split("_")
-        file_ids = files_id.split("#")
-        for files in file_ids:
-            file = await get_file_details(files)
+        _, key, grp_id = query.data.split("_")
+        files = temp.FILES.get(key)
+        if not files:
+            return await message.reply('No Such All Files Exist!')
+        for file in files:
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name = file.file_name,
