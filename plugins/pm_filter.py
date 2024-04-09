@@ -779,7 +779,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data.startswith("getfile"):
         _, file_id, grp_id = query.data.split("#")
-        if not await db.has_premium_access(message.from_user.id):
+        if not await db.has_premium_access(query.from_user.id):
             protect_content = True
         else:
             protect_content = False
@@ -809,7 +809,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]]
         vp = await client.send_cached_media(
-            chat_id=message.from_user.id,
+            chat_id=query.from_user.id,
             file_id=file_id,
             caption=f_caption,
             protect_content=protect_content,
@@ -822,7 +822,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇ ᴀɢᴀɪɴ', callback_data=f"getfile#{file_id}#{grp_id}")
         ]]
         await msg.delete()
-        await vp.edit("Tʜᴇ ғɪʟᴇ ʜᴀs ʙᴇᴇɴ ɢᴏɴᴇ ! Cʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪᴛ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(btns))
+        await vp.delete()
+        await vp.reply("Tʜᴇ ғɪʟᴇ ʜᴀs ʙᴇᴇɴ ɢᴏɴᴇ ! Cʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪᴛ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(btns))
 
     elif query.data.startswith("getmultifile"):
         _, files_id, grp_id = query.data.split("_")
@@ -852,7 +853,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
                 ]]
             msg = await client.send_cached_media(
-                chat_id=message.from_user.id,
+                chat_id=query.from_user.id,
                 file_id=file.file_id,
                 caption=f_caption,
                 protect_content=settings['file_secure'],
@@ -861,7 +862,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             file_ids.append(msg.id)
             fileids += f"{file.file_id}#"
         files_ids = fileids[:-1]
-        vp = await message.reply(f"Nᴏᴛᴇ: Tʜɪs ғɪʟᴇs ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇs ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
+        time = get_readable_time(int(pm_delete_time))
+        vp = await query.message.reply(f"Nᴏᴛᴇ: Tʜɪs ғɪʟᴇs ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇs ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
         await asyncio.sleep(int(pm_delete_time))
         btns = [[
             InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇs ᴀɢᴀɪɴ', callback_data=f"getmultifile_{files_ids}_{grp_id}")
