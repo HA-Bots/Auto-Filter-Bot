@@ -173,6 +173,7 @@ async def start(client, message):
             file_ids.append(msg.id)
             fileids += f"{file.file_id}#"
         files_ids = fileids[:-1]
+        time = get_readable_time(int(pm_delete_time))
         vp = await message.reply(f"Nᴏᴛᴇ: Tʜɪs ғɪʟᴇs ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇs ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
         await asyncio.sleep(int(pm_delete_time))
         btns = [[
