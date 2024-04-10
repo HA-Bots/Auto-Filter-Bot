@@ -21,6 +21,11 @@ async def welcome(bot, message):
             reply_markup=InlineKeyboardMarkup(buttons)
             user = message.from_user.mention if message.from_user else "Dear"
             await bot.send_photo(chat_id=message.chat.id, photo=random.choice(PICS), caption=f"👋 Hello {user},\n\nThank you for adding me to the <b>'{message.chat.title}'</b> group, Don't forget to make me admin. If you want to know more ask the support group. 😘</b>", reply_markup=reply_markup)
+            if not await db.get_chat(message.chat.id):
+                total = await bot.get_chat_members_count(message.chat.id)
+                username = f'@{message.chat.username}' if message.chat.username else 'Private'
+                await bot.send_message(LOG_CHANNEL, script.NEW_GROUP_TXT.format(message.chat.title, message.chat.id, username, total))       
+                await db.add_chat(message.chat.id, message.chat.title)
             return
         settings = await get_settings(message.chat.id)
         if settings["welcome"]:
