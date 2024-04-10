@@ -29,13 +29,14 @@ async def give_filter(client, message):
     settings = await get_settings(message.chat.id)
     chatid = message.chat.id
     userid = message.from_user.id if message.from_user else None
+    user_id = message.from_user.id if message.from_user else 0
     fsub = settings['fsub']
     if settings.get('is_fsub', IS_FSUB) and fsub is not None:
         try:
             btn = await is_subscribed(client, message, int(fsub))
             if btn:
                 btn.append(
-                    [InlineKeyboardButton("Unmute Me 🔕", callback_data=f"unmuteme#{chatid}")]
+                    [InlineKeyboardButton("Unmute Me 🔕", callback_data=f"unmuteme#{user_id}")]
                 )
                 reply_markup = InlineKeyboardMarkup(btn)
                 try:
@@ -462,8 +463,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.delete()
 
     elif query.data.startswith("unmuteme"):
-        ident, chatid = query.data.split("#")
-        settings = await get_settings(int(chatid))
+        ident, userid = query.data.split("#")
+        user_id = query.from_user.id
+        settings = await get_settings(int(query.message.chat.id))
+        if userid == 0:
+            await query.answer("You are anonymous admin !", show_alert=True)
+            return
+        if userid != user_id:
+            await query.answer("Not For You ☠️", show_alert=True)
+            return
         btn = await is_subscribed(client, query, settings['fsub'])
         if btn:
            await query.answer("Kindly Join Given Channel To Get Unmute", show_alert=True)
