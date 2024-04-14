@@ -478,6 +478,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await client.unban_chat_member(query.message.chat.id, user_id)
             await query.answer("Unmuted Successfully !", show_alert=True)
+            try:
+                await query.message.delete()
+            except:
+                return
    
     elif query.data == "buttons":
         await query.answer("⚠️")
