@@ -30,7 +30,7 @@ async def give_filter(client, message):
     chatid = message.chat.id
     userid = message.from_user.id if message.from_user else None
     user_id = message.from_user.id if message.from_user else 0
-    fsub = settings['fsub'] if not await db.has_premium_access(message.from_user.id)
+    fsub = settings['fsub'] if not await db.has_premium_access(message.from_user.id) else None
     if settings.get('is_fsub', IS_FSUB) and fsub is not None:
         try:
             btn = await is_subscribed(client, message, int(fsub))
