@@ -23,7 +23,8 @@ class Database:
         'tutorial': TUTORIAL,
         'links': LINK_MODE,
         'fsub': AUTH_CHANNEL,
-        'is_stream': IS_STREAM
+        'is_stream': IS_STREAM,
+        'is_fsub': IS_FSUB
     }
 
     default_verify = {
