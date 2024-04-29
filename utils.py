@@ -33,8 +33,9 @@ class temp(object):
 
 async def is_subscribed(bot, query, channel):
     btn = []
+    channel_ids = channel.split()
     if AUTH_CHANNEL:
-        channel.append(AUTH_CHANNEL)
+        channel_ids.append(AUTH_CHANNEL)
     for id in channel:
         chat = await bot.get_chat(int(id))
         try:
