@@ -157,7 +157,7 @@ sudo docker run -d -p 80:80 --name Auto-Filter-Bot auto-filter-bot
 
 ## Credits 
 * [![EvaMaria](https://img.shields.io/static/v1?label=EvaMaria&message=Developers&color=critical)](https://t.me/TeamEvamaria)
-* [![ᕼᗩᘉSᗩᖽᐸᗩ](https://img.shields.io/static/v1?label=ᕼᗩᘉSᗩᖽᐸᗩ&message=TG&color=critical)](https://t.me/Hansaka_Anuhas)
+* [![Hansaka](https://img.shields.io/static/v1?label=Hansaka&message=TG&color=critical)](https://t.me/Hansaka_Anuhas)
 
 ## Thanks To
  - [Pyrogram](https://github.com/pyrogram/pyrogram) and [PyroFork](https://github.com/Mayuri-Chan/pyrofork) For Telegram MTProto API Framework
