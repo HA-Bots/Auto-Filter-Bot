@@ -11,6 +11,9 @@ import logging
 @Client.on_message(filters.command('id'))
 async def showid(client, message):
     chat_type = message.chat.type
+    replied_to_msg = bool(message.reply_to_message)
+    if replied_to_msg:
+        return await message.reply_text(f"""The forwarded message channel {replied_to_msg.chat.title}'s id is, <code>{replied_to_msg.chat.id}</code>.""")
     if chat_type == enums.ChatType.PRIVATE:
         await message.reply_text(f'★ User ID: <code>{message.from_user.id}</code>')
 
