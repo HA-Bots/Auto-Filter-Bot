@@ -42,7 +42,7 @@ async def start(client, message):
         await client.send_message(LOG_CHANNEL, script.NEW_USER_TXT.format(message.from_user.mention, message.from_user.id))
 
     verify_status = await get_verify_status(message.from_user.id)
-    if verify_status['is_verified'] and VERIFY_EXPIRE < (time.time() - verify_status['verified_time']):
+    if verify_status['is_verified'] and datetime.datetime.now() > verify_status['expiry_time']:
         await update_verify_status(message.from_user.id, is_verified=False)
     
     if (len(message.command) != 2) or (len(message.command) == 2 and message.command[1] == 'start'):
@@ -89,7 +89,8 @@ async def start(client, message):
         verify_status = await get_verify_status(message.from_user.id)
         if verify_status['verify_token'] != token:
             return await message.reply("Your verify token is invalid.")
-        await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
+        expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=VERIFY_EXPIRE)
+        await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time(), expire_time=expire_time)
         if verify_status["link"] == "":
             reply_markup = None
         else:
