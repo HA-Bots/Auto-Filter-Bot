@@ -25,7 +25,7 @@ async def start(client, message):
     try:
         await message.react(emoji=random.choice(REACTIONS))
     except:
-        await message.react(emoji="🤡")
+        await message.react(emoji="❤️")
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not await db.get_chat(message.chat.id):
             total = await client.get_chat_members_count(message.chat.id)
