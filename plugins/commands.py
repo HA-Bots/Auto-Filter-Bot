@@ -726,4 +726,24 @@ async def check_plans_cmd(client, message):
         await asyncio.sleep(2)
         await m.delete()
 
+@Client.on_message(filters.private & filters.command("set_pm_search"))
+async def set_pm_search(client, message):
+    user_id = message.from_user.id
+    bot_id = client.me.id
+    if user_id not in ADMINS:
+        await message.delete()
+        return
+    try:
+        option = (message.text).split(" ", 1)[1].lower()
+    except IndexError:
+        return await message.reply_text("<b>💔 Please specify 'on' or 'off' after the command.</b>")
+    if option in ['on', 'true']:
+        await db.update_pm_search_status(bot_id, enable=True)
+        await message.reply_text("<b>✅️ ᴘᴍ ꜱᴇᴀʀᴄʜ ᴇɴᴀʙʟᴇᴅ ꜰʀᴏᴍ ɴᴏᴡ ᴜꜱᴇʀꜱ ᴀʙʟᴇ ᴛᴏ ꜱᴇᴀʀᴄʜ ᴍᴏᴠɪᴇ ɪɴ ʙᴏᴛ ᴘᴍ.</b>")
+    elif option in ['off', 'false']:
+        await db.update_pm_search_status(bot_id, enable=False)
+        await message.reply_text("<b>❌️ ᴘᴍ ꜱᴇᴀʀᴄʜ ᴅɪꜱᴀʙʟᴇᴅ, ɴᴏ ᴏɴᴇ ᴜꜱᴇʀꜱ ᴀʙʟᴇ ᴛᴏ ꜱᴇᴀʀᴄʜ ᴍᴏᴠɪᴇ ɪɴ ʙᴏᴛ ᴘᴍ.</b>")
+    else:
+        await message.reply_text("<b>💔 Invalid option. Please specify 'on' or 'off' after the command.</b>")
+
 
