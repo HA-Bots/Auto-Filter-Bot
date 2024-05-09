@@ -736,7 +736,7 @@ async def set_pm_search(client, message):
     try:
         option = (message.text).split(" ", 1)[1].lower()
     except IndexError:
-        return await message.reply_text("<b>💔 Please specify 'on' or 'off' after the command.</b>")
+        return await message.reply_text("<b>💔 Invalid option. Please send me 'on' or 'off' / 'true' or 'false' after the command.</b>")
     if option in ['on', 'true']:
         await db.update_pm_search_status(bot_id, enable=True)
         await message.reply_text("<b>✅️ ᴘᴍ ꜱᴇᴀʀᴄʜ ᴇɴᴀʙʟᴇᴅ ꜰʀᴏᴍ ɴᴏᴡ ᴜꜱᴇʀꜱ ᴀʙʟᴇ ᴛᴏ ꜱᴇᴀʀᴄʜ ᴍᴏᴠɪᴇ ɪɴ ʙᴏᴛ ᴘᴍ.</b>")
