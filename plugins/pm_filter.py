@@ -24,16 +24,19 @@ CAP = {}
 async def pm_search(client, message):
     bot_id = client.me.id
     files, n_offset, total = await get_search_results(message.text)
+    btn = [[
+        InlineKeyboardButton("🗂 ᴄʟɪᴄᴋ ʜᴇʀᴇ 🗂", url=FILMS_LINK)
+    ]]
+    reply_markup=InlineKeyboardMarkup(btn)
     if await db.get_pm_search_status(bot_id):
         if 'hindi' in message.text.lower() or 'tamil' in message.text.lower() or 'telugu' in message.text.lower() or 'malayalam' in message.text.lower() or 'kannada' in message.text.lower() or 'english' in message.text.lower() or 'gujarati' in message.text.lower(): 
             return await auto_filter(client, message)
         await auto_filter(client, message)
     else:
         if int(total) != 0:
-            btn = [[
-                InlineKeyboardButton("🗂 ᴄʟɪᴄᴋ ʜᴇʀᴇ 🗂", url=FILMS_LINK)
-            ]]
-            await message.reply_text(f'<b><i>🤗 ᴛᴏᴛᴀʟ <code>{total}</code> ʀᴇꜱᴜʟᴛꜱ ꜰᴏᴜɴᴅ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ 👇</i></b>', reply_markup=InlineKeyboardMarkup(btn))
+            await message.reply_text(f'<b><i>🤗 ᴛᴏᴛᴀʟ <code>{total}</code> ʀᴇꜱᴜʟᴛꜱ ꜰᴏᴜɴᴅ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ 👇</i></b>', reply_markup=reply_markup)
+        else:
+            await message.reply_text(f'<b><i>📢 ꜱᴇɴᴅ ᴍᴏᴠɪᴇ ᴏʀ ꜱᴇʀɪᴇꜱ ʀᴇǫᴜᴇꜱᴛ ʜᴇʀᴇ 👇</i></b>', reply_markup=reply_markup)
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def group_search(client, message):
