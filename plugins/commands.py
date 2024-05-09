@@ -744,6 +744,6 @@ async def set_pm_search(client, message):
         await db.update_pm_search_status(bot_id, enable=False)
         await message.reply_text("<b>❌️ ᴘᴍ ꜱᴇᴀʀᴄʜ ᴅɪꜱᴀʙʟᴇᴅ, ɴᴏ ᴏɴᴇ ᴜꜱᴇʀꜱ ᴀʙʟᴇ ᴛᴏ ꜱᴇᴀʀᴄʜ ᴍᴏᴠɪᴇ ɪɴ ʙᴏᴛ ᴘᴍ.</b>")
     else:
-        await message.reply_text("<b>💔 Invalid option. Please specify 'on' or 'off' after the command.</b>")
+        await message.reply_text("<b>💔 Invalid option. Please send me 'on' or 'off' / 'true' or 'false' after the command.</b>")
 
 
