@@ -43,6 +43,7 @@ class Bot(Client):
         temp.U_NAME = me.username
         temp.B_NAME = me.first_name
         username = '@' + me.username
+        print(f"{me.first_name} is started now 🤗")
         app = web.AppRunner(web_app)
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
