@@ -2,7 +2,7 @@ import os
 import logging
 import random, string
 import asyncio
-import time
+from time import time as time_now
 import datetime
 from Script import script
 from pyrogram import Client, filters, enums
@@ -96,7 +96,7 @@ async def start(client, message):
         if verify_status['verify_token'] != token:
             return await message.reply("Your verify token is invalid.")
         expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=VERIFY_EXPIRE)
-        await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time(), expire_time=expiry_time)
+        await update_verify_status(message.from_user.id, is_verified=True, verified_time=time_now(), expire_time=expiry_time)
         if verify_status["link"] == "":
             reply_markup = None
         else:
@@ -293,7 +293,7 @@ async def stats(bot, message):
     u_size = get_size(await db.get_db_size())
     u_size_int = await db.get_db_size()
     f_size = get_size(536870912 - u_size_int)
-    uptime = get_readable_time(time.time() - temp.START_TIME)
+    uptime = get_readable_time(time_now() - temp.START_TIME)
     await msg.edit(script.STATUS_TXT.format(files, users, chats, premium, u_size, f_size, uptime))    
     
 @Client.on_message(filters.command('settings'))
