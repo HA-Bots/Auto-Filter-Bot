@@ -855,6 +855,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         settings = await get_settings(int(grp_id))
         if not files:
             return await message.reply('No Such All Files Exist!')
+        file_ids = []
         for file in files:
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
@@ -886,13 +887,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 reply_markup=InlineKeyboardMarkup(btn)
             )
             file_ids.append(msg.id)
-            fileids += f"{file.file_id}#"
-        files_ids = fileids[:-1]
+        temp.FILES[key] = files
         time = get_readable_time(int(pm_delete_time))
         vp = await query.message.reply(f"Nᴏᴛᴇ: Tʜɪs ғɪʟᴇs ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇs ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
         await asyncio.sleep(int(pm_delete_time))
         btns = [[
-            InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇs ᴀɢᴀɪɴ', callback_data=f"getmultifile_{files_ids}_{grp_id}")
+            InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇs ᴀɢᴀɪɴ', callback_data=f"getmultifile_{key}_{grp_id}")
         ]]
         await client.delete_messages(
             chat_id=message.chat.id,
