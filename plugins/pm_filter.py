@@ -855,6 +855,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         settings = await get_settings(int(grp_id))
         if not files:
             return await message.reply('No Such All Files Exist!')
+        await query.message.delete()
         file_ids = []
         for file in files:
             CAPTION = settings['caption']
