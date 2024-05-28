@@ -172,7 +172,6 @@ class Database:
     async def get_db_size(self):
         return (await mydb.command("dbstats"))['dataSize']
    
-    
     async def get_user(self, user_id):
         user_data = await self.users.find_one({"id": user_id})
         return user_data
@@ -234,4 +233,8 @@ class Database:
         else:
             await self.botcol.insert_one({'id': int(bot_id), 'bot_pm_search': enable})
 
+    async def get_all_chats_count(self):
+        grp = await self.grp.find().to_list(None)
+        return grp
+        
 db = Database()
