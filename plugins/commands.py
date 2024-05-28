@@ -254,11 +254,6 @@ async def start(client, message):
 
 @Client.on_message(filters.command('index_channels'))
 async def channels_info(bot, message):
-    """Send basic information of index channels"""
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     user_id = message.from_user.id
     if user_id not in ADMINS:
         await message.delete()
@@ -275,10 +270,6 @@ async def channels_info(bot, message):
 
 @Client.on_message(filters.command('stats'))
 async def stats(bot, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     user_id = message.from_user.id
     if user_id not in ADMINS:
         await message.delete()
@@ -296,10 +287,6 @@ async def stats(bot, message):
     
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -351,10 +338,6 @@ async def settings(client, message):
 
 @Client.on_message(filters.command('set_template'))
 async def save_template(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -374,10 +357,6 @@ async def save_template(client, message):
     
 @Client.on_message(filters.command('set_caption'))
 async def save_caption(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -397,10 +376,6 @@ async def save_caption(client, message):
         
 @Client.on_message(filters.command('set_shortlink'))
 async def save_shortlink(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -425,10 +400,6 @@ async def save_shortlink(client, message):
     
 @Client.on_message(filters.command('get_custom_settings'))
 async def get_custom_settings(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -462,10 +433,6 @@ Force Channels: {str(settings['fsub'])[1:-1] if settings['fsub'] else 'Not Set'}
 
 @Client.on_message(filters.command('set_welcome'))
 async def save_welcome(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -485,10 +452,6 @@ async def save_welcome(client, message):
         
 @Client.on_message(filters.command('delete'))
 async def delete_file(bot, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     user_id = message.from_user.id
     if user_id not in ADMINS:
         await message.delete()
@@ -510,10 +473,6 @@ async def delete_file(bot, message):
  
 @Client.on_message(filters.command('delete_all'))
 async def delete_all_index(bot, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     user_id = message.from_user.id
     if user_id not in ADMINS:
         await message.delete()
@@ -530,10 +489,6 @@ async def delete_all_index(bot, message):
 
 @Client.on_message(filters.command('set_tutorial'))
 async def set_tutorial(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -553,10 +508,6 @@ async def set_tutorial(client, message):
 
 @Client.on_message(filters.command('set_fsub'))
 async def set_fsub(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
@@ -595,10 +546,6 @@ async def set_fsub(client, message):
 
 @Client.on_message(filters.command('telegraph'))
 async def telegraph(bot, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     reply_to_message = message.reply_to_message
     if not reply_to_message:
         return await message.reply('Reply to any photo or video.')
@@ -623,10 +570,6 @@ async def telegraph(bot, message):
 
 @Client.on_message(filters.command('ping'))
 async def ping(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     start_time = time.monotonic()
     msg = await message.reply("👀")
     end_time = time.monotonic()
@@ -634,10 +577,6 @@ async def ping(client, message):
     
 @Client.on_message(filters.command("add_premium"))
 async def give_premium_cmd_handler(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     user_id = message.from_user.id
     if user_id not in ADMINS:
         await message.delete()
@@ -662,10 +601,6 @@ async def give_premium_cmd_handler(client, message):
         
 @Client.on_message(filters.command("remove_premium"))
 async def remove_premium_cmd_handler(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     user_id = message.from_user.id
     if user_id not in ADMINS:
         await message.delete()
@@ -690,11 +625,7 @@ async def remove_premium_cmd_handler(client, message):
         await message.reply_text("Usage: /remove_premium user_id")
         
 @Client.on_message(filters.command("plan"))
-async def plans_cmd_handler(client, message):                
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
+async def plans_cmd_handler(client, message):
     btn = [            
         [InlineKeyboardButton("ꜱᴇɴᴅ ᴘᴀʏᴍᴇɴᴛ ʀᴇᴄᴇɪᴘᴛ 🧾", url=OWNER_USERNAME)],
         [InlineKeyboardButton("⚠️ ᴄʟᴏsᴇ / ᴅᴇʟᴇᴛᴇ ⚠️", callback_data="close_data")]
@@ -708,10 +639,6 @@ async def plans_cmd_handler(client, message):
         
 @Client.on_message(filters.command("myplan"))
 async def check_plans_cmd(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     user_id  = message.from_user.id
     if await db.has_premium_access(user_id):         
         remaining_time = await db.check_remaining_uasge(user_id)             
