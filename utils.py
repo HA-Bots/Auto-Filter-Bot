@@ -1,21 +1,19 @@
-import logging
-from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
+from pyrogram.errors import UserNotParticipant, FloodWait
 from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION
 from imdb import Cinemagoer
 import asyncio
-from pyrogram.types import Message, InlineKeyboardButton, ChatJoinRequest
+from pyrogram.types import Message, InlineKeyboardButton
 from pyrogram import enums
 import os
 import pytz
 import time, re
 from datetime import datetime
-from typing import List, Any, Union, Optional, AsyncGenerator
+from typing import Any
 from database.users_chats_db import db
 from shortzy import Shortzy
 
 imdb = Cinemagoer() 
 
-# temp db
 class temp(object):
     START_TIME = 0
     BANNED_USERS = []
@@ -98,7 +96,6 @@ async def get_poster(query, bulk=False, id=False, file=None):
         plot = movie.get('plot outline')
     if plot and len(plot) > 800:
         plot = plot[0:800] + "..."
-
     return {
         'title': movie.get('title'),
         'votes': movie.get('votes'),
@@ -129,14 +126,12 @@ async def get_poster(query, bulk=False, id=False, file=None):
         'url':f'https://www.imdb.com/title/tt{movieid}'
     }
 
-
 async def is_check_admin(bot, chat_id, user_id):
     try:
         member = await bot.get_chat_member(chat_id, user_id)
         return member.status in [enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER]
     except:
         return False
-
 
 async def get_verify_status(user_id):
     verify = temp.VERIFICATIONS.get(user_id)
@@ -154,8 +149,7 @@ async def update_verify_status(user_id, verify_token="", is_verified=False, veri
     current['expire_time'] = expire_time
     temp.VERIFICATIONS[user_id] = current
     await db.update_verify_status(user_id, current)
-    
-    
+      
 async def broadcast_messages(user_id, message, pin):
     try:
         m = await message.copy(chat_id=user_id)
@@ -199,8 +193,6 @@ async def save_group_settings(group_id, key, value):
     await db.update_settings(group_id, current)
 
 def get_size(size):
-    """Get size in readable format"""
-
     units = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB"]
     size = float(size)
     i = 0
@@ -247,21 +239,15 @@ async def get_seconds(time_string):
     def extract_value_and_unit(ts):
         value = ""
         unit = ""
-
         index = 0
         while index < len(ts) and ts[index].isdigit():
             value += ts[index]
             index += 1
-
         unit = ts[index:]
-
         if value:
             value = int(value)
-
         return value, unit
-
     value, unit = extract_value_and_unit(time_string)
-
     if unit == 's':
         return value
     elif unit == 'min':
@@ -276,3 +262,30 @@ async def get_seconds(time_string):
         return value * 86400 * 365
     else:
         return 0
+
+def get_file_id(message: "Message") -> Any:
+    media_types = (
+        "audio",
+        "document",
+        "photo",
+        "sticker",
+        "animation",
+        "video",
+        "voice",
+        "video_note",
+    )    
+    if message.media:
+        for attr in media_types:
+            media = getattr(message, attr, None)
+            if media:
+                setattr(media, "message_type", attr)
+                return media
+
+def get_name(media_msg: Message) -> str:
+    media = get_file_id(media_msg)
+    return getattr(media, 'file_name', "")
+
+def get_hash(media_msg: Message) -> str:
+    media = get_file_id(media_msg)
+    return getattr(media, "file_unique_id", "")[:6]
+
