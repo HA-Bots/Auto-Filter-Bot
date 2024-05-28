@@ -4,7 +4,7 @@ from aiohttp import web
 from database.users_chats_db import db
 from web import web_app
 from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS
-from utils import temp, get_readable_time
+from utils import temp, get_readable_time, save_group_settings
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 import time, os
@@ -43,6 +43,9 @@ class Bot(Client):
         temp.B_NAME = me.first_name
         username = '@' + me.username
         print(f"{me.first_name} is started now 🤗")
+        #groups = await db.get_all_chats_count()
+        #for grp in groups:
+            #await save_group_settings(grp['id'], 'fsub', "")
         app = web.AppRunner(web_app)
         await app.setup()
         await web.TCPSite(app, "0.0.0.0", PORT).start()
