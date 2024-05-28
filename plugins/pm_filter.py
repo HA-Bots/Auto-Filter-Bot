@@ -9,7 +9,7 @@ from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidD
 from Script import script
 from datetime import datetime, timedelta
 import pyrogram
-from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, IS_STREAM, DELETE_TIME, FILMS_LINK, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES, IS_FSUB, PAYMENT_QR
+from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, IS_STREAM, DELETE_TIME, FILMS_LINK, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES, PAYMENT_QR
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ChatPermissions
 from pyrogram import Client, filters, enums
 from pyrogram.errors import MessageNotModified
@@ -47,36 +47,9 @@ async def group_search(client, message):
         await db.add_chat(message.chat.id, message.chat.title)
     chat_id = message.chat.id
     settings = await get_settings(chat_id)
-    userid = message.from_user.id if message.from_user else None
-    user_id = message.from_user.id if message.from_user else 0
-    fsub = settings['fsub'] if not await db.has_premium_access(message.from_user.id) else None
-    if settings.get('is_fsub', IS_FSUB) and fsub is not None:
-        try:
-            btn = await is_subscribed(client, message, int(fsub))
-            if btn:
-                btn.append(
-                    [InlineKeyboardButton("Unmute Me 🔕", callback_data=f"unmuteme#{user_id}")]
-                )
-                reply_markup = InlineKeyboardMarkup(btn)
-                try:
-                    await client.restrict_chat_member(chatid, message.from_user.id, ChatPermissions(can_send_messages=False))
-                    await message.reply_photo(
-                        photo=random.choice(PICS),
-                        caption=f"👋 Hello {message.from_user.mention},\n\nPlease join and try again. 😇",
-                        reply_markup=reply_markup,
-                        parse_mode=enums.ParseMode.HTML
-                    )
-                    return
-                except Exception as e:
-                    print(e)
-            else:
-                pass
-        except:
-            pass
-    else:
-        pass
+    user_id = message.from_user.id
     if settings["auto_filter"]:
-        if not userid:
+        if not user_id:
             await message.reply("I'm not working for anonymous admin!")
             return
         if message.chat.id == SUPPORT_GROUP:
@@ -686,9 +659,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             ],[
                 InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
                 InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
-            ],[
-                InlineKeyboardButton('Fsub', callback_data=f'setgs#is_fsub#{settings.get("is_fsub", IS_FSUB)}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ On' if settings.get("is_fsub", IS_FSUB) else '❌ Off', callback_data=f'setgs#is_fsub#{settings.get("is_fsub", IS_FSUB)}#{str(grp_id)}')
             ],[
                 InlineKeyboardButton('Stream', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}'),
                 InlineKeyboardButton('✅ On' if settings.get("is_stream", IS_STREAM) else '❌ Off', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}')
