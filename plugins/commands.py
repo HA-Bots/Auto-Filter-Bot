@@ -14,7 +14,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT, IS_STREAM, IS_FSUB, PAYMENT_QR, OWNER_USERNAME, REACTIONS, PM_FILE_DELETE_TIME
+from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT, IS_STREAM, PAYMENT_QR, OWNER_USERNAME, REACTIONS, PM_FILE_DELETE_TIME
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish, get_seconds
 
 @Client.on_message(filters.command("start") & filters.incoming)
@@ -122,8 +122,8 @@ async def start(client, message):
         pass
 
     settings = await get_settings(int(mc.split("_", 2)[1]))
-    if settings.get('is_fsub', IS_FSUB) and not await db.has_premium_access(message.from_user.id):
-        if settings['fsub'] is not None:
+    if not await db.has_premium_access(message.from_user.id):
+        if settings['fsub']:
             btn = await is_subscribed(client, message, settings['fsub'])
             if btn:
                 btn.append(
@@ -320,9 +320,6 @@ async def settings(client, message):
             InlineKeyboardButton('Result Page', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}'),
             InlineKeyboardButton('⛓ Link' if settings["links"] else '🧲 Button', callback_data=f'setgs#links#{settings["links"]}#{str(grp_id)}')
         ],[
-            InlineKeyboardButton('Fsub', callback_data=f'setgs#is_fsub#{settings.get("is_fsub", IS_FSUB)}#{str(grp_id)}'),
-            InlineKeyboardButton('✅ On' if settings.get("is_fsub", IS_FSUB) else '❌ Off', callback_data=f'setgs#is_fsub#{settings.get("is_fsub", IS_FSUB)}#{str(grp_id)}')
-        ],[
             InlineKeyboardButton('Stream', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}'),
             InlineKeyboardButton('✅ On' if settings.get("is_stream", IS_STREAM) else '❌ Off', callback_data=f'setgs#is_stream#{settings.get("is_stream", IS_STREAM)}#{str(grp_id)}')
         ],[
@@ -506,44 +503,6 @@ async def set_tutorial(client, message):
     await save_group_settings(grp_id, 'tutorial', tutorial)
     await message.reply_text(f"Successfully changed tutorial for {title} to\n\n{tutorial}")
 
-@Client.on_message(filters.command('set_fsub'))
-async def set_fsub(client, message):
-    userid = message.from_user.id if message.from_user else None
-    if not userid:
-        return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
-    chat_type = message.chat.type
-    if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        return await message.reply_text("Use this command in group.")      
-    grp_id = message.chat.id
-    title = message.chat.title
-    if not await is_check_admin(client, grp_id, message.from_user.id):
-        return await message.reply_text('You not admin in this group.')
-    vp = message.text.split(" ", 1)[1]
-    if vp.lower() in ["Off", "off", "False", "false", "Turn Off", "turn off"]:
-        await save_group_settings(grp_id, 'is_fsub', False)
-        return await message.reply_text("Successfully Turned Off !")
-    elif vp.lower() in ["On", "on", "True", "true", "Turn On", "turn on"]:
-        await save_group_settings(grp_id, 'is_fsub', True)
-        return await message.reply_text("Successfully Turned On !")
-    try:
-        ids = message.text.split(" ", 1)[1]
-        fsub_ids = list(map(int, ids.split()))
-    except IndexError:
-        return await message.reply_text("Command Incomplete!\n\nCan multiple channel add separate by spaces. Like: /set_fsub id1 id2 id3")
-    except ValueError:
-        return await message.reply_text('Make sure ids is integer.')        
-    channels = "Channels:\n"
-    for id in fsub_ids:
-        try:
-            chat = await client.get_chat(id)
-        except Exception as e:
-            return await message.reply_text(f"{id} is invalid!\nMake sure this bot admin in that channel.\n\nError - {e}")
-        if chat.type != enums.ChatType.CHANNEL:
-            return await message.reply_text(f"{id} is not channel.")
-        channels += f'{chat.title}\n'
-    await save_group_settings(grp_id, 'fsub', fsub_ids)
-    await message.reply_text(f"Successfully set force channels for {title} to\n\n{channels}")
-
 @Client.on_message(filters.command('telegraph'))
 async def telegraph(bot, message):
     reply_to_message = message.reply_to_message
@@ -676,6 +635,52 @@ async def set_pm_search(client, message):
     else:
         await message.reply_text("<b>💔 Invalid option. Please send me 'on' or 'off' / 'true' or 'false' after the command.</b>")
 
+@Client.on_message(filters.command('set_fsub'))
+async def set_fsub(client, message):
+    user_id = message.from_user.id
+    if not user_id:
+        return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
+    chat_type = message.chat.type
+    if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        return await message.reply_text("Use this command in group.")      
+    grp_id = message.chat.id
+    title = message.chat.title
+    if not await is_check_admin(client, grp_id, user_id):
+        return await message.reply_text('You not admin in this group.')
+    try:
+        ids = message.text.split(" ", 1)[1]
+        fsub_ids = list(map(int, ids.split()))
+    except IndexError:
+        return await message.reply_text("Command Incomplete!\n\nCan multiple channel add separate by spaces. Like: /set_fsub id1 id2 id3")
+    except ValueError:
+        return await message.reply_text('Make sure ids is integer.')        
+    channels = "Channels:\n"
+    for id in fsub_ids:
+        try:
+            chat = await client.get_chat(id)
+        except Exception as e:
+            return await message.reply_text(f"<code>{id}</code> is invalid!\nMake sure this bot admin in that channel.\n\nError - {e}")
+        if chat.type != enums.ChatType.CHANNEL:
+            return await message.reply_text(f"<code>{id}</code> is not channel.")
+        channels += f'{chat.title}\n'
+    await save_group_settings(grp_id, 'fsub', fsub_ids)
+    await message.reply_text(f"Successfully set force channels for {title} to\n\n<code>{channels}</code>")
 
-
+@Client.on_message(filters.command('remove_fsub'))
+async def remove_fsub(client, message):
+    grp_id = message.chat.id
+    settings = await get_settings(int(grp_id))
+    user_id = message.from_user.id
+    chat_type = message.chat.type
+    if not user_id:
+        return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
+    if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        return await message.reply_text("Use this command in group.")
+    if not await is_check_admin(client, grp_id, user_id):
+        return await message.reply_text('You not admin in this group.')
+    if settings['fsub'] == "":
+        await query.answer("ʏᴏᴜ ᴅɪᴅɴ'ᴛ ᴀᴅᴅᴇᴅ ᴀɴʏ ꜰᴏʀᴄᴇ sᴜʙsᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ...", show_alert=True)
+        return
+    await save_group_settings(grp_id, 'fsub', "")
+    await message.reply_text("<b>Successfully removed your force channel id...</b>")
 
