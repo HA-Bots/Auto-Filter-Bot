@@ -36,7 +36,10 @@ async def is_subscribed(bot, query, channel):
     if AUTH_CHANNEL:
         channel.append(AUTH_CHANNEL)
     for chat_id in channel:
-        id = chat_id[0]
+        if isinstance(chat_id, int):
+            id = chat_id
+        else:
+            id = chat_id[0]
         chat = await bot.get_chat(int(id))
         try:
             await bot.get_chat_member(id, query.from_user.id)
