@@ -1,16 +1,15 @@
-from pyrogram import Client, __version__
+from pyrogram import Client
 from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
 from web import web_app
-from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
+from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS
 from utils import temp, get_readable_time
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 import time, os, platform
 from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid, FloodWait
 import asyncio
-
 
 class Bot(Client):
     def __init__(self):
@@ -58,13 +57,12 @@ class Bot(Client):
         except:
             print("Error - Make sure bot admin in BIN_CHANNEL, exiting now")
             exit()
-        print(f"\nPyrogram [v{__version__}] Bot [{username}] Started With Python [v{platform.python_version()}]\n")
-
+        for admin in ADMINS:
+            await self.send_message(chat_id=admin, text=f"<b>✅ ʙᴏᴛ ʀᴇsᴛᴀʀᴛᴇᴅ</b>")
 
     async def stop(self, *args):
         await super().stop()
         print("Bot Stopped! Bye...")
-
 
     async def iter_messages(self: Client, chat_id: Union[int, str], limit: int, offset: int = 0) -> Optional[AsyncGenerator["types.Message", None]]:
         """Iterate through a chat sequentially.
@@ -109,3 +107,4 @@ except FloodWait as vp:
     asyncio.sleep(vp.value)
     print("Now Ready For Deploying !")
     app.run()
+
