@@ -7,8 +7,8 @@ from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, AD
 from utils import temp, get_readable_time
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
-import time, os, platform
-from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid, FloodWait
+import time
+from pyrogram.errors import FloodWait
 import asyncio
 
 class Bot(Client):
