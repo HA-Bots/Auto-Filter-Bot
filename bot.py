@@ -7,7 +7,7 @@ from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, AD
 from utils import temp, get_readable_time
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
-import time
+import time, os
 from pyrogram.errors import FloodWait
 import asyncio
 
