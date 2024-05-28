@@ -52,6 +52,7 @@ async def save_file(media):
             return 'suc'
 
 async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
+    query = str(query) # to ensure the query is string to stripe.
     query = query.strip()
     if not query:
         raw_pattern = '.'
