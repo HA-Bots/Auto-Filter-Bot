@@ -1,4 +1,5 @@
 class script(object):
+    
     START_TXT = """<b>ʜᴇʏ {}, <i>{}</i>
     
 ɪ ᴀᴍ ᴘᴏᴡᴇʀғᴜʟ ᴀᴜᴛᴏ ғɪʟᴛᴇʀ ᴡɪᴛʜ ʟɪɴᴋ sʜᴏʀᴛᴇɴᴇʀ ʙᴏᴛ. ʏᴏᴜ ᴄᴀɴ ᴜꜱᴇ ᴀꜱ ᴀᴜᴛᴏ ғɪʟᴛᴇʀ ᴡɪᴛʜ ʟɪɴᴋ sʜᴏʀᴛᴇɴᴇʀ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ... ɪᴛ'ꜱ ᴇᴀꜱʏ ᴛᴏ ᴜꜱᴇ ᴊᴜsᴛ ᴀᴅᴅ ᴍᴇ ᴀꜱ ᴀᴅᴍɪɴ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ɪ ᴡɪʟʟ ᴘʀᴏᴠɪᴅᴇ ᴛʜᴇʀᴇ ᴍᴏᴠɪᴇꜱ ᴡɪᴛʜ ʏᴏᴜʀ ʟɪɴᴋ ꜱʜᴏʀᴛᴇɴᴇʀ... ♻️</b>"""
@@ -29,18 +30,6 @@ Total - <code>{}</code>"""
     NEW_USER_TXT = """#NewUser
 ★ Name: {}
 ★ ID: <code>{}</code>"""
-
-    NO_RESULT_TXT = """#NoResult
-★ Group Name: {}
-★ Group ID: <code>{}</code>
-★ Name: {}
-
-★ Message: {}"""
-
-    REQUEST_TXT = """★ Name: {}
-★ ID: <code>{}</code>
-
-★ Message: {}"""
 
     NOT_FILE_TXT = """👋 Hello {},
 
@@ -139,11 +128,6 @@ I can't find the <b>{}</b> in my database! 🥲
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/HA-Bots/Auto-Filter-Bot>ʜᴇʀᴇ</a>
 
 - ᴅᴇᴠʟᴏᴘᴇʀ - @HA_Bots"""
-
-    SPAM_TXT = """{} Don't Spam, Wait For {}
-
-Else, You Can Buy Our Subscriptions.
-<a href={}>Click Here</a> To Learn More"""
 
     PREMIUM_PLAN_TEXT = """<b><i><u>- ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʟᴀɴs - </u>
 
