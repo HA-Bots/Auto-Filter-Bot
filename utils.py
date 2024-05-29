@@ -1,5 +1,5 @@
 from pyrogram.errors import UserNotParticipant, FloodWait
-from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION
+from info import LONG_IMDB_DESCRIPTION
 from imdb import Cinemagoer
 import asyncio
 from pyrogram.types import Message, InlineKeyboardButton
@@ -31,8 +31,6 @@ class temp(object):
 
 async def is_subscribed(bot, query, channel):
     btn = []
-    if AUTH_CHANNEL:
-        channel.append(AUTH_CHANNEL)
     for id in channel:
         chat = await bot.get_chat(int(id))
         try:
