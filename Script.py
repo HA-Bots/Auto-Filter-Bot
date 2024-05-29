@@ -106,6 +106,7 @@ I can't find the <b>{}</b> in my database! 🥲
 /users - to get all users details
 /chats - to get all groups
 /invite_link - to generate invite link
+/set_pm_search - to do pm search on/off
 /index - to index bot accessible channels</b>"""
     
     USER_COMMAND_TXT = """<b>Here is bot user commands 👇
@@ -119,8 +120,9 @@ I can't find the <b>{}</b> in my database! 🥲
 /set_welcome - to set custom new joined users welcome message for group
 /set_tutorial - to set custom tutorial link in result page button
 /id - to check group or channel id
-/openai - Find solution to any question with ChatGPT</b>"""
-
+/set_fsub - to set force subscribe channels
+/remove_fsub - to remove all force subscribe channel</b>"""
+    
     SOURCE_TXT = """<b>ʙᴏᴛ ɢɪᴛʜᴜʙ ʀᴇᴘᴏsɪᴛᴏʀʏ -
 
 - ᴛʜɪꜱ ʙᴏᴛ ɪꜱ ᴀɴ ᴏᴘᴇɴ ꜱᴏᴜʀᴄᴇ ᴘʀᴏᴊᴇᴄᴛ.
