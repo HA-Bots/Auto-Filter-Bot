@@ -1,3 +1,5 @@
+from info import OWNER_UPI_ID as upi_id
+
 class script(object):
     
     START_TXT = """<b>ʜᴇʏ {}, <i>{}</i>
@@ -129,7 +131,7 @@ I can't find the <b>{}</b> in my database! 🥲
 
 - ᴅᴇᴠʟᴏᴘᴇʀ - @HA_Bots"""
 
-    PREMIUM_PLAN_TEXT = """<b><i><u>- ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʟᴀɴs - </u>
+    PREMIUM_PLAN_TEXT = f"""<b><i><u>- ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʟᴀɴs - </u>
 
 - 30ʀs - 1 ᴡᴇᴇᴋ
 - 50ʀs - 1 ᴍᴏɴᴛʜs
@@ -148,7 +150,7 @@ I can't find the <b>{}</b> in my database! 🥲
 ○ ꜰᴜʟʟ ᴀᴅᴍɪɴ sᴜᴘᴘᴏʀᴛ                              
 ○ ʀᴇǫᴜᴇsᴛ ᴡɪʟʟ ʙᴇ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ɪɴ 1ʜ ɪꜰ ᴀᴠᴀɪʟᴀʙʟᴇ   
 
-✨ ᴜᴘɪ ɪᴅ - <code>ADD YOUR OWN METHOD</code>
+✨ ᴜᴘɪ ɪᴅ - <code>{upi_id}</code>
 
 ᴄʟɪᴄᴋ ᴛᴏ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴀᴄᴛɪᴠᴇ ᴘʟᴀɴ /myplan
 
