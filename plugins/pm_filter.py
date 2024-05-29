@@ -13,7 +13,7 @@ from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, IS_STREAM, DELETE_TIME, FILM
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ChatPermissions
 from pyrogram import Client, filters, enums
 from pyrogram.errors import MessageNotModified
-from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings, get_name, get_hash
+from utils import get_size, is_subscribed, is_check_admin, get_wish, get_shortlink, get_verify_status, update_verify_status, get_readable_time, get_poster, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 
@@ -200,8 +200,6 @@ async def languages_(client: Client, query: CallbackQuery):
          InlineKeyboardButton(text=LANGUAGES[i+1].title(), callback_data=f"lang_search#{LANGUAGES[i+1]}#{key}#{offset}#{req}")]
         for i in range(0, len(LANGUAGES)-1, 2)
     ]
-    if len(LANGUAGES) % 2 != 0:
-        btn.append([InlineKeyboardButton(text=LANGUAGES[-1].title(), callback_data=f"lang_search#{LANGUAGES[-1]}#{key}#{offset}#{req}")])   
     btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])  
     await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ ʟᴀɴɢᴜᴀɢᴇ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, sᴇʟᴇᴄᴛ ʜᴇʀᴇ 👇</b>", disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
 
@@ -215,8 +213,6 @@ async def quality(client: Client, query: CallbackQuery):
          InlineKeyboardButton(text=QUALITY[i+1].title(), callback_data=f"qual_search#{QUALITY[i+1]}#{key}#{offset}#{req}")]
         for i in range(0, len(QUALITY)-1, 2)
     ]
-    if len(QUALITY) % 2 != 0:
-        btn.append([InlineKeyboardButton(text=QUALITY[-1].title(), callback_data=f"qual_search#{QUALITY[-1]}#{key}#{offset}#{req}")])   
     btn.append([InlineKeyboardButton(text="⪻ ʙᴀᴄᴋ ᴛᴏ ᴍᴀɪɴ ᴘᴀɢᴇ", callback_data=f"next_{req}_{key}_{offset}")])  
     await query.message.edit_text("<b>ɪɴ ᴡʜɪᴄʜ ǫᴜᴀʟɪᴛʏ ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ, sᴇʟᴇᴄᴛ ʜᴇʀᴇ 👇</b>", disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(btn))
 
