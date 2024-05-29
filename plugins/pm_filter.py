@@ -198,7 +198,7 @@ async def languages_(client: Client, query: CallbackQuery):
     btn = [
         [InlineKeyboardButton(text=LANGUAGES[i].title(), callback_data=f"lang_search#{LANGUAGES[i]}#{key}#{offset}#{req}"),
          InlineKeyboardButton(text=LANGUAGES[i+1].title(), callback_data=f"lang_search#{LANGUAGES[i+1]}#{key}#{offset}#{req}")]
-        for i in range(0, len(LANGUAGES), 2)
+        for i in range(0, len(LANGUAGES)-1, 2)
     ]
     if len(LANGUAGES) % 2 != 0:
         btn.append([InlineKeyboardButton(text=LANGUAGES[-1].title(), callback_data=f"lang_search#{LANGUAGES[-1]}#{key}#{offset}#{req}")])   
