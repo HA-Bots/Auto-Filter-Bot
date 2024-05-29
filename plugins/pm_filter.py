@@ -396,20 +396,19 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.delete()
         
     elif query.data.startswith("stream"):
-        ident, file_unique_id = query.data.split("#")
-        msg = await client.send_cached_media(
-            chat_id=BIN_CHANNEL,
-            file_id=file_unique_id)
-        online = f"{URL}watch/{str(msg.id)}/{quote_plus(get_name(msg))}?hash={get_hash(msg)}"
-        download = f"{URL}/{str(msg.id)}/{quote_plus(get_name(msg))}?hash={get_hash(msg)}"
-        btn= [[
-            InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=online),
+        file_id = query.data.split('#', 1)[1]
+        msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
+        watch = f"{URL}watch/{msg.id}"
+        download = f"{URL}download/{msg.id}"
+        btn=[[
+            InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
             InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
         ],[
             InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
         ]]
+        reply_markup=InlineKeyboardMarkup(btn)
         await query.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(btn)
+            reply_markup=reply_markup
         )
     
     elif query.data == "get_trail":
