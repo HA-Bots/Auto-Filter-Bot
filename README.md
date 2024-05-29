@@ -61,7 +61,9 @@
 • /chats - to get all groups.
 • /invite_link - to generate invite link.
 • /index - to index bot accessible channels.
-• /openai - Find solution to any question with ChatGPT
+• /set_fsub - to set force subscribe channel.
+• /remove_fsub - to remove force subscribe channel.
+• /set_pm_search - only for bot admin, to do on/off
 ```
 
 ## Variables
@@ -80,7 +82,6 @@
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
 * `LANGUAGES`: Language of your bot search (Multiple languages can be used separated by space)
 * `PICS`: Telegraph links of images to show in start message. (Multiple images can be used separated by space)
-* `OPENAI_API`: OpenAI API. Get this value from [API keys](https://platform.openai.com/account/api-keys).
 * Check [info.py](https://github.com/HA-Bots/Auto-Filter-Bot/blob/main/info.py) for more optional variables
 
 
