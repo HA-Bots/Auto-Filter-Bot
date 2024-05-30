@@ -137,7 +137,7 @@ async def next_page(bot, query):
     temp.FILES[key] = files
     settings = await get_settings(query.message.chat.id)
     del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
-    files_link = ""
+    files_link = ''
 
     if settings['links']:
         btn = []
@@ -255,16 +255,20 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             for file in files
         ]
     if settings['shortlink'] and not await db.has_premium_access(query.from_user.id):
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
-            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{offset}")],
-            [InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
+            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{offset}")]
         )
     else:
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}#{req}"),
-            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{offset}")],
-            [InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
+            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{offset}")]
         )
     
     if l_offset != "":
@@ -311,16 +315,20 @@ async def lang_next_page(bot, query):
             for file in files
         ]
     if settings['shortlink'] and not await db.has_premium_access(query.from_user.id):
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
-            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{l_offset}")],
-            [InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
+            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{l_offset}")]
         )
     else:
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}#{req}"),
-            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{l_offset}")],
-            [InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
+            InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{l_offset}")]
         )
     if 0 < l_offset <= MAX_BTN:
         b_offset = 0
