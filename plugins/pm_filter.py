@@ -909,7 +909,7 @@ async def auto_filter(client, msg, s, spoll=False):
             for file in files
         ]   
     if offset != "":
-        if settings['shortlink'] and not await db.has_premium_access(query.from_user.id):
+        if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
             btn.insert(0,
                 [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#{req}#{offset}"),
                 InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{offset}")],
