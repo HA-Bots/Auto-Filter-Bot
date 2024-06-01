@@ -1,4 +1,4 @@
-pyrofork
+git+https://github.com/vpcreatz/pyrofork-adv
 tgcrypto
 motor
 marshmallow
