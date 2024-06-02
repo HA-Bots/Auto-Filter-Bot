@@ -31,14 +31,12 @@ async def start(client, message):
             await client.send_message(LOG_CHANNEL, script.NEW_GROUP_TXT.format(message.chat.title, message.chat.id, username, total))       
             await db.add_chat(message.chat.id, message.chat.title)
         wish = get_wish()
+        user = message.from_user.mention if message.from_user else "Dear"
         btn = [[
             InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
             InlineKeyboardButton('💡 sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ 💡', url=SUPPORT_LINK)
         ]]
-        if message.from_user:
-            await message.reply(text=f"<b>ʜᴇʏ {message.from_user.mention}, <i>{wish}</i>\nʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ??</b>", reply_markup=InlineKeyboardMarkup(btn))
-        else:
-            await message.reply(text=f"<b>ʜᴇʏ, <i>{wish}</i>\nʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ??</b>", reply_markup=InlineKeyboardMarkup(btn))
+        await message.reply(text=f"<b>ʜᴇʏ {user}, <i>{wish}</i>\nʜᴏᴡ ᴄᴀɴ ɪ ʜᴇʟᴘ ʏᴏᴜ??</b>", reply_markup=InlineKeyboardMarkup(btn))
         return 
         
     if not await db.is_user_exist(message.from_user.id):
@@ -264,7 +262,6 @@ async def stats(bot, message):
     if user_id not in ADMINS:
         await message.delete()
         return
-    msg = await message.reply('Please Wait...')
     files = await Media.count_documents()
     users = await db.total_users_count()
     chats = await db.total_chat_count()
@@ -273,7 +270,7 @@ async def stats(bot, message):
     u_size_int = await db.get_db_size()
     f_size = get_size(536870912 - u_size_int)
     uptime = get_readable_time(time_now() - temp.START_TIME)
-    await msg.edit(script.STATUS_TXT.format(files, users, chats, premium, u_size, f_size, uptime))    
+    await message.reply_text(script.STATUS_TXT.format(files, users, chats, premium, u_size, f_size, uptime))    
     
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
