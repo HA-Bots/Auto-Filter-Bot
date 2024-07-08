@@ -53,7 +53,7 @@ async def group_search(client, message):
         await db.add_chat(message.chat.id, message.chat.title)
     chat_id = message.chat.id
     settings = await get_settings(chat_id)
-    user_id = message.from_user.id
+    user_id = message.from_user.id if message.from_user else None
     if settings["auto_filter"]:
         if not user_id:
             await message.reply("I'm not working for anonymous admin!")
