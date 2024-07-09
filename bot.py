@@ -3,7 +3,7 @@ from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
 from web import web_app
-from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS
+from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS, DATABASE_URL
 from utils import temp, get_readable_time, save_group_settings
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
