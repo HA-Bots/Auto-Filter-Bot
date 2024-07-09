@@ -76,7 +76,6 @@
 * `LOG_CHANNEL` : A channel to log the activities of bot. add channel id and Make sure bot is an admin in the channel.
 * `SUPPORT_GROUP`: Add your support group id
 * `BIN_CHANNEL`: A channel to the stream and download feature, add channel id and make bot admin in channel.
-* `URL`: Add you deployed bot app link or vps IP address
 ### Optional Variables
 * `AUTH_CHANNEL`: ID of force subscribe channels (Multiple channels can be used separated by space)
 * `INDEX_CHANNELS`: Username or ID of your files channels (Multiple channels can be used separated by space)
