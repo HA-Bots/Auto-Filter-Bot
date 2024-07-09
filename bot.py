@@ -33,7 +33,7 @@ class Bot(Client):
             client.admin.command('ping')
             print("Pinged your deployment. You successfully connected to MongoDB!")
         except Exception as e:
-            print("Something Went Wrong While Connecting To Database!" + e)
+            print("Something Went Wrong While Connecting To Database!", e)
             exit()
         await super().start()
         if os.path.exists('restart.txt'):
