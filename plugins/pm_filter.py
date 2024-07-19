@@ -53,7 +53,7 @@ async def group_search(client, message):
         await db.add_chat(message.chat.id, message.chat.title)
     chat_id = message.chat.id
     settings = await get_settings(chat_id)
-    user_id = message.from_user.id if message.from_user else None
+    user_id = message.from_user.id if message and message.from_user else 0
     if settings["auto_filter"]:
         if not user_id:
             await message.reply("I'm not working for anonymous admin!")
@@ -931,7 +931,7 @@ async def auto_filter(client, msg, s, spoll=False):
         settings = await get_settings(msg.message.chat.id)
         message = msg.message.reply_to_message  # msg will be callback query
         search, files, offset, total_results = spoll
-    req = message.from_user.id if message.from_user else 0
+    req = message.from_user.id if message and message.from_user else 0
     key = f"{message.chat.id}-{message.id}"
     temp.FILES[key] = files
     BUTTONS[key] = search
