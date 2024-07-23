@@ -1021,7 +1021,7 @@ async def auto_filter(client, msg, s, spoll=False):
     if imdb and imdb.get('poster'):
         await s.delete()
         try:
-            k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML)
+            k = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML, quote=True)
             if settings["auto_delete"]:
                 await asyncio.sleep(DELETE_TIME)
                 await k.delete()
@@ -1032,7 +1032,7 @@ async def auto_filter(client, msg, s, spoll=False):
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
-            k = await message.reply_photo(photo=poster, caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML)
+            k = await message.reply_photo(photo=poster, caption=cap[:1024] + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), parse_mode=enums.ParseMode.HTML, quote=True)
             if settings["auto_delete"]:
                 await asyncio.sleep(DELETE_TIME)
                 await k.delete()
@@ -1041,7 +1041,7 @@ async def auto_filter(client, msg, s, spoll=False):
                 except:
                     pass
         except Exception as e:
-            k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML)
+            k = await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML, quote=True)
             if settings["auto_delete"]:
                 await asyncio.sleep(DELETE_TIME)
                 await k.delete()
@@ -1050,7 +1050,7 @@ async def auto_filter(client, msg, s, spoll=False):
                 except:
                     pass
     else:
-        k = await s.edit_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML)
+        k = await s.edit_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML, quote=True)
         if settings["auto_delete"]:
             await asyncio.sleep(DELETE_TIME)
             await k.delete()
