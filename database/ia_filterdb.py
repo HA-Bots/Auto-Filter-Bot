@@ -72,7 +72,7 @@ async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
     cursor.sort('$natural', -1)
 
     if lang:
-        lang_files = [file async for file in cursor if lang in file.file_name.lower()]
+        lang_files = [file async for file in cursor if any(re.search(r'\b' + l + r'\b|' + l + r'[,\]\s]|' + l + r'\]', file.file_name.lower()) for l in lang.split(','))]
         files = lang_files[offset:][:max_results]
         total_results = len(lang_files)
         next_offset = offset + max_results
