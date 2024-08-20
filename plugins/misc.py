@@ -1,11 +1,8 @@
-import os
 from info import ADMINS
 from speedtest import Speedtest, ConfigRetrievalError
 from pyrogram import Client, filters, enums
 from utils import get_size
 from datetime import datetime
-from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant, MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
-import logging
 
 
 @Client.on_message(filters.command('id'))

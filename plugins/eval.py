@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.errors import MessageTooLong
-import sys, os
-import re
+import sys
+import os
 import traceback
 from io import StringIO
 from info import ADMINS

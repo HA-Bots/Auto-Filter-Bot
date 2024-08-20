@@ -2,11 +2,10 @@ from pyrogram.errors import UserNotParticipant, FloodWait
 from info import LONG_IMDB_DESCRIPTION
 from imdb import Cinemagoer
 import asyncio
-from pyrogram.types import Message, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardButton
 from pyrogram import enums
-import os
 import pytz
-import time, re
+import re
 from datetime import datetime
 from database.users_chats_db import db
 from shortzy import Shortzy

@@ -1,4 +1,4 @@
-from pyrogram import Client, filters, enums
+from pyrogram import Client, filters
 from info import INDEX_CHANNELS, INDEX_EXTENSIONS
 from database.ia_filterdb import save_file
 
