@@ -1,15 +1,24 @@
+import os
+import time
+import asyncio
+
+# pyrogram imports
+from pyrogram import types
 from pyrogram import Client
-from database.ia_filterdb import Media
+from pyrogram.errors import FloodWait
+
+# aiohttp imports
 from aiohttp import web
-from database.users_chats_db import db
+from typing import Union, Optional, AsyncGenerator
+
+# local imports
 from web import web_app
 from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS, DATABASE_URL
-from utils import temp, get_readable_time, save_group_settings
-from typing import Union, Optional, AsyncGenerator
-from pyrogram import types
-import time, os
-from pyrogram.errors import FloodWait
-import asyncio
+from utils import temp, get_readable_time
+
+# pymongo and database imports
+from database.users_chats_db import db
+from database.ia_filterdb import Media
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -70,7 +79,7 @@ class Bot(Client):
             print("Error - Make sure bot admin in BIN_CHANNEL, exiting now")
             exit()
         for admin in ADMINS:
-            await self.send_message(chat_id=admin, text=f"<b>✅ ʙᴏᴛ ʀᴇsᴛᴀʀᴛᴇᴅ</b>")
+            await self.send_message(chat_id=admin, text="<b>✅ ʙᴏᴛ ʀᴇsᴛᴀʀᴛᴇᴅ</b>")
 
     async def stop(self, *args):
         await super().stop()

@@ -1,5 +1,4 @@
 from pyrogram import Client, filters
-import datetime
 import time
 from database.users_chats_db import db
 from info import ADMINS
@@ -51,7 +50,7 @@ async def users_broadcast(bot, message):
             done += 1
             if not done % 20:
                 btn = [[
-                    InlineKeyboardButton('CANCEL', callback_data=f'broadcast_cancel#users')
+                    InlineKeyboardButton('CANCEL', callback_data='broadcast_cancel#users')
                 ]]
                 await b_sts.edit(f"Users broadcast in progress...\n\nTotal Users: <code>{total_users}</code>\nCompleted: <code>{done} / {total_users}</code>\nSuccess: <code>{success}</code>", reply_markup=InlineKeyboardMarkup(btn))
         await b_sts.edit(f"Users broadcast completed.\nCompleted in {time_taken}\n\nTotal Users: <code>{total_users}</code>\nCompleted: <code>{done} / {total_users}</code>\nSuccess: <code>{success}</code>")
@@ -89,7 +88,7 @@ async def groups_broadcast(bot, message):
             done += 1
             if not done % 20:
                 btn = [[
-                    InlineKeyboardButton('CANCEL', callback_data=f'broadcast_cancel#groups')
+                    InlineKeyboardButton('CANCEL', callback_data='broadcast_cancel#groups')
                 ]]
                 await b_sts.edit(f"Groups groadcast in progress...\n\nTotal Groups: <code>{total_chats}</code>\nCompleted: <code>{done} / {total_chats}</code>\nSuccess: <code>{success}</code>\nFailed: <code>{failed}</code>", reply_markup=InlineKeyboardMarkup(btn))    
         await b_sts.edit(f"Groups broadcast completed.\nCompleted in {time_taken}\n\nTotal Groups: <code>{total_chats}</code>\nCompleted: <code>{done} / {total_chats}</code>\nSuccess: <code>{success}</code>\nFailed: <code>{failed}</code>")

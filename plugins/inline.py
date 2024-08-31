@@ -1,11 +1,8 @@
-import logging, time
-from pyrogram import Client, emoji, filters
-from pyrogram.errors.exceptions.bad_request_400 import QueryIdInvalid
+from pyrogram import Client, emoji
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultCachedDocument, InlineQuery
 from database.ia_filterdb import get_search_results
-from database.users_chats_db import db
-from utils import is_subscribed, get_size, temp, get_verify_status, update_verify_status
-from info import CACHE_TIME, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION, IS_VERIFY, VERIFY_EXPIRE
+from utils import get_size, temp
+from info import CACHE_TIME, SUPPORT_LINK, UPDATES_LINK, FILE_CAPTION
 
 cache_time = CACHE_TIME
 
