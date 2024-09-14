@@ -485,7 +485,7 @@ async def set_tutorial(client, message):
     await save_group_settings(grp_id, 'tutorial', tutorial)
     await message.reply_text(f"Successfully changed tutorial for {title} to\n\n{tutorial}")
 
-@Client.on_message(filters.command('telegraph'))
+#@Client.on_message(filters.command('telegraph'))
 async def telegraph(bot, message):
     reply_to_message = message.reply_to_message
     if not reply_to_message:
