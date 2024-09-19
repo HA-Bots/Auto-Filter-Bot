@@ -1,4 +1,4 @@
-git+https://github.com/vpcreatz/pyrofork-adv
+Pyrofork
 tgcrypto
 motor
 marshmallow
@@ -11,3 +11,4 @@ aiohttp
 aiofiles
 telegraph
 speedtest-cli
+uvloop
