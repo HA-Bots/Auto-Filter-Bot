@@ -17,6 +17,8 @@ CAP = {}
 
 @Client.on_message(filters.private & filters.text & filters.incoming)
 async def pm_search(client, message):
+    if message.text.startswith("/"):
+        return
     bot_id = client.me.id
     files, n_offset, total = await get_search_results(message.text)
     btn = [[
